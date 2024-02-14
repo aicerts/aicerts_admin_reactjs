@@ -10,6 +10,8 @@ const Dashboard = ({ loggedInUser }) => {
     const [issuers, setIssuers] = useState([]);
     const [show, setShow] = useState(false);
     const [message, setMessage] = useState('');
+    const [token, setToken] = useState('');
+    
 
     const handleClose = () => {
         setShow(false);
@@ -19,9 +21,25 @@ const Dashboard = ({ loggedInUser }) => {
         // Fetch data from the API endpoint
         const fetchData = async () => {
             try {
-                const response = await fetch(`${apiUrl}/api/get-all-issuers/`);
-                const data = await response.json();
-                setIssuers(data.data);
+                // Check if user is in localStorage
+                const storedUser = JSON.parse(localStorage.getItem('user'));
+                
+                if (storedUser && storedUser.JWTToken) {
+                    // User is available, set the token
+                    setToken(storedUser.JWTToken);
+                    
+                    // Fetch issuers data
+                    const response = await fetch(`${apiUrl}/api/get-all-issuers/`, {
+                        headers: {
+                            Authorization: `Bearer ${storedUser.JWTToken}`
+                        }
+                    });
+                    const data = await response.json();
+                    setIssuers(data.data);
+                } else {
+                    // User is not available, redirect to login
+                    router.push('/login');
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -37,6 +55,7 @@ const Dashboard = ({ loggedInUser }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': "Bearer " + token
                 },
                 body: JSON.stringify({ email }),
             });
@@ -70,7 +89,7 @@ const Dashboard = ({ loggedInUser }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {issuers.map((issuer) => (
+                    {issuers?.map((issuer) => (
                         <tr key={issuer._id}>
                             <td>{issuer.name}</td>
                             <td>{issuer.organization}</td>

@@ -3,18 +3,33 @@ import Button from '../../shared/button/button';
 import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Card, Modal } from 'react-bootstrap';
 import CopyrightNotice from '../app/CopyrightNotice';
+import { useRouter } from 'next/router';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const AddTrustedOwner = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [address, setAddress] = useState('');
     const [message, setMessage] = useState('');
+    const [token, setToken] = useState(null);
     const [show, setShow] = useState(false);
     const [error, setError] = useState(null);
-
+    const router = useRouter();
     const handleClose = () => {
         setShow(false);
     };
+
+    useEffect(() => {
+        // Check if the token is available in localStorage
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+    
+        if (storedUser && storedUser?.JWTToken) {
+          // If token is available, set it in the state
+          setToken(storedUser?.JWTToken);
+        } else {
+          // If token is not available, redirect to the login page
+          router.push('/login');
+        }
+      }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,6 +39,7 @@ const AddTrustedOwner = () => {
           const response = await fetch(`${apiUrl}/api/add-trusted-owner`, {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({ address }),

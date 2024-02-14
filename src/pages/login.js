@@ -49,6 +49,7 @@ const Login = () => {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+            
             },
             body: JSON.stringify({
               email: formData.email,
@@ -70,7 +71,9 @@ const Login = () => {
                 setLoginStatus('SUCCESS');
                 setLoginSuccess(responseData.message);
                 setShow(true);
+                localStorage.setItem('user',JSON.stringify(responseData?.data))
                 router.push('/dashboard');
+                
             }
           } else if (response.status === 400) {
             // Invalid input or empty credentials

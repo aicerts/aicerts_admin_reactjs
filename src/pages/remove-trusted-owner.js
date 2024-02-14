@@ -9,12 +9,26 @@ const RemoveTrustedOwner = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [address, setAddress] = useState('');
     const [message, setMessage] = useState('');
+    const [token, setToken] = useState(null);
     const [show, setShow] = useState(false);
     const [error, setError] = useState(null);
 
     const handleClose = () => {
         setShow(false);
     };
+
+    useEffect(() => {
+        // Check if the token is available in localStorage
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+    
+        if (storedUser && storedUser?.JWTToken) {
+          // If token is available, set it in the state
+          setToken(storedUser?.JWTToken);
+        } else {
+          // If token is not available, redirect to the login page
+          router.push('/login');
+        }
+      }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,6 +38,7 @@ const RemoveTrustedOwner = () => {
           const response = await fetch(`${apiUrl}/api/remove-trusted-owner`, {
             method: 'POST',
             headers: {
+                'Authorization': "Bearer " + token,
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({ address }),
