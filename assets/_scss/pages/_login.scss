@@ -1,0 +1,127 @@
+.login-page {
+    background: url(/backgrounds/login-bg.png), lightgray 50% / cover no-repeat;
+    background-size: cover;
+    background-color: #1C1F30;
+
+    .global-header {
+        background-color: transparent !important;
+        box-shadow: none;
+    }
+
+    .login-container {
+        position: relative;
+        z-index: 1;
+
+        .login {
+            @include dynamic-padding(80);
+            border-radius: 40px;
+
+            .title {
+                color: $black;
+                font-size: 40px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: normal;
+                margin-bottom: 14px;
+            }
+
+            .sub-text {
+                color: #5A677E;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+                margin-bottom: 44px;
+            }
+
+            .login-form {
+                .form-control {
+                    margin-bottom: 50px;
+                }
+            }
+
+            .forgot-password-text {
+                color: $black;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .golden-border-left,
+        .golden-border-right {
+            width: 84%;
+            height: 84%;
+            flex-shrink: 0;
+            border-radius: 40px;
+            background: $golden;
+            position: absolute;
+        }
+
+        .golden-border-left {
+            left: 0;
+            top: -10px;
+        }
+
+        .golden-border-right {
+            right: 0;
+            bottom: -10px;
+            z-index: -1;
+        }
+
+    }
+
+    .collapse {
+        .navbar-collapse {
+            column-gap: 20px;
+
+            .nav-text {
+                color: $white;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+                text-decoration: none;
+                
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            .global-button {
+                width: auto;
+                padding: 20px 64px;
+            }
+        }
+    }
+
+    @media (min-width: $tablet-min) and (max-width: $tablet-max) {
+        height: 100vh;
+    }
+
+    @media (min-width: $mobile-min) and (max-width: $mobile-max) {
+        padding: 0 20px;
+
+        .login-container {
+            .login {
+                padding: 20px;
+
+                .title {
+                    font-size: 26px;
+                }
+
+                .global-button {
+                    &.golden {
+                        padding: 20px 64px;
+                    }
+                }
+            }
+        }
+    }
+}

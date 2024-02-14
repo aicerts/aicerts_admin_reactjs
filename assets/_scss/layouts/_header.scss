@@ -1,0 +1,14 @@
+.global-header {
+  padding: 30px 0;
+  box-shadow: 0px 4px 50px 0px rgba(229, 231, 232, 0.80);
+
+  .nav-logo {
+    position: relative;
+    width: 284px;
+    height: 30px;
+
+    img {
+      object-position: left;
+    }
+  }
+}
