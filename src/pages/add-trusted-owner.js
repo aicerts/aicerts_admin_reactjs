@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Button from '../../shared/button/button';
+import Button from '../../../shared/button/button';
 import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Card, Modal } from 'react-bootstrap';
 import CopyrightNotice from '../app/CopyrightNotice';

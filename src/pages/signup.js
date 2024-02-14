@@ -71,6 +71,7 @@ const Signup = () => {
                 // Successful signup, handle accordingly (redirect or show a success message)
                 setSignupMessage(responseData.message || 'SUCCESS')
                 setError('');
+                // router.push('/admin');
             } else {
                 // Handle signup error (show error message or redirect to an error page)
                 setSignupMessage(responseData.message || 'Failed')
@@ -162,7 +163,7 @@ const Signup = () => {
                                 </p>
                             )} */}
                             {signupMessage.status === 'SUCCESS' && ( 
-                                <Link className='text-center' href="/">Login here</Link>
+                                <Link className='text-center' href="/admin">Login here</Link>
                             )}
                         </Card>
                         <div className='golden-border-right'></div>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Form, Row, Col, Modal } from 'react-bootstrap';
-import Button from '../../shared/button/button';
+import Button from '../../../shared/button/button';
+import Link from 'next/link'
 
 const ResetPassword = () => {
   const [email, setEmail] = useState('');
@@ -51,7 +52,7 @@ const ResetPassword = () => {
   };
 
   const loginPage = () => {
-    window.location.href = '/';
+    window.location.href = '/admin/';
   }
 
   return (
