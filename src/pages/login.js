@@ -21,8 +21,8 @@ const Login = () => {
 
     useEffect(() => {
         // Check if user and JWT token are present in localStorage
-        const user = JSON.parse(localStorage.getItem('user'));
-        
+        // @ts-ignore: Implicit any for e prop
+        const user = JSON.parse(localStorage.getItem('user'));        
     
         if (user && user?.JWTToken) {
           // Redirect to /dashboard if both user and JWT token are present
@@ -34,13 +34,14 @@ const Login = () => {
         email: '',
         password: '',
     });   
-
+// @ts-ignore: Implicit any for e prop
     const handleEmailChange = (e) => {
         const { value } = e.target;
         setLoginStatus(''); // Clear login status when email changes
         setFormData((prevData) => ({ ...prevData, email: value }));
     };    
 
+    // @ts-ignore: Implicit any for e prop
     const handlePasswordChange = (e) => {
         const { value } = e.target;
         setLoginStatus(''); // Clear login status when password changes
@@ -59,8 +60,7 @@ const Login = () => {
           const response = await fetch(`${apiUrl}/api/login`, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-            
+              'Content-Type': 'application/json',            
             },
             body: JSON.stringify({
               email: formData.email,
@@ -106,6 +106,7 @@ const Login = () => {
         }
     };
 
+    // @ts-ignore: Implicit any for e prop
     const handleSubmit = async (e) => {
         e.preventDefault();
 

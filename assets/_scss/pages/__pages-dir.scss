@@ -5,8 +5,9 @@ to pages.
 */
 //Import page files
 
-@import "../pages/login";
-@import "../pages/register";
-@import "../pages/forgot-password";
-@import "../pages/issue-new-certificate";
-@import "../pages/verify-documents";
+@import "./login";
+@import "./register";
+@import "./forgot-password";
+@import "./issue-new-certificate";
+@import "./verify-documents";
+@import "./dashboard";

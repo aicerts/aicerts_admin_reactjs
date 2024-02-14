@@ -38,7 +38,7 @@ let isUserLoggedIn;
           <div style={{ flexDirection: "row", justifyContent: "flex-end"}} >
             <ul className="navbar-nav mr-auto">
               {routesWithLogoutButton.includes(router.pathname) && (
-                <div className='nav-logo' >
+                <div className='nav-logo logout'>
                   <button className="btn btn-link" onClick={handleLogout}>
                     <Image
                       src='https://images.netcomlearning.com/ai-certs/logout.svg'

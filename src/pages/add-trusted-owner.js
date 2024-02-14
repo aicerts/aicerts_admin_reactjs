@@ -20,7 +20,7 @@ const AddTrustedOwner = () => {
 
     useEffect(() => {
         // Check if the token is available in localStorage
-        const storedUser = JSON.parse(localStorage.getItem('user'));
+        const storedUser = JSON.parse(localStorage?.getItem('user'));
     
         if (storedUser && storedUser?.JWTToken) {
           // If token is available, set it in the state

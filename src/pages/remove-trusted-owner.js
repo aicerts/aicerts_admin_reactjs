@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import Button from '../../../shared/button/button';
+import Button from '../../shared/button/button';
 import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Card, Modal } from 'react-bootstrap';
-import CopyrightNotice from '../../app/CopyrightNotice';
+import CopyrightNotice from '../app/CopyrightNotice';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const RemoveTrustedOwner = () => {
@@ -19,7 +19,7 @@ const RemoveTrustedOwner = () => {
 
     useEffect(() => {
         // Check if the token is available in localStorage
-        const storedUser = JSON.parse(localStorage.getItem('user'));
+        const storedUser = JSON.parse(localStorage?.getItem('user'));
     
         if (storedUser && storedUser?.JWTToken) {
           // If token is available, set it in the state
