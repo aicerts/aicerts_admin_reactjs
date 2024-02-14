@@ -38,7 +38,7 @@ const Dashboard = ({ loggedInUser }) => {
                     setIssuers(data.data);
                 } else {
                     // User is not available, redirect to login
-                    router.push('/login');
+                    router.push('/');
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);

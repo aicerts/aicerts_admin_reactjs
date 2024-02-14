@@ -19,6 +19,17 @@ const Login = () => {
         setShow(false);
     };
 
+    useEffect(() => {
+        // Check if user and JWT token are present in localStorage
+        const user = JSON.parse(localStorage.getItem('user'));
+        
+    
+        if (user && user?.JWTToken) {
+          // Redirect to /dashboard if both user and JWT token are present
+          router.push('/dashboard');
+        }
+      }, []);
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',

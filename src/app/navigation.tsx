@@ -17,10 +17,10 @@ let isUserLoggedIn;
   
     localStorage.removeItem('user');
     
-    router.push('/login');
+    router.push('/');
   };
 
-  const routesWithLogoutButton = ['/dashboard', '/add-trusted-owner', '/remove-trusted-owner','check-balance'];
+  const routesWithLogoutButton = ['/dashboard', '/add-trusted-owner', '/remove-trusted-owner','/check-balance'];
   return (
     <>
       <nav className="global-header navbar navbar-expand-lg navbar-light bg-light">

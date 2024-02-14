@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Button from '../../../shared/button/button';
+import Button from '../../shared/button/button';
 import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Card, Modal } from 'react-bootstrap';
 import CopyrightNotice from '../app/CopyrightNotice';
@@ -27,7 +27,7 @@ const AddTrustedOwner = () => {
           setToken(storedUser?.JWTToken);
         } else {
           // If token is not available, redirect to the login page
-          router.push('/login');
+          router.push('/');
         }
       }, []);
 
