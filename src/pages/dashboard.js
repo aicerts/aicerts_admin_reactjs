@@ -11,7 +11,7 @@ const Dashboard = ({ loggedInUser }) => {
     const [show, setShow] = useState(false);
     const [message, setMessage] = useState('');
     const [token, setToken] = useState('');
-    const [address] = useState('0x8d7a67E6501224fdF75fa13a6b3db6C11C942f92'); // Static address
+    const [address] = useState('0xD18eAEf19131964B6251E6aDd468617f1A162723'); // Static address
     const [balance, setBalance] = useState('');
     
 
@@ -73,7 +73,7 @@ const Dashboard = ({ loggedInUser }) => {
     
               if (response.status === 200) {
                 setMessage(responseData.message || 'Success');
-                setBalance(responseData.balance || '');
+                setBalance(parseFloat(responseData.balance).toFixed(2));
                 // setError('');
             } else {
                 setMessage(responseData.message || 'Failed');
