@@ -148,16 +148,13 @@ const Dashboard = ({ loggedInUser }) => {
                                                 <td>{issuer.email}</td>
                                                 <td>
                                                     {issuer.approved ? (
-                                                        <span>Approved</span>
+                                                        <button className='btn btn-success'>Approved</button>
                                                     ) : (
                                                         <React.Fragment>
-                                                            <input
-                                                                type="checkbox"
-                                                                onChange={() => { }}
-                                                            />
                                                             <button
                                                                 onClick={() => handleApprove(issuer.email)}
                                                                 disabled={issuer.approved}
+                                                                className='btn btn-primary'
                                                             >
                                                                 Approve
                                                             </button>
