@@ -51,7 +51,7 @@ const ResetPassword = () => {
   };
 
   const loginPage = () => {
-    window.location.href = '/admin/';
+    window.location.href = '/';
   }
 
   return (
