@@ -5,6 +5,8 @@ import { Form, Row, Col, Card, Modal } from 'react-bootstrap';
 import Link from 'next/link';
 import CopyrightNotice from '../app/CopyrightNotice';
 import { useRouter } from 'next/router';
+import eyeIcon from '../../public/icons/eye.svg';
+import eyeSlashIcon from '../../public/icons/eye-slash.svg';
 
 const Login = () => {
     const router = useRouter();
@@ -14,9 +16,18 @@ const Login = () => {
     const [loginError, setLoginError] = useState('');
     const [loginSuccess, setLoginSuccess] = useState('');
     const [loginStatus, setLoginStatus] = useState('');
+    const [passwordVisible, setPasswordVisible] = useState(false);
+        
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
 
     const handleClose = () => {
         setShow(false);
+    };
+
+    const handleClick = () => {
+        window.location.href = '/signup';
     };
 
     useEffect(() => {
@@ -125,7 +136,6 @@ const Login = () => {
         await login();
     };
 
-
     return (
         <>
             <Row className="justify-content-md-center mt-5">
@@ -163,11 +173,24 @@ const Login = () => {
                                     />
                                     Password
                                 </Form.Label>
-                                <Form.Control type="password"
-                                    required
-                                    value={formData.password}
-                                    onChange={handlePasswordChange}
-                                />
+                                <div className="password-input position-relative">
+                                    <Form.Control 
+                                        type={passwordVisible ? 'text' : 'password'}
+                                        required
+                                        value={formData.password}
+                                        onChange={handlePasswordChange}
+                                    />
+                                    <div className='eye-icon position-absolute'>
+                                        <Image
+                                            src={passwordVisible ? eyeSlashIcon : eyeIcon}
+                                            width={20}
+                                            height={20}
+                                            alt={passwordVisible ? 'Hide password' : 'Show password'}
+                                            onClick={togglePasswordVisibility}
+                                            className="password-toggle"
+                                        />
+                                    </div>
+                                </div>
                                 {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
                             </Form.Group>
                             <div className='d-flex justify-content-between align-items-center'>
@@ -179,6 +202,7 @@ const Login = () => {
                     <div className='golden-border-right'></div>
                 </Col>
                 <Col md={{ span: 12 }}>
+                    <Button label="Register" className='golden mt-5 ps-0 pe-0 w-100 d-block d-lg-none' onClick={handleClick} />
                     <div className='copy-right text-center'>
                         <CopyrightNotice />
                     </div>
