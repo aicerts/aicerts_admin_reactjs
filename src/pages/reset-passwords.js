@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Form, Row, Col, Modal } from 'react-bootstrap';
+import { Container, Form, Row, Col, Modal } from 'react-bootstrap';
 import Button from '../../shared/button/button';
+import eyeIcon from '../../public/icons/eye.svg';
+import eyeSlashIcon from '../../public/icons/eye-slash.svg';
 
 const ResetPassword = () => {
   const [email, setEmail] = useState('');
@@ -10,6 +12,11 @@ const ResetPassword = () => {
   const [show, setShow] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+        
+  const togglePasswordVisibility = () => {
+      setPasswordVisible(!passwordVisible);
+  };
 
   const handleClose = () => {
       setShow(false);
@@ -56,7 +63,7 @@ const ResetPassword = () => {
 
   return (
     <div className="forgot-password">
-      <div className="container-fluid">
+      <Container>
         <Row>
           <Col md={{ span: 7 }} className="d-none d-md-block">
             <div className="badge-banner">
@@ -82,22 +89,34 @@ const ResetPassword = () => {
               </Form.Group>
               <Form.Group controlId="password" className='mt-4'>
                 <Form.Label>Enter New Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <div className="password-input position-relative">
+                  <Form.Control
+                    type={passwordVisible ? 'text' : 'password'}
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <div className='eye-icon position-absolute'>
+                      <Image
+                          src={passwordVisible ? eyeSlashIcon : eyeIcon}
+                          width={20}
+                          height={20}
+                          alt={passwordVisible ? 'Hide password' : 'Show password'}
+                          onClick={togglePasswordVisibility}
+                          className="password-toggle"
+                      />
+                  </div>
+                </div>
               </Form.Group>
               <div className="d-flex justify-content-between align-items-center">
                 <Button
                   type="submit" // Specify the type as "submit"
                   label="Reset Password"
-                  className="golden"
+                  className="golden w-100"
                 />
               </div>
                 <div className='d-flex justify-content-between align-items-center'>
-                    <Button label="Login" onClick={loginPage} className="outlined" />
+                    <Button label="Login" onClick={loginPage} className="outlined w-100" />
                 </div>
             </Form>
             {/* {message && (
@@ -107,7 +126,7 @@ const ResetPassword = () => {
             )} */}
           </Col>
         </Row>
-      </div>
+      </Container>
 
        {/* Loading Modal for API call */}
        <Modal className='loader-modal' show={isLoading} centered>
