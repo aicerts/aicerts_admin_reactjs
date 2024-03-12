@@ -5,7 +5,6 @@ import { Table, Modal, Container, Row, Col, Card, Form } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import IssuerDetailsDrawer from '../components/issuer-details-drawer';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
-const apiAdminUrl = process.env.NEXT_PUBLIC_BASE_URL_admin;
 
 const Dashboard = () => {
     const router = useRouter();
@@ -102,7 +101,7 @@ const Dashboard = () => {
     const handleApprove = async (email) => {
         try {
             // Hit the API to approve the issuer with the given email
-            const response = await fetch(`${apiAdminUrl}/api/validate-issuer`, {
+            const response = await fetch(`${apiUrl}/api/validate-issuer`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -130,7 +129,7 @@ const Dashboard = () => {
     const handleReject = async (email) => {
         try {
             // Hit the API to approve the issuer with the given email
-            const response = await fetch(`${apiAdminUrl}/api/validate-issuer`, {
+            const response = await fetch(`${apiUrl}/api/validate-issuer`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -264,7 +263,7 @@ const Dashboard = () => {
                 </Modal.Body>
             </Modal>
             
-            <IssuerDetailsDrawer showDrawer={showDrawer} handleShowDrawer={handleShowDrawer} handleCloseDrawer={handleCloseDrawer}/>
+            <IssuerDetailsDrawer showDrawer={showDrawer} handleShowDrawer={handleShowDrawer} handleCloseDrawer={handleCloseDrawer} />
         </>
     );
 }
