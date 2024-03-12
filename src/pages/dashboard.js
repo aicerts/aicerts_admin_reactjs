@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../shared/button/button';
-import Image from 'next/image';
-import { Table, Modal, Container, Row, Col, Card } from 'react-bootstrap';
+import Image from 'next/legacy/image';
+import { Table, Modal, Container, Row, Col, Card, Form } from 'react-bootstrap';
 import { useRouter } from 'next/router';
+import IssuerDetailsDrawer from '../components/issuer-details-drawer';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
+const apiAdminUrl = process.env.NEXT_PUBLIC_BASE_URL_admin;
 
-const Dashboard = ({ loggedInUser }) => {
+const Dashboard = () => {
     const router = useRouter();
     const [issuers, setIssuers] = useState([]);
     const [show, setShow] = useState(false);
@@ -13,32 +15,34 @@ const Dashboard = ({ loggedInUser }) => {
     const [token, setToken] = useState('');
     const [address] = useState('0xD18eAEf19131964B6251E6aDd468617f1A162723'); // Static address
     const [balance, setBalance] = useState('');
-    
+    const [showDrawer, setShowDrawer] = useState(false);
+    const handleShowDrawer = () => setShowDrawer(true);
+    const handleCloseDrawer = () => setShowDrawer(false);
 
     const handleClose = () => {
         setShow(false);
     };
 
     const addTrustedOwner = () => {
-        window.location= "/add-trusted-owner"
+        window.location = "/add-trusted-owner"
     }
 
     const removeTrustedOwner = () => {
-        window.location= "/remove-trusted-owner"
+        window.location = "/remove-trusted-owner"
     }
 
     useEffect(() => {
         // Fetch data from the API endpoint
         const storedUser = JSON.parse(localStorage.getItem('user'));
-        
+
         const fetchData = async () => {
             try {
                 // Check if user is in localStorage
-                
+
                 if (storedUser && storedUser.JWTToken) {
                     // User is available, set the token
                     setToken(storedUser.JWTToken);
-                    
+
                     // Fetch issuers data
                     const response = await fetch(`${apiUrl}/api/get-all-issuers/`, {
                         headers: {
@@ -58,37 +62,37 @@ const Dashboard = ({ loggedInUser }) => {
 
         const handleSubmit = async (e) => {
             // e.preventDefault();
-        
+
             try {
-            //   setIsLoading(true);
-        
-              const response = await fetch(`${apiUrl}/api/check-balance?address=${address}`, {
-                method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${storedUser.JWTToken}`,
-                  'Content-Type': 'application/json',
-                },
-              });
-              const responseData = await response.json();
-    
-              if (response.status === 200) {
-                setMessage(responseData.message || 'Success');
-                setBalance(parseFloat(responseData.balance).toFixed(2));
-                // setError('');
-            } else {
-                setMessage(responseData.message || 'Failed');
+                //   setIsLoading(true);
+
+                const response = await fetch(`${apiUrl}/api/check-balance?address=${address}`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${storedUser.JWTToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const responseData = await response.json();
+
+                if (response.status === 200) {
+                    setMessage(responseData.message || 'Success');
+                    setBalance(parseFloat(responseData.balance).toFixed(2));
+                    // setError('');
+                } else {
+                    setMessage(responseData.message || 'Failed');
+                    setBalance('');
+                    // setError(responseData.error || 'An error occurred while fetching balance');
+                }
+
+                // setShow(true);
+            }
+            catch (error) {
+                console.error('Error fetching balance:', error.message);
+                //   setMessage(error.message || 'An error occurred while fetching balance');
                 setBalance('');
-                // setError(responseData.error || 'An error occurred while fetching balance');
+                //   setShow(true)
             }
-    
-            // setShow(true);
-            }
-             catch (error) {
-              console.error('Error fetching balance:', error.message);
-            //   setMessage(error.message || 'An error occurred while fetching balance');
-              setBalance('');
-            //   setShow(true)
-            } 
         };
 
         fetchData();
@@ -98,13 +102,13 @@ const Dashboard = ({ loggedInUser }) => {
     const handleApprove = async (email) => {
         try {
             // Hit the API to approve the issuer with the given email
-            const response = await fetch(`${apiUrl}/api/approve-issuer`, {
+            const response = await fetch(`${apiAdminUrl}/api/validate-issuer`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': "Bearer " + token
                 },
-                body: JSON.stringify({ email }),
+                body: JSON.stringify({ email, status: 1 }),
             });
 
             const data = await response.json();
@@ -123,13 +127,46 @@ const Dashboard = ({ loggedInUser }) => {
         }
     };
 
+    const handleReject = async (email) => {
+        try {
+            // Hit the API to approve the issuer with the given email
+            const response = await fetch(`${apiAdminUrl}/api/validate-issuer`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Bearer " + token
+                },
+                body: JSON.stringify({ email, status: 2 }),
+            });
+
+            const data = await response.json();
+            console.log('Issuer approved:', data.message);
+
+            // Update the local state to reflect the approval status
+            setShow(true)
+            setMessage(data.message)
+            setIssuers((prevIssuers) =>
+                prevIssuers.map((issuer) =>
+                    issuer.email === email ? { ...issuer, approved: true } : issuer
+                )
+            );
+        } catch (error) {
+            console.error('Error approving issuer:', error);
+        }
+    };
+
+    const unapprovedIssuers = issuers?.filter(issuer => !issuer.approved);
+
     return (
         <>
             <Container fluid className='dashboard mt-5'>
                 <Row>
-                    <Col xs md="10">
-                        <Card className=''>
-                            <Card.Header>Issuer Details</Card.Header>
+                    <Col xs md="9">
+                        <div className='heading d-flex justify-content-between align-items-center mb-4'>
+                            <h2 className='title'>Issuer Login Credentials</h2>
+                            <Button label='View Issuer Details  &#8594;' className='golden ps-4 pe-4' onClick={handleShowDrawer} />
+                        </div>
+                        <Card>
                             <Card.Body>
                                 <Table>
                                     <thead>
@@ -141,25 +178,31 @@ const Dashboard = ({ loggedInUser }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {issuers?.map((issuer) => (
+                                        {/* {issuers?.map((issuer) => ( */}
+                                        {unapprovedIssuers?.map((issuer) => (
                                             <tr key={issuer._id}>
                                                 <td>{issuer.name}</td>
                                                 <td>{issuer.organization}</td>
                                                 <td>{issuer.email}</td>
                                                 <td>
-                                                    {issuer.approved ? (
+                                                    {/* {issuer.approved ? (
                                                         <button className='btn btn-success'>Approved</button>
-                                                    ) : (
-                                                        <React.Fragment>
-                                                            <button
-                                                                onClick={() => handleApprove(issuer.email)}
-                                                                disabled={issuer.approved}
-                                                                className='btn btn-primary'
-                                                            >
-                                                                Approve
-                                                            </button>
-                                                        </React.Fragment>
-                                                    )}
+                                                    ) : ( */}
+                                                    <div className='d-flex align-items-center' style={{ columnGap: "20px" }}>
+                                                        <Button
+                                                            label='Approve'
+                                                            onClick={() => handleApprove(issuer.email)}
+                                                            disabled={issuer.approved}
+                                                            className='golden ps-3 pe-3 py-2'
+                                                        />
+                                                        <Button
+                                                            label='Reject'
+                                                            onClick={() => handleReject(issuer.email)}
+                                                            disabled={issuer.approved}
+                                                            className='danger ps-3 pe-3 py-2'
+                                                        />
+                                                    </div>
+                                                    {/* )} */}
                                                 </td>
                                             </tr>
                                         ))}
@@ -168,26 +211,46 @@ const Dashboard = ({ loggedInUser }) => {
                             </Card.Body>
                         </Card>
                     </Col>
-                    <Col xs md="2">
+                    <Col xs md="3">
                         <Card className=''>
                             <Card.Header>Admin Wallet Balance</Card.Header>
                             <Card.Body>
-                                {balance && <h2 className='my-2'>&#8377;: <strong>{balance}</strong></h2>}
+                                {balance && <h2 className='my-2 balance'>&#8377;: <strong>{balance}</strong></h2>}
+                                <hr className='dashed' />
+                                <div className='latest-update'><span>Last Updated:</span> <strong>02/03/2024</strong></div>
                             </Card.Body>
                         </Card>
                         <Card className='mt-4'>
                             <Card.Header>Trusted Owner</Card.Header>
                             <Card.Body>
-                                <Button label="Add Trusted Owner &#8594;" className="golden w-100" onClick={addTrustedOwner} />
-                                <Button label="Remove Trusted Owner &#8594;" className="golden w-100 mt-3" onClick={removeTrustedOwner} />
+                                <div className='trusted-owner-wrapper d-block d-md-flex align-items-center justify-content-center'>
+                                    <div className='trusted-owner add' onClick={addTrustedOwner}>
+                                        <Image
+                                            src="https://images.netcomlearning.com/ai-certs/icons/add-trusted-owner.svg"
+                                            width={57}
+                                            height={57}
+                                            alt='Add trusted owner'
+                                        />
+                                        <span className='hero-name'>Add Owner</span>
+                                    </div>
+                                    <div className='trusted-owner remove mt-4 mt-md-0' onClick={removeTrustedOwner}>
+                                        <Image
+                                            src="https://images.netcomlearning.com/ai-certs/icons/add-trusted-owner.svg"
+                                            width={57}
+                                            height={57}
+                                            alt='Add trusted owner'
+                                        />
+                                        <span className='hero-name'>Remove Owner</span>
+                                    </div>
+                                </div>
                             </Card.Body>
                         </Card>
                     </Col>
-                </Row>          
+                </Row>
             </Container>
 
             <Modal onHide={handleClose} className='loader-modal text-center' show={show} centered>
-                <Modal.Body className='p-5'>                    
+                <Modal.Body className='p-5'>
                     <div className='error-icon'>
                         <Image
                             src="/icons/check-mark.svg"
@@ -200,8 +263,10 @@ const Dashboard = ({ loggedInUser }) => {
                     <button className='success' onClick={handleClose}>Ok</button>
                 </Modal.Body>
             </Modal>
+            
+            <IssuerDetailsDrawer showDrawer={showDrawer} handleShowDrawer={handleShowDrawer} handleCloseDrawer={handleCloseDrawer}/>
         </>
     );
-}  
+}
 
 export default Dashboard;

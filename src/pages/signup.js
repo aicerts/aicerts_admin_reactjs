@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import Button from '../../shared/button/button';
 import React, { useState } from 'react';
 import { Form, Row, Col, Card, Modal } from 'react-bootstrap';

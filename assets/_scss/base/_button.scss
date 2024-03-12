@@ -96,6 +96,25 @@
             border: 1px solid $golden-button-hover;
         }
     }
+
+    &.danger {
+        color: #FFF;
+        font-family: Montserrat;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        background: #D11A2A;
+        transition: 0.5s;
+        -webkit-transition: 0.5s;
+        -moz-transition: 0.5s;
+        -ms-transition: 0.5s;
+        -o-transition: 0.5s;
+
+        &:hover {
+            box-shadow: inset 0px 0px 20px 0px rgb(112 9 9);
+        }
+    }
 }
 
 .error-icon {
