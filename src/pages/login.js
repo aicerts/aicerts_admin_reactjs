@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import Button from '../../shared/button/button';
 import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Card, Modal } from 'react-bootstrap';
@@ -7,6 +7,7 @@ import CopyrightNotice from '../app/CopyrightNotice';
 import { useRouter } from 'next/router';
 import eyeIcon from '../../public/icons/eye.svg';
 import eyeSlashIcon from '../../public/icons/eye-slash.svg';
+const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const Login = () => {
     const router = useRouter();
@@ -67,7 +68,6 @@ const Login = () => {
     const login = async () => {
         try {
             setIsLoading(true);
-          const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
           const response = await fetch(`${apiUrl}/api/login`, {
             method: 'POST',
             headers: {

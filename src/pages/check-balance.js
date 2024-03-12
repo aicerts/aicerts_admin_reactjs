@@ -1,10 +1,11 @@
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import Button from '../../shared/button/button';
 import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Card, Modal } from 'react-bootstrap';
 import CopyrightNotice from '../app/CopyrightNotice';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 import { useRouter } from 'next/router';
+
 const CheckBalance = () => {
     const [address, setAddress] = useState('');
     const [message, setMessage] = useState('');

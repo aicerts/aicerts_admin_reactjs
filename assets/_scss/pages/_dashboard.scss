@@ -1,4 +1,14 @@
 .dashboard {
+    .heading {
+        .title {
+            color: #2F3847;
+            font-size: 28px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+        }
+    }
+
     .card {
         border: none;
         box-shadow: 0px 4px 25px 0px rgba(0, 0, 0, 0.08);
@@ -14,9 +24,239 @@
         }
 
         .card-body {
-            .golden {
-                padding: 14px 0;
+            .trusted-owner-wrapper {
+                column-gap: 20px;
+
+                .trusted-owner {
+                    width: 195px;
+                    height: 137px;
+                    line-height: 180px;
+                    text-align: center;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    position: relative;
+                    
+                    .hero-name {
+                        color: #FFF;
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 700;
+                        line-height: normal;
+                        position: absolute;
+                        bottom: 16px;
+                        left: 0;
+                        right: 0;
+                    }
+
+                    &.add {
+                        background: linear-gradient(244deg, #FFD75C 0%, #CFA935 100%);
+                    }
+
+                    &.remove {
+                        background: linear-gradient(64deg, #D11A2A 0%, #F64050 100%);
+                    }
+                }
+                
+            }
+
+            .balance {
+                color: #000;
+                font-size: 50px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                
+            }
+
+            hr.dashed {
+                border-top: none;
+                border-bottom: dashed 2px #757e8e;
+            }
+
+            .latest-update {
+                span {
+                    color: #4D5060;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                }
             }
         }
     }
 }
+
+.drawer-overlay {
+    display: none; // Initially hidden
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5); // Semi-transparent overlay
+    z-index: 1040; // Ensure it's above modal backdrop
+  
+    // Conditional display based on the showDrawer state
+    &.show {
+      display: block;
+    }
+  }
+  
+  .drawer-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 920px; // Adjust width as needed
+    background-color: white;
+    z-index: 1050; // Ensure it's above modal backdrop
+    overflow-x: hidden;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(100%); // Initially off-screen
+    border-radius: 30px 0px 0px 30px;
+    box-shadow: -4px 0px 50px 0px rgba(229, 231, 232, 0.80);
+    padding: 32px 30px;
+  
+    // Slide in when showDrawer is true
+    &.drawer-open {
+      transform: translateX(0);
+    }
+
+    .title {
+        color: #2F3847;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+
+    .close {
+        text-align: right;
+        cursor: pointer;
+    }
+
+    .profile-info {
+        margin-top: 30px;
+        column-gap: 30px;
+        align-items: center;
+
+        .pic {
+            color: #5A677E;
+            font-size: 50px;
+            font-style: normal;
+            font-weight: 700;
+            text-transform: uppercase;
+            width: 150px;
+            height: 150px;
+            line-height: 150px;
+            text-align: center;
+            background-color: #F3F3F3;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+        }
+
+        .details {
+            .name {
+                color: #000;
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: normal;
+            }
+
+            .designation {
+                color: #5A677E;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                margin: 10px 0 15px;
+            }
+
+            .contact {
+                column-gap: 40px;
+
+                a {
+                    text-decoration: none;
+                }
+
+                .item {
+                    color: #000;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                    letter-spacing: 0.8px;
+                    column-gap: 10px;
+
+                    &:hover {
+                        color: #CFA935;
+                    }
+                }
+            }
+        }
+    }
+
+    .org-details {
+        .title {
+            color: #2F3847;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            margin: 40px 0 20px;
+            border-radius: 10px;
+            background: #F3F3F3;
+            padding: 14px 20px  ;
+        }
+
+        .row {
+            .col-md-4 {
+                &:nth-child(n+4) {
+                    margin-top: 30px;
+                }
+            }
+        }
+
+        .label {
+            color: #5A677E;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            margin-bottom: 4px;
+        }
+
+        .info {
+            color: #000;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+        }
+    }
+
+    .action {
+        text-align: center;
+    }
+
+    .search {
+        column-gap: 10px;
+        
+        .submit {
+            .golden {
+                padding: 14px;
+
+                .magnifier {
+                    position: relative;
+                    width: 22px;
+                    height: 22px;
+                }
+            }
+        }
+    }
+}
+  
