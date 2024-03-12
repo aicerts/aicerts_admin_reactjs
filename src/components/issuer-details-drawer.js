@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../shared/button/button';
 import Image from 'next/legacy/image';
 import Link from 'next/link'
 import { Row, Col, Form, Modal } from 'react-bootstrap';
-const apiUrl = process.env.NEXT_PUBLIC_BASE_URL_admin;
+const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer }) => {
     const [issuerEmail, setIssuerEmail] = useState('');
@@ -11,6 +11,9 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer }) => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [show, setShow] = useState(false);
+    const [token, setToken] = useState('');
+    const [message, setMessage] = useState('');
+    const [issuers, setIssuers] = useState([]);
 
     const handleChange = (e) => {
         setIssuerEmail(e.target.value);
@@ -18,6 +21,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer }) => {
 
     const handleClose = () => {
         setShow(false);
+        setIssuerDetails('')
     };
 
     const handleSubmit = async (e) => {
@@ -49,6 +53,43 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer }) => {
             setIsLoading(false)
         }
     };
+
+    const handleReject = async (email) => {
+        try {
+            const storedUser = JSON.parse(localStorage.getItem('user'));
+            console.log("etstts: ", storedUser)
+            if (storedUser && storedUser.JWTToken) {
+                // User is available, set the token
+                setToken(storedUser.JWTToken);
+                // Hit the API to approve the issuer with the given email
+                const response = await fetch(`${apiUrl}/api/validate-issuer`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + token
+                    },
+                    body: JSON.stringify({ email, status: 2 }),
+                });
+
+                const data = await response.json();
+
+                // Update the local state to reflect the approval status
+                setShow(true)
+                setMessage(data.message)
+                setIssuers((prevIssuers) =>
+                    prevIssuers.map((issuerDetails) =>
+                    issuerDetails.email === email ? { ...issuerDetails, approved: true } : issuerDetails
+                    )
+                );
+            }
+
+            } catch (error) {
+                console.error('Error approving issuer:', error);
+            }
+    };
+
+    console.log("message: ", message)
+
 
     return (
         <>
@@ -185,11 +226,17 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer }) => {
                                 )}
                             </Row>
                         </div>
+                        <div className='action'>
+                            <Button 
+                                label='Reject' 
+                                className='warning w-25' 
+                                onClick={() => handleReject(issuerDetails.email)}
+                            />
+                        </div>
+                        <p className='text-center text-success font-monospace mt-3 fs-5'>{message}</p>
                     </>
                 )}
-                <div className='action'>
-                    <Button label='Reject' className='warning w-25' />
-                </div>
+               
             </div>
 
             {/* Loading Modal */}

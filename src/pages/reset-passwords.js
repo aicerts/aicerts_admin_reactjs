@@ -4,6 +4,7 @@ import { Container, Form, Row, Col, Modal } from 'react-bootstrap';
 import Button from '../../shared/button/button';
 import eyeIcon from '../../public/icons/eye.svg';
 import eyeSlashIcon from '../../public/icons/eye-slash.svg';
+const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const ResetPassword = () => {
   const [email, setEmail] = useState('');
@@ -27,7 +28,6 @@ const ResetPassword = () => {
 
     try {
       setIsLoading(true)
-      const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const response = await fetch(`${apiUrl}/api/reset-password`, {
         method: 'POST',
         headers: {

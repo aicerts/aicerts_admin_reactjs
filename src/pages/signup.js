@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import eyeIcon from '../../public/icons/eye.svg';
 import eyeSlashIcon from '../../public/icons/eye-slash.svg';
+const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const Signup = () => {
     const router = useRouter();
@@ -60,7 +61,6 @@ const Signup = () => {
 
         try {
             setIsLoading(true)
-            const apiUrl = process.env.NEXT_PUBLIC_BASE_URL; // Replace with your API URL
             const response = await fetch(`${apiUrl}/api/signup`, {
                 method: 'POST',
                 headers: {
