@@ -3,10 +3,11 @@ import Button from '../../shared/button/button';
 import Image from 'next/legacy/image';
 import { Table, Modal, Container, Row, Col, Card, Form } from 'react-bootstrap';
 import { useRouter } from 'next/router';
-import Link from 'next/link'
+import IssuerDetailsDrawer from '../components/issuer-details-drawer';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
+const apiAdminUrl = process.env.NEXT_PUBLIC_BASE_URL_admin;
 
-const Dashboard = ({ loggedInUser }) => {
+const Dashboard = () => {
     const router = useRouter();
     const [issuers, setIssuers] = useState([]);
     const [show, setShow] = useState(false);
@@ -15,9 +16,8 @@ const Dashboard = ({ loggedInUser }) => {
     const [address] = useState('0xD18eAEf19131964B6251E6aDd468617f1A162723'); // Static address
     const [balance, setBalance] = useState('');
     const [showDrawer, setShowDrawer] = useState(false);
-
-    const handleCloseDrawer = () => setShowDrawer(false);
     const handleShowDrawer = () => setShowDrawer(true);
+    const handleCloseDrawer = () => setShowDrawer(false);
 
     const handleClose = () => {
         setShow(false);
@@ -102,13 +102,13 @@ const Dashboard = ({ loggedInUser }) => {
     const handleApprove = async (email) => {
         try {
             // Hit the API to approve the issuer with the given email
-            const response = await fetch(`${apiUrl}/api/approve-issuer`, {
+            const response = await fetch(`${apiAdminUrl}/api/validate-issuer`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': "Bearer " + token
                 },
-                body: JSON.stringify({ email }),
+                body: JSON.stringify({ email, status: 1 }),
             });
 
             const data = await response.json();
@@ -127,7 +127,35 @@ const Dashboard = ({ loggedInUser }) => {
         }
     };
 
-    const unapprovedIssuers = issuers.filter(issuer => !issuer.approved);
+    const handleReject = async (email) => {
+        try {
+            // Hit the API to approve the issuer with the given email
+            const response = await fetch(`${apiAdminUrl}/api/validate-issuer`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Bearer " + token
+                },
+                body: JSON.stringify({ email, status: 2 }),
+            });
+
+            const data = await response.json();
+            console.log('Issuer approved:', data.message);
+
+            // Update the local state to reflect the approval status
+            setShow(true)
+            setMessage(data.message)
+            setIssuers((prevIssuers) =>
+                prevIssuers.map((issuer) =>
+                    issuer.email === email ? { ...issuer, approved: true } : issuer
+                )
+            );
+        } catch (error) {
+            console.error('Error approving issuer:', error);
+        }
+    };
+
+    const unapprovedIssuers = issuers?.filter(issuer => !issuer.approved);
 
     return (
         <>
@@ -169,7 +197,7 @@ const Dashboard = ({ loggedInUser }) => {
                                                         />
                                                         <Button
                                                             label='Reject'
-                                                            onClick={() => handleApprove(issuer.email)}
+                                                            onClick={() => handleReject(issuer.email)}
                                                             disabled={issuer.approved}
                                                             className='danger ps-3 pe-3 py-2'
                                                         />
@@ -235,110 +263,8 @@ const Dashboard = ({ loggedInUser }) => {
                     <button className='success' onClick={handleClose}>Ok</button>
                 </Modal.Body>
             </Modal>
-
-            <div className="drawer-overlay" onClick={handleCloseDrawer}></div>
-
-            <div className={`drawer-container ${showDrawer ? 'drawer-open' : ''}`}>
-                <div className='header d-flex align-items-center justify-content-between'>
-                    <h2 className='title'>Issuer Details</h2>
-                    <div className='close' onClick={handleCloseDrawer}>
-                        <Image 
-                            src="https://images.netcomlearning.com/ai-certs/icons/close-grey-bg.svg"
-                            width={40}
-                            height={40}
-                            alt='Close Drawer'
-                        />
-                    </div>
-                </div>
-                <hr />
-                {/* Drawer content */}
-                <Form.Group controlId="search">
-                    <div className="search d-flex">
-                        <Form.Control 
-                            type='text'
-                            placeholder='Search User by email'
-                        />
-                        <div className='submit'>
-                            <Button 
-                                label={
-                                    <div className='magnifier'>
-                                        <Image 
-                                            src="https://images.netcomlearning.com/ai-certs/icons/magnifier-white.svg"
-                                            layout='fill'
-                                            objectFit='contain'
-                                            alt='test'                                    
-                                        />
-                                    </div>
-                                }
-                                className='golden' 
-                            />
-                        </div>
-                    </div>
-                </Form.Group>
-                <div className='profile-info d-flex'>
-                    <div className='pic'>jd</div>
-                    <div className='details'>
-                        <div className='name'>John Doe</div>
-                        <div className='designation'>Sr. UI/UX Designer</div>
-                        <div className='contact d-flex align-items-center'>
-                            <Link href="tel:7836280835">
-                                <div className='item d-flex align-items-center'>
-                                    <Image 
-                                        src="https://images.netcomlearning.com/ai-certs/icons/phone-call.svg"
-                                        width={16}
-                                        height={16}
-                                        alt='Phone'
-                                    />
-                                    7836280835
-                                </div>
-                            </Link>
-                            <Link href="mailto:john.doe@aicerts.io">
-                                <div className='item d-flex align-items-center'>
-                                    <Image 
-                                        src="https://images.netcomlearning.com/ai-certs/icons/email-darksvg.svg"
-                                        width={16}
-                                        height={16}
-                                        alt='Phone'
-                                    />
-                                    john.doe@aicerts.io
-                                </div>
-                            </Link>
-                        </div>
-                    </div>                               
-                </div>
-                <div className='org-details'>
-                    <h2 className='title'>Organization Details</h2>
-                    <Row>
-                        <Col xs={12} md={4}>
-                            <div className='label'>Organization Name</div>
-                            <div className='info'>AI Certs</div>
-                        </Col>
-                        <Col xs={12} md={4}>
-                            <div className='label'>Organization Type</div>
-                            <div className='info'>AI & Blockchain</div>
-                        </Col>
-                        <Col xs={12} md={4}>
-                            <div className='label'>Industry Sector</div>
-                            <div className='info'>Technology</div>
-                        </Col>
-                        <Col xs={12} md={4}>
-                            <div className='label'>Website</div>
-                            <div className='info'>
-                                <Link href="https://www.aicerts.io" target='_blank'>
-                                    https://www.aicerts.io
-                                </Link>
-                            </div>
-                        </Col>
-                        <Col xs={12} md={4}>
-                            <div className='label'>Address</div>
-                            <div className='info'>New Delhi - 110072, India</div>
-                        </Col>
-                    </Row>
-                </div>
-                <div className='action'>
-                    <Button label='Reject' className='warning w-25' />
-                </div>
-            </div>
+            
+            <IssuerDetailsDrawer showDrawer={showDrawer} handleShowDrawer={handleShowDrawer} handleCloseDrawer={handleCloseDrawer}/>
         </>
     );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { Container, Form, Row, Col, Modal } from 'react-bootstrap';
 import Button from '../../shared/button/button';
 import eyeIcon from '../../public/icons/eye.svg';
