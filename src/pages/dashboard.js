@@ -12,7 +12,7 @@ const Dashboard = () => {
     const [show, setShow] = useState(false);
     const [message, setMessage] = useState('');
     const [token, setToken] = useState('');
-    const [address] = useState('0xD18eAEf19131964B6251E6aDd468617f1A162723'); // Static address
+    const [address] = useState(process.env.NEXT_PUBLIC_BASE_OWNER_ADDRESS); // Static address
     const [balance, setBalance] = useState('');
     const [showDrawer, setShowDrawer] = useState(false);
     const handleShowDrawer = () => setShowDrawer(true);
