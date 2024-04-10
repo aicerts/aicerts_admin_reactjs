@@ -55,6 +55,14 @@ const CheckBalance = () => {
             setMessage(responseData.message || 'Failed');
             setBalance('');
             setError(responseData.error || 'An error occurred while fetching balance');
+
+            // Retry logic
+            if (retries > 0) {
+                await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 1 second
+                handleSubmit(e, retries - 1);
+            } else {
+                setShow(true); // Show error modal if retries exhausted
+            }
         }
 
         setShow(true);
