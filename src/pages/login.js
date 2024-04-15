@@ -38,9 +38,10 @@ const Login = () => {
     
         if (user && user?.JWTToken) {
           // Redirect to /dashboard if both user and JWT token are present
+           // @ts-ignore: Implicit any for e prop
           router.push('/dashboard');
         }
-      }, []);
+      }, [router]);
 
     const [formData, setFormData] = useState({
         email: '',

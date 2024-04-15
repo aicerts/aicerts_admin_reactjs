@@ -27,9 +27,10 @@ const AddTrustedOwner = () => {
           setToken(storedUser?.JWTToken);
         } else {
           // If token is not available, redirect to the login page
+           // eslint-disable-next-line react-hooks/exhaustive-deps
           router.push('/');
         }
-    }, []);
+    }, [router]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

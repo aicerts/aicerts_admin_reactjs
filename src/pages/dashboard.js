@@ -98,7 +98,7 @@ const Dashboard = () => {
 
         fetchData();
         handleSubmit();
-    }, []);
+    }, [address, router]);
 
     const handleApproval = async (email, status) => {
         try {

@@ -65,7 +65,6 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
     const handleReject = async (email) => {
         try {
             const storedUser = JSON.parse(localStorage.getItem('user'));
-            // console.log("etstts: ", storedUser)
             if (storedUser && storedUser.JWTToken) {
                 // User is available, set the token
                 setToken(storedUser.JWTToken);
@@ -95,9 +94,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                 console.error('Error approving issuer:', error);
             }
         handleCancel();
-    };
-
-    console.log("Message: ", displayMessage)
+    };    
 
     return (
         <>
