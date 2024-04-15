@@ -136,6 +136,10 @@ const Login = () => {
         await login();
     };
 
+    const isLoginFormValid = () => {
+        return formData.email.trim() !== '' && formData.password.trim() !== '';
+    };
+
     return (
         <>
             <Row className="justify-content-md-center mt-5">
@@ -194,7 +198,7 @@ const Login = () => {
                                 {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
                             </Form.Group>
                             <div className='d-flex justify-content-between align-items-center'>
-                                <Button label="Login" className="golden" />
+                                <Button label="Login" className="golden" disabled={!isLoginFormValid()}/>
                                 <Link className="forgot-password-text" href="/reset-passwords">Reset Password?</Link>
                             </div>
                         </Form>

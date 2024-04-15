@@ -29,13 +29,12 @@ const AddTrustedOwner = () => {
           // If token is not available, redirect to the login page
           router.push('/');
         }
-      }, []);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-      
+        setIsLoading(true);
         try {
-          setIsLoading(true);
           const response = await fetch(`${apiUrl}/api/add-trusted-owner`, {
             method: 'POST',
             headers: {
@@ -66,11 +65,7 @@ const AddTrustedOwner = () => {
         } finally {
           setIsLoading(false);
         }
-      };
-
-      useEffect(() => {
-        console.log("Test response: ", message);
-      }, [message]);
+    };
 
     return (
         <div className='login-page'>
@@ -93,7 +88,7 @@ const AddTrustedOwner = () => {
                                     />
                                 </Form.Group>
                                 <div className='d-flex justify-content-center align-items-center'>
-                                    <Button label="Submit" className="golden" />
+                                    <Button label="Submit" className="golden" disabled={!address.trim()} />
                                 </div>
                             </Form>
                         </Card>

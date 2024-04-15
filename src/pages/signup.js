@@ -94,6 +94,10 @@ const Signup = () => {
         }
     };
 
+    const isLoginFormValid = () => {
+        return formData.email.trim() !== '' && formData.password.trim() !== '' && formData.name.trim() !== '';
+    };
+
 
     return (
         <div className='login-page'>
@@ -174,14 +178,9 @@ const Signup = () => {
                                     {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
                                 </Form.Group>
                                 <div className='d-flex justify-content-center align-items-center'>
-                                    <Button label="Signup" className="golden" />
+                                    <Button label="Signup" className="golden" disabled={!isLoginFormValid()}/>
                                 </div>
                             </Form>
-                            {/* {signupMessage && (
-                                <p className={`mt-3 text-center ${signupMessage.status === 'SUCCESS' ? 'text-success' : 'text-danger'}`}>
-                                    {signupMessage.message}
-                                </p>
-                            )} */}
                             {signupMessage.status === 'SUCCESS' && ( 
                                 <Link className='text-center' href="/admin">Login here</Link>
                             )}

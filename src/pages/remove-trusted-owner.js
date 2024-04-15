@@ -93,7 +93,7 @@ const RemoveTrustedOwner = () => {
                                     />
                                 </Form.Group>
                                 <div className='d-flex justify-content-center align-items-center'>
-                                    <Button label="Submit" className="golden" />
+                                    <Button label="Submit" className="golden" disabled={!address.trim()} />
                                 </div>
                             </Form>
                         </Card>

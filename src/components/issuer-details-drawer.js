@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Row, Col, Form, Modal } from 'react-bootstrap';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer }) => {
+const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) => {
     const [issuerEmail, setIssuerEmail] = useState('');
     const [issuerDetails, setIssuerDetails] = useState(null);
     const [error, setError] = useState(null);
@@ -18,6 +18,14 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer }) => {
     const handleChange = (e) => {
         setIssuerEmail(e.target.value);
     };
+
+    const showModal = () => {
+        setShow(true)
+    }
+
+    const handleCancel = () => {
+        setShow(false)
+    }
 
     const handleClose = () => {
         setShow(false);
@@ -57,7 +65,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer }) => {
     const handleReject = async (email) => {
         try {
             const storedUser = JSON.parse(localStorage.getItem('user'));
-            console.log("etstts: ", storedUser)
+            // console.log("etstts: ", storedUser)
             if (storedUser && storedUser.JWTToken) {
                 // User is available, set the token
                 setToken(storedUser.JWTToken);
@@ -86,10 +94,10 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer }) => {
             } catch (error) {
                 console.error('Error approving issuer:', error);
             }
+        handleCancel();
     };
 
-    console.log("message: ", message)
-
+    console.log("Message: ", displayMessage)
 
     return (
         <>
@@ -130,6 +138,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer }) => {
                                     }
                                     className='golden'
                                     type="submit" 
+                                    disabled={!issuerEmail.trim()}
                                 />
                             </div>
                         </div>
@@ -230,7 +239,8 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer }) => {
                             <Button 
                                 label='Reject' 
                                 className='warning w-25' 
-                                onClick={() => handleReject(issuerDetails.email)}
+                                // onClick={() => handleReject(issuerDetails.email)}
+                                onClick={showModal}
                             />
                         </div>
                         <p className='text-center text-success font-monospace mt-3 fs-5'>{message}</p>
@@ -251,6 +261,29 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer }) => {
                         />
                     </div>
                 </Modal.Body>
+            </Modal>
+
+            <Modal className='loader-modal' show={show} centered>
+                <Modal.Header closeButton={false}>
+                    <Modal.Title>Confirm Reject</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to reject <strong>{issuerDetails?.email}</strong>?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button label="Cancel" className='golden w-auto pe-4 ps-4 py-3' onClick={handleCancel} />
+                    {issuerDetails && (
+                    <Button 
+                        label={
+                            <strong>Confirm</strong>
+                        }
+                        className='warning w-25 py-3 mt-0 rounded-4' 
+                        onClick={() => {
+                            handleReject(issuerDetails.email);
+                        }}
+                    />
+                    )}
+                </Modal.Footer>
             </Modal>
         </>
     );

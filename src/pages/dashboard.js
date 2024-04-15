@@ -10,6 +10,7 @@ const Dashboard = () => {
     const router = useRouter();
     const [issuers, setIssuers] = useState([]);
     const [show, setShow] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [message, setMessage] = useState('');
     const [token, setToken] = useState('');
     const [address] = useState(process.env.NEXT_PUBLIC_BASE_OWNER_ADDRESS); // Static address
@@ -17,9 +18,11 @@ const Dashboard = () => {
     const [showDrawer, setShowDrawer] = useState(false);
     const handleShowDrawer = () => setShowDrawer(true);
     const handleCloseDrawer = () => setShowDrawer(false);
+    const [selectedIssuer, setSelectedIssuer] = useState(null);
 
     const handleClose = () => {
         setShow(false);
+        setShowModal(false)
     };
 
     const addTrustedOwner = () => {
@@ -98,24 +101,22 @@ const Dashboard = () => {
         handleSubmit();
     }, []);
 
-    const handleApprove = async (email) => {
+    const handleApproval = async (email, status) => {
         try {
-            // Hit the API to approve the issuer with the given email
             const response = await fetch(`${apiUrl}/api/validate-issuer`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': "Bearer " + token
                 },
-                body: JSON.stringify({ email, status: 1 }),
+                body: JSON.stringify({ email, status }),
             });
-
+    
             const data = await response.json();
-            console.log('Issuer approved:', data.message);
-
+    
             // Update the local state to reflect the approval status
-            setShow(true)
-            setMessage(data.message)
+            setShow(true);
+            setMessage(data.message);
             setIssuers((prevIssuers) =>
                 prevIssuers.map((issuer) =>
                     issuer.email === email ? { ...issuer, approved: true } : issuer
@@ -126,32 +127,62 @@ const Dashboard = () => {
         }
     };
 
+    const handleApprove = async (email) => {
+        await handleApproval(email, 1);
+        // try {
+        //     // Hit the API to approve the issuer with the given email
+        //     const response = await fetch(`${apiUrl}/api/validate-issuer`, {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': "Bearer " + token
+        //         },
+        //         body: JSON.stringify({ email, status: 1 }),
+        //     });
+
+        //     const data = await response.json();
+        //     console.log('Issuer approved:', data.message);
+
+        //     // Update the local state to reflect the approval status
+        //     setShow(true)
+        //     setMessage(data.message)
+        //     setIssuers((prevIssuers) =>
+        //         prevIssuers.map((issuer) =>
+        //             issuer.email === email ? { ...issuer, approved: true } : issuer
+        //         )
+        //     );
+        // } catch (error) {
+        //     console.error('Error approving issuer:', error);
+        // }
+    };
+
     const handleReject = async (email) => {
-        try {
-            // Hit the API to approve the issuer with the given email
-            const response = await fetch(`${apiUrl}/api/validate-issuer`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': "Bearer " + token
-                },
-                body: JSON.stringify({ email, status: 2 }),
-            });
+        await handleApproval(email, 2);
+        // try {
+        //     // Hit the API to approve the issuer with the given email
+        //     const response = await fetch(`${apiUrl}/api/validate-issuer`, {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': "Bearer " + token
+        //         },
+        //         body: JSON.stringify({ email, status: 2 }),
+        //     });
 
-            const data = await response.json();
-            console.log('Issuer approved:', data.message);
+        //     const data = await response.json();
+        //     console.log('Issuer approved:', data.message);
 
-            // Update the local state to reflect the approval status
-            setShow(true)
-            setMessage(data.message)
-            setIssuers((prevIssuers) =>
-                prevIssuers.map((issuer) =>
-                    issuer.email === email ? { ...issuer, approved: true } : issuer
-                )
-            );
-        } catch (error) {
-            console.error('Error approving issuer:', error);
-        }
+        //     // Update the local state to reflect the approval status
+        //     setShow(true)
+        //     setMessage(data.message)
+        //     setIssuers((prevIssuers) =>
+        //         prevIssuers.map((issuer) =>
+        //             issuer.email === email ? { ...issuer, approved: true } : issuer
+        //         )
+        //     );
+        // } catch (error) {
+        //     console.error('Error approving issuer:', error);
+        // }
     };
 
     const unapprovedIssuers = issuers?.filter(issuer => !issuer.approved);
@@ -184,9 +215,6 @@ const Dashboard = () => {
                                                 <td>{issuer.organization}</td>
                                                 <td>{issuer.email}</td>
                                                 <td>
-                                                    {/* {issuer.approved ? (
-                                                        <button className='btn btn-success'>Approved</button>
-                                                    ) : ( */}
                                                     <div className='d-flex align-items-center' style={{ columnGap: "20px" }}>
                                                         <Button
                                                             label='Approve'
@@ -201,7 +229,6 @@ const Dashboard = () => {
                                                             className='danger ps-3 pe-3 py-2'
                                                         />
                                                     </div>
-                                                    {/* )} */}
                                                 </td>
                                             </tr>
                                         ))}
@@ -263,7 +290,7 @@ const Dashboard = () => {
                 </Modal.Body>
             </Modal>
             
-            <IssuerDetailsDrawer showDrawer={showDrawer} handleShowDrawer={handleShowDrawer} handleCloseDrawer={handleCloseDrawer} />
+            <IssuerDetailsDrawer showDrawer={showDrawer} handleShowDrawer={handleShowDrawer} handleCloseDrawer={handleCloseDrawer} displayMessage={message} />
         </>
     );
 }

@@ -14,6 +14,7 @@ const ResetPassword = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [formValid, setFormValid] = useState(false);
         
   const togglePasswordVisibility = () => {
       setPasswordVisible(!passwordVisible);
@@ -61,6 +62,18 @@ const ResetPassword = () => {
     window.location.href = '/';
   }
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'email') {
+      setEmail(value);
+    } else if (name === 'password') {
+      setPassword(value);
+    }
+
+    // Check if both email and password fields are not empty
+    setFormValid(email.trim() !== '' && password.trim() !== '');
+  };
+
   return (
     <div className="forgot-password">
       <Container>
@@ -84,7 +97,7 @@ const ResetPassword = () => {
                   type="email"
                   name="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleInputChange}
                 />
               </Form.Group>
               <Form.Group controlId="password" className='mt-4'>
@@ -94,7 +107,7 @@ const ResetPassword = () => {
                     type={passwordVisible ? 'text' : 'password'}
                     name="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handleInputChange}
                   />
                   <div className='eye-icon position-absolute'>
                       <Image
@@ -113,17 +126,13 @@ const ResetPassword = () => {
                   type="submit" // Specify the type as "submit"
                   label="Reset Password"
                   className="golden w-100"
+                  disabled={!formValid}
                 />
               </div>
                 <div className='d-flex justify-content-between align-items-center'>
                     <Button label="Login" onClick={loginPage} className="outlined w-100" />
                 </div>
             </Form>
-            {/* {message && (
-                <p className={`mt-3 text-center ${message.status === 'SUCCESS' ? 'text-success' : 'text-danger'}`}>
-                    {message}
-                </p>
-            )} */}
           </Col>
         </Row>
       </Container>

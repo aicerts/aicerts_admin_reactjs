@@ -115,6 +115,11 @@
             box-shadow: inset 0px 0px 20px 0px rgb(112 9 9);
         }
     }
+
+    &:disabled {
+        pointer-events: none;
+        background-color: #bfbfbf;
+    }
 }
 
 .error-icon {
