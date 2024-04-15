@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../shared/button/button';
 import Image from 'next/legacy/image';
-import { Table, Modal, Container, Row, Col, Card, Form } from 'react-bootstrap';
+import { Table, Modal, Container, Row, Col, Card } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import IssuerDetailsDrawer from '../components/issuer-details-drawer';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -18,7 +18,6 @@ const Dashboard = () => {
     const [showDrawer, setShowDrawer] = useState(false);
     const handleShowDrawer = () => setShowDrawer(true);
     const handleCloseDrawer = () => setShowDrawer(false);
-    const [selectedIssuer, setSelectedIssuer] = useState(null);
 
     const handleClose = () => {
         setShow(false);
