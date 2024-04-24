@@ -1,16 +1,16 @@
-import { logout } from '@/common/auth';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
-import {Navbar, Button} from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 const Navigation = () => {
   const router = useRouter();
-let isUserLoggedIn;
-  useEffect(()=>{
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-     isUserLoggedIn = localStorage?.getItem('user') !== null;
+  // let isUserLoggedIn;
+  useEffect(()=>{
+    setIsUserLoggedIn(localStorage.getItem('user') !== null);
+    //  isUserLoggedIn = localStorage?.getItem('user') !== null;
   },[])
 
   const handleLogout = () => {
@@ -49,23 +49,6 @@ let isUserLoggedIn;
                   </div>
                 )}
             </div>
-          {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button> */}
-
-         {/* <div style={{flexDirection:"row", justifyContent:"flex-end"}} className="collapse navbar-collapse" id="navbarSupportedContent"> 
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <a className="nav-link" href="/varify-documents">Verify Document</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/varify-documents">Submit Document</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/profile-details">User Profile</a>
-              </li>
-            </ul> 
-          </div>  */}
         </div>
       </nav>
     </>
