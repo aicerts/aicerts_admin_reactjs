@@ -128,60 +128,10 @@ const Dashboard = () => {
 
     const handleApprove = async (email) => {
         await handleApproval(email, 1);
-        // try {
-        //     // Hit the API to approve the issuer with the given email
-        //     const response = await fetch(`${apiUrl}/api/validate-issuer`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': "Bearer " + token
-        //         },
-        //         body: JSON.stringify({ email, status: 1 }),
-        //     });
-
-        //     const data = await response.json();
-        //     console.log('Issuer approved:', data.message);
-
-        //     // Update the local state to reflect the approval status
-        //     setShow(true)
-        //     setMessage(data.message)
-        //     setIssuers((prevIssuers) =>
-        //         prevIssuers.map((issuer) =>
-        //             issuer.email === email ? { ...issuer, approved: true } : issuer
-        //         )
-        //     );
-        // } catch (error) {
-        //     console.error('Error approving issuer:', error);
-        // }
     };
 
     const handleReject = async (email) => {
         await handleApproval(email, 2);
-        // try {
-        //     // Hit the API to approve the issuer with the given email
-        //     const response = await fetch(`${apiUrl}/api/validate-issuer`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': "Bearer " + token
-        //         },
-        //         body: JSON.stringify({ email, status: 2 }),
-        //     });
-
-        //     const data = await response.json();
-        //     console.log('Issuer approved:', data.message);
-
-        //     // Update the local state to reflect the approval status
-        //     setShow(true)
-        //     setMessage(data.message)
-        //     setIssuers((prevIssuers) =>
-        //         prevIssuers.map((issuer) =>
-        //             issuer.email === email ? { ...issuer, approved: true } : issuer
-        //         )
-        //     );
-        // } catch (error) {
-        //     console.error('Error approving issuer:', error);
-        // }
     };
 
     const unapprovedIssuers = issuers?.filter(issuer => !issuer.approved);
@@ -207,7 +157,6 @@ const Dashboard = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {/* {issuers?.map((issuer) => ( */}
                                         {unapprovedIssuers?.map((issuer) => (
                                             <tr key={issuer._id}>
                                                 <td>{issuer.name}</td>
