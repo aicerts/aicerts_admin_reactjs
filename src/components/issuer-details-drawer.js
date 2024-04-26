@@ -60,26 +60,24 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
         } finally {
             setIsLoading(false)
         }
-    };
+    };   
 
     const handleReject = async (email) => {
         try {
             const storedUser = JSON.parse(localStorage.getItem('user'));
             if (storedUser && storedUser.JWTToken) {
-                // User is available, set the token
-                setToken(storedUser.JWTToken);
                 // Hit the API to approve the issuer with the given email
                 const response = await fetch(`${apiUrl}/api/validate-issuer`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': "Bearer " + token
+                        'Authorization': "Bearer " + storedUser.JWTToken // Use the token directly here
                     },
                     body: JSON.stringify({ email, status: 2 }),
                 });
-
+    
                 const data = await response.json();
-
+    
                 // Update the local state to reflect the approval status
                 setShow(true)
                 setMessage(data.message)
@@ -89,12 +87,13 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                     )
                 );
             }
-
-            } catch (error) {
-                console.error('Error approving issuer:', error);
-            }
+    
+        } catch (error) {
+            console.error('Error approving issuer:', error);
+        }
         handleCancel();
-    };    
+    };  
+    
 
     return (
         <>
@@ -270,15 +269,15 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                 <Modal.Footer>
                     <Button label="Cancel" className='golden w-auto pe-4 ps-4 py-3' onClick={handleCancel} />
                     {issuerDetails && (
-                    <Button 
-                        label={
-                            <strong>Confirm</strong>
-                        }
-                        className='warning w-25 py-3 mt-0 rounded-4' 
-                        onClick={() => {
-                            handleReject(issuerDetails.email);
-                        }}
-                    />
+                        <Button 
+                            label={
+                                <strong>Confirm</strong>
+                            }
+                            className='warning w-25 py-3 mt-0 rounded-4' 
+                            onClick={() => {
+                                handleReject(issuerDetails.email);
+                            }}
+                        />
                     )}
                 </Modal.Footer>
             </Modal>
