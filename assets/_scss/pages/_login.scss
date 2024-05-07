@@ -1,8 +1,15 @@
 .login-page {
-    background: url(/backgrounds/login-bg.png), lightgray 50% / cover no-repeat;
+    background: url(/backgrounds/login-bg.png);
     background-size: cover;
+    background-position: center;
     background-color: #1C1F30;
-
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    
     .global-header {
         background-color: transparent !important;
         box-shadow: none;
@@ -13,8 +20,12 @@
         z-index: 1;
 
         .login {
-            @include dynamic-padding(80);
-            border-radius: 40px;
+            @include dynamic-padding(40);
+            border-radius: 0;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            -ms-border-radius: 0;
+            -o-border-radius: 0;
 
             .title {
                 color: $black;
@@ -31,12 +42,12 @@
                 font-style: normal;
                 font-weight: 500;
                 line-height: normal;
-                margin-bottom: 44px;
+                margin-bottom: 24px;
             }
 
             .login-form {
                 .form-control {
-                    margin-bottom: 50px;
+                    margin-bottom: 30px;
                 }
             }
 
@@ -59,7 +70,6 @@
             width: 84%;
             height: 84%;
             flex-shrink: 0;
-            border-radius: 40px;
             background: $golden;
             position: absolute;
         }
@@ -101,10 +111,76 @@
         }
     }
 
+    // 1366
+    @media (min-width: $small-min) and (max-width: $small-max) {
+        .login-container {    
+            .login {
+                .title {
+                    font-size: 32px;
+                }
+    
+                .sub-text {
+                    margin-bottom: 20px;
+                }
+    
+                .login-form {
+                    .form-control {
+                        margin-bottom: 20px;
+                    }
+
+                    .golden {
+                        padding: 12px 60px;
+                    }
+                }
+    
+                .forgot-password-text {
+                    font-size: 16px;
+                }
+            }    
+        }
+
+        .collapse {
+            .navbar-collapse {    
+                .global-button {
+                    padding: 12px 40px;
+                }
+            }
+        }
+    }
+
+    // 1280
+    @media (min-width: $laptop-min) and (max-width: $laptop-max) {
+        .login-container {    
+            .login {
+                padding: 30px;
+
+                .title {
+                    font-size: 28px;
+                }
+    
+                .sub-text {
+                    margin-bottom: 20px;
+                }
+    
+                .login-form {
+                    .form-control {
+                        margin-bottom: 20px;
+                    }
+                }
+    
+                .forgot-password-text {
+                    font-size: 16px;
+                }
+            }    
+        }
+    }
+
+    // Tablet
     @media (min-width: $tablet-min) and (max-width: $tablet-max) {
         height: 100vh;
     }
 
+    // Mobile
     @media (min-width: $mobile-min) and (max-width: $mobile-max) {
         padding: 0 20px;
 

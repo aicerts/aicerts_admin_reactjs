@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import eyeIcon from '../../public/icons/eye.svg';
 import eyeSlashIcon from '../../public/icons/eye-slash.svg';
+import NavigationLogin from '@/app/navigation-login';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const Signup = () => {
@@ -101,6 +102,7 @@ const Signup = () => {
 
     return (
         <div className='login-page'>
+            <NavigationLogin />
             <div className='container'>
                 <Row className="justify-content-md-center pt-5">
                     <Col xs={{ span: 12 }} md={{ span: 10 }} lg={{ span: 8 }} className='login-container'>

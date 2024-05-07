@@ -74,7 +74,28 @@ a {
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    margin-top: 84px;
+    margin-top: 70px;
+
+    // 1600
+    @media (min-width: $large-min) and (max-width: $large-max) {
+        margin-top: 60px;
+    }
+
+    // 1440
+    @media (min-width: $medium-min) and (max-width: $medium-max) {
+       
+    }
+
+
+    // 1366
+    @media (min-width: $small-min) and (max-width: $small-max) {
+        margin-top: 40px;
+    }
+
+    // 1280
+    @media (min-width: $laptop-min) and (max-width: $laptop-max) {
+        margin-top: 30px;
+    }
 }
 
 .password-input {
@@ -83,4 +104,107 @@ a {
         top: 14px;
         right: 18px;
     }
+}
+
+.page-bg {
+    background-image: url(https://images.netcomlearning.com/ai-certs/cer365AllPageBg.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-y: -10em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+}
+
+.page-footer-bg {
+    background-image: url(https://images.netcomlearning.com/ai-certs/cer365AllPageFooterBg.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 354px;
+    height: 254px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.vertical-center {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+
+    &.verify-cert {
+        transform: translateY(-70%);
+        -webkit-transform: translateY(-70%);
+        -moz-transform: translateY(-70%);
+        -ms-transform: translateY(-70%);
+        -o-transform: translateY(-70%);
+    }
+
+    &.dashboard-pos {
+        transform: translateY(-80%);
+        -webkit-transform: translateY(-80%);
+        -moz-transform: translateY(-80%);
+        -ms-transform: translateY(-80%);
+        -o-transform: translateY(-80%);
+
+        // 1600
+        @media (min-width: $large-min) and (max-width: $large-max) {
+            transform: translateY(-75%);
+            -webkit-transform: translateY(-75%);
+            -moz-transform: translateY(-75%);
+            -ms-transform: translateY(-75%);
+            -o-transform: translateY(-75%);
+        }
+
+        // 1440
+        @media (min-width: $medium-min) and (max-width: $medium-max) {
+            transform: translateY(-75%);
+            -webkit-transform: translateY(-75%);
+            -moz-transform: translateY(-75%);
+            -ms-transform: translateY(-75%);
+            -o-transform: translateY(-75%);
+        }
+
+
+        // 1366
+        @media (min-width: $small-min) and (max-width: $small-max) {
+            transform: translateY(-72%);
+            -webkit-transform: translateY(-72%);
+            -moz-transform: translateY(-72%);
+            -ms-transform: translateY(-72%);
+            -o-transform: translateY(-72%);
+        }
+
+        // 1280
+        @media (min-width: $laptop-min) and (max-width: $laptop-max) {
+            transform: translateY(-72%);
+            -webkit-transform: translateY(-72%);
+            -moz-transform: translateY(-72%);
+            -ms-transform: translateY(-72%);
+            -o-transform: translateY(-72%);
+        }
+    }
+}
+
+.equal-height-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.equal-height-row .col {
+    display: flex;
+}
+
+.equal-height-row .content {
+    flex-grow: 1;
+    display: flex;
+    align-items: stretch;
 }

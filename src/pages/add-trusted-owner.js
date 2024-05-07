@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Card, Modal } from 'react-bootstrap';
 import CopyrightNotice from '../app/CopyrightNotice';
 import { useRouter } from 'next/router';
+import NavigationLogin from '@/app/navigation-login';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const AddTrustedOwner = () => {
@@ -69,38 +70,40 @@ const AddTrustedOwner = () => {
     };
 
     return (
-        <div className='login-page'>
-            <div className='container'>
-                <Row className="justify-content-md-center">
-                    <Col xs={{ span: 12 }} md={{ span: 10 }} lg={{ span: 8 }} className='login-container mt-5'>
-                        <div className='golden-border-left'></div>
-                        <Card className='login input-elements'>
-                            <h2 className='title text-center'>Add Trusted Owner</h2>
-                            <Form className='login-form' onSubmit={handleSubmit}>
-                                <Form.Group controlId="text" className='mb-3'>
-                                    <Form.Label>
-                                        Insert Address
-                                    </Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        required
-                                        value={address}
-                                        onChange={(e) => setAddress(e.target.value)}
-                                    />
-                                </Form.Group>
-                                <div className='d-flex justify-content-center align-items-center'>
-                                    <Button label="Submit" className="golden" disabled={!address.trim()} />
-                                </div>
-                            </Form>
-                        </Card>
-                        <div className='golden-border-right'></div>
-                    </Col>
-                    <Col md={{ span: 12 }}>
-                        <div className='copy-right text-center'>
-                            <CopyrightNotice />
-                        </div>
-                    </Col>
-                </Row>
+        <div className='login-page trusted-owner'>
+            <div className='position-relative' style={{ height: '80%' }}>
+                <div className='vertical-center'>
+                    <div className='container'>
+                        <Row className="justify-content-md-center">
+                            <Col xs={{ span: 12 }} md={{ span: 10 }} lg={{ span: 8 }} className='login-container mt-5'>
+                                <div className='golden-border-left'></div>
+                                <Card className='login input-elements'>
+                                    <h2 className='title text-center'>Add Trusted Owner</h2>
+                                    <Form className='login-form' onSubmit={handleSubmit}>
+                                        <Form.Group controlId="text" className='mb-3'>
+                                            <Form.Label>
+                                                Insert Address
+                                            </Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                required
+                                                value={address}
+                                                onChange={(e) => setAddress(e.target.value)}
+                                            />
+                                        </Form.Group>
+                                        <div className='d-flex justify-content-center align-items-center'>
+                                            <Button label="Submit" className="golden" disabled={!address.trim()} />
+                                        </div>
+                                    </Form>
+                                </Card>
+                                <div className='golden-border-right'></div>
+                            </Col>
+                        </Row>
+                    </div>
+                </div>
+            </div>
+            <div className='copy-right text-center'>
+                <CopyrightNotice />
             </div>
 
             {/* Loading Modal for API call */}

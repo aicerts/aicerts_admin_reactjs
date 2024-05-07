@@ -138,90 +138,95 @@ const Dashboard = () => {
 
     return (
         <>
-            <Container fluid className='dashboard mt-5'>
-                <Row>
-                    <Col xs md="9">
-                        <div className='heading d-flex justify-content-between align-items-center mb-4'>
-                            <h2 className='title'>Issuer Login Credentials</h2>
-                            <Button label='View Issuer Details  &#8594;' className='golden ps-4 pe-4' onClick={handleShowDrawer} />
-                        </div>
-                        <Card>
-                            <Card.Body>
-                                <Table>
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Organization</th>
-                                            <th>Email</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {unapprovedIssuers?.map((issuer) => (
-                                            <tr key={issuer._id}>
-                                                <td>{issuer.name}</td>
-                                                <td>{issuer.organization}</td>
-                                                <td>{issuer.email}</td>
-                                                <td>
-                                                    <div className='d-flex align-items-center' style={{ columnGap: "20px" }}>
-                                                        <Button
-                                                            label='Approve'
-                                                            onClick={() => handleApprove(issuer.email)}
-                                                            disabled={issuer.approved}
-                                                            className='golden ps-3 pe-3 py-2'
-                                                        />
-                                                        <Button
-                                                            label='Reject'
-                                                            onClick={() => handleReject(issuer.email)}
-                                                            disabled={issuer.approved}
-                                                            className='danger ps-3 pe-3 py-2'
-                                                        />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </Table>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col xs md="3">
-                        <Card className=''>
-                            <Card.Header>Admin Wallet Balance</Card.Header>
-                            <Card.Body>
-                                {balance && <h2 className='my-2 balance'>&#8377;: <strong>{balance}</strong></h2>}
-                                <hr className='dashed' />
-                                <div className='latest-update'><span>Last Updated:</span> <strong>02/03/2024</strong></div>
-                            </Card.Body>
-                        </Card>
-                        <Card className='mt-4'>
-                            <Card.Header>Trusted Owner</Card.Header>
-                            <Card.Body>
-                                <div className='trusted-owner-wrapper d-block d-md-flex align-items-center justify-content-center'>
-                                    <div className='trusted-owner add' onClick={addTrustedOwner}>
-                                        <Image
-                                            src="https://images.netcomlearning.com/ai-certs/icons/add-trusted-owner.svg"
-                                            width={57}
-                                            height={57}
-                                            alt='Add trusted owner'
-                                        />
-                                        <span className='hero-name'>Add Owner</span>
+            <div className='page-bg'>
+                <div className='position-relative h-100'>
+                    <div className='vertical-center dashboard-pos'>
+                        <Container fluid className='dashboard mt-5'>
+                            <Row>
+                                <Col xs md="8">
+                                    <div className='heading d-flex justify-content-between align-items-center mb-4'>
+                                        <h2 className='title'>Issuer Login Credentials</h2>
+                                        <Button label='View Issuer Details  &#8594;' className='golden ps-4 pe-4' onClick={handleShowDrawer} />
                                     </div>
-                                    <div className='trusted-owner remove mt-4 mt-md-0' onClick={removeTrustedOwner}>
-                                        <Image
-                                            src="https://images.netcomlearning.com/ai-certs/icons/add-trusted-owner.svg"
-                                            width={57}
-                                            height={57}
-                                            alt='Add trusted owner'
-                                        />
-                                        <span className='hero-name'>Remove Owner</span>
+                                    <div className='issuer-data'>
+                                        <Table bordered>
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Organization</th>
+                                                    <th>Email</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {unapprovedIssuers?.map((issuer) => (
+                                                    <tr key={issuer._id}>
+                                                        <td>{issuer.name}</td>
+                                                        <td>{issuer.organization}</td>
+                                                        <td>{issuer.email}</td>
+                                                        <td>
+                                                            <div className='d-flex align-items-center' style={{ columnGap: "20px" }}>
+                                                                <Button
+                                                                    label='Approve'
+                                                                    onClick={() => handleApprove(issuer.email)}
+                                                                    disabled={issuer.approved}
+                                                                    className='golden ps-3 pe-3 py-2'
+                                                                />
+                                                                <Button
+                                                                    label='Reject'
+                                                                    onClick={() => handleReject(issuer.email)}
+                                                                    disabled={issuer.approved}
+                                                                    className='danger ps-3 pe-3 py-2'
+                                                                />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </Table>
                                     </div>
-                                </div>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
-            </Container>
+                                </Col>
+                                <Col xs md="4">
+                                    <Card className=''>
+                                        <Card.Header>Admin Wallet Balance</Card.Header>
+                                        <Card.Body>
+                                            {balance && <h2 className='my-2 balance'>&#8377;: <strong>{balance}</strong></h2>}
+                                            <hr className='dashed' />
+                                            <div className='latest-update'><span>Last Updated:</span> <strong>02/03/2024</strong></div>
+                                        </Card.Body>
+                                    </Card>
+                                    <Card className='mt-4'>
+                                        <Card.Header>Trusted Owner</Card.Header>
+                                        <Card.Body>
+                                            <div className='trusted-owner-wrapper d-block d-md-flex align-items-center justify-content-center'>
+                                                <div className='trusted-owner add' onClick={addTrustedOwner}>
+                                                    <Image
+                                                        src="https://images.netcomlearning.com/ai-certs/icons/add-trusted-owner.svg"
+                                                        width={57}
+                                                        height={57}
+                                                        alt='Add trusted owner'
+                                                    />
+                                                    <span className='hero-name'>Add Owner</span>
+                                                </div>
+                                                <div className='trusted-owner remove mt-4 mt-md-0' onClick={removeTrustedOwner}>
+                                                    <Image
+                                                        src="https://images.netcomlearning.com/ai-certs/icons/add-trusted-owner.svg"
+                                                        width={57}
+                                                        height={57}
+                                                        alt='Add trusted owner'
+                                                    />
+                                                    <span className='hero-name'>Remove Owner</span>
+                                                </div>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
+                </div>
+            </div>
+            <div className='page-footer-bg'></div>
 
             <Modal onHide={handleClose} className='loader-modal text-center' show={show} centered>
                 <Modal.Body className='p-5'>
