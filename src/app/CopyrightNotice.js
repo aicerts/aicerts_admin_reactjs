@@ -4,7 +4,7 @@ const CopyrightNotice = () => {
     const currentYear = new Date().getFullYear();
 
   return (
-      <p>&copy; {currentYear} AI CERTs. All rights reserved.</p>
+      <p className='mb-0'>&copy; {currentYear} AI CERTs. All rights reserved.</p>
   );
 };
 

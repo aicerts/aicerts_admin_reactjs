@@ -28,7 +28,7 @@ const RemoveTrustedOwner = () => {
           // If token is not available, redirect to the login page
           router.push('/');
         }
-      }, []);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -65,94 +65,99 @@ const RemoveTrustedOwner = () => {
         } finally {
           setIsLoading(false);
         }
-      };
+    };
 
-      useEffect(() => {
-        console.log("Test response: ", message);
-      }, [message]);
+    useEffect(() => {
+    console.log("Test response: ", message);
+    }, [message]);
 
     return (
-        <div className='login-page'>
-            <div className='container'>
-                <Row className="justify-content-md-center">
-                    <Col xs={{ span: 12 }} md={{ span: 10 }} lg={{ span: 8 }} className='login-container mt-5'>
-                        <div className='golden-border-left'></div>
-                        <Card className='login input-elements'>
-                            <h2 className='title text-center'>Remove Trusted Owner</h2>
-                            <p className='sub-text text-center'></p>
-                            <Form className='login-form' onSubmit={handleSubmit}>
-                                <Form.Group controlId="text" className='mb-3'>
-                                    <Form.Label>
-                                    Insert Address
-                                    </Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        required
-                                        value={address}
-                                        onChange={(e) => setAddress(e.target.value)}
-                                    />
-                                </Form.Group>
-                                <div className='d-flex justify-content-center align-items-center'>
-                                    <Button label="Submit" className="golden" disabled={!address.trim()} />
-                                </div>
-                            </Form>
-                        </Card>
-                        <div className='golden-border-right'></div>
-                    </Col>
-                    <Col md={{ span: 12 }}>
-                        <div className='copy-right text-center'>
-                            <CopyrightNotice />
-                        </div>
-                    </Col>
-                </Row>
-            </div>
-
-            {/* Loading Modal for API call */}
-            <Modal className='loader-modal' show={isLoading} centered>
-                <Modal.Body>
-                    <div className='certificate-loader'>
-                        <Image
-                            src="/backgrounds/login-loading.gif"
-                            layout='fill'
-                            objectFit='contain'
-                            alt='Loader'
-                        />
+        <>
+        <div className='login-page trusted-owner'>
+            <div className='position-relative' style={{ height: '80%' }}>
+                <div className='vertical-center'>
+                    <div className='container'>
+                        <Row className="justify-content-md-center">
+                            <Col xs={{ span: 12 }} md={{ span: 10 }} lg={{ span: 8 }} className='login-container mt-5'>
+                                <div className='golden-border-left'></div>
+                                <Card className='login input-elements'>
+                                    <h2 className='title text-center'>Remove Trusted Owner</h2>
+                                    <p className='sub-text text-center'></p>
+                                    <Form className='login-form' onSubmit={handleSubmit}>
+                                        <Form.Group controlId="text" className='mb-3'>
+                                            <Form.Label>
+                                            Insert Address
+                                            </Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                required
+                                                value={address}
+                                                onChange={(e) => setAddress(e.target.value)}
+                                            />
+                                        </Form.Group>
+                                        <div className='d-flex justify-content-center align-items-center'>
+                                            <Button label="Submit" className="golden" disabled={!address.trim()} />
+                                        </div>
+                                    </Form>
+                                </Card>
+                                <div className='golden-border-right'></div>
+                            </Col>
+                        </Row>
                     </div>
-                </Modal.Body>
-            </Modal>
-
-            <Modal onHide={handleClose} className='loader-modal text-center' show={show} centered>
-                <Modal.Body className='p-5'>               
-                    {error !== '' ? (
-                        <>
-                            <div className='error-icon'>
-                                <Image
-                                    src="/icons/close.svg"
-                                    layout='fill'
-                                    objectFit='contain'
-                                    alt='Loader'
-                                />
-                            </div>
-                            <h3 style={{ color: 'red' }}>{message}</h3>
-                            <button className='warning' onClick={handleClose}>Ok</button>
-                        </>
-                    ) : (
-                        <>
-                            <div className='error-icon'>
-                                <Image
-                                    src="/icons/check-mark.svg"
-                                    layout='fill'
-                                    objectFit='contain'
-                                    alt='Loader'
-                                />
-                            </div>
-                            <h3 style={{ color: '#198754' }}>{message}</h3>
-                            <button className='success' onClick={handleClose}>Ok</button>
-                        </>
-                    )}
-                </Modal.Body>
-            </Modal>
+                </div>
+            </div>
+            <div className='copy-right text-center'>
+                <CopyrightNotice />
+            </div>
         </div>
+
+
+        {/* Loading Modal for API call */}
+        <Modal className='loader-modal' show={isLoading} centered>
+            <Modal.Body>
+                <div className='certificate-loader'>
+                    <Image
+                        src="/backgrounds/login-loading.gif"
+                        layout='fill'
+                        objectFit='contain'
+                        alt='Loader'
+                    />
+                </div>
+            </Modal.Body>
+        </Modal>
+
+        <Modal onHide={handleClose} className='loader-modal text-center' show={show} centered>
+            <Modal.Body className='p-5'>               
+                {error !== '' ? (
+                    <>
+                        <div className='error-icon'>
+                            <Image
+                                src="/icons/close.svg"
+                                layout='fill'
+                                objectFit='contain'
+                                alt='Loader'
+                            />
+                        </div>
+                        <h3 style={{ color: 'red' }}>{message}</h3>
+                        <button className='warning' onClick={handleClose}>Ok</button>
+                    </>
+                ) : (
+                    <>
+                        <div className='error-icon'>
+                            <Image
+                                src="/icons/check-mark.svg"
+                                layout='fill'
+                                objectFit='contain'
+                                alt='Loader'
+                            />
+                        </div>
+                        <h3 style={{ color: '#198754' }}>{message}</h3>
+                        <button className='success' onClick={handleClose}>Ok</button>
+                    </>
+                )}
+            </Modal.Body>
+        </Modal>
+        </>
     );
 }
 

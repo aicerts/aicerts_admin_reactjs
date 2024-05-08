@@ -75,70 +75,79 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="forgot-password">
-      <Container>
-        <Row>
-          <Col md={{ span: 7 }} className="d-none d-md-block">
-            <div className="badge-banner">
-              <Image
-                src="/backgrounds/forgot-pass-bg.svg"
-                layout="fill"
-                objectFit="contain"
-                alt="Badge image"
-              />
-            </div>
-          </Col>
-          <Col xs={{ span: 12 }} md={{ span: 5 }}>
-            <h1 className="title">Reset Password</h1>
-            <Form className="input-elements" onSubmit={handleResetPassword}>
-              <Form.Group controlId="email">
-                <Form.Label>Enter Your Registered Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  name="email"
-                  value={email}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="password" className='mt-4'>
-                <Form.Label>Enter New Password</Form.Label>
-                <div className="password-input position-relative">
-                  <Form.Control
-                    type={passwordVisible ? 'text' : 'password'}
-                    name="password"
-                    value={password}
-                    onChange={handleInputChange}
-                  />
-                  <div className='eye-icon position-absolute'>
+    <>
+      <div className='page-bg'>
+        <div className='position-relative h-100'>
+          <div className="forgot-password">
+            <div className='vertical-center'>
+              <Container>
+                <Row>
+                  <Col md={{ span: 7 }} className="d-none d-md-block">
+                    <div className="badge-banner">
                       <Image
-                          src={passwordVisible ? eyeSlashIcon : eyeIcon}
-                          width={20}
-                          height={20}
-                          alt={passwordVisible ? 'Hide password' : 'Show password'}
-                          onClick={togglePasswordVisibility}
-                          className="password-toggle"
+                        src="/backgrounds/forgot-pass-bg.svg"
+                        layout="fill"
+                        objectFit="contain"
+                        alt="Badge image"
                       />
-                  </div>
-                </div>
-              </Form.Group>
-              <div className="d-flex justify-content-between align-items-center">
-                <Button
-                  type="submit" // Specify the type as "submit"
-                  label="Reset Password"
-                  className="golden w-100"
-                  disabled={!formValid}
-                />
-              </div>
-                <div className='d-flex justify-content-between align-items-center'>
-                    <Button label="Login" onClick={loginPage} className="outlined w-100" />
-                </div>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+                    </div>
+                  </Col>
+                  <Col xs={{ span: 12 }} md={{ span: 5 }}>
+                      <h1 className="title">Reset Password</h1>
+                      <Form className="input-elements" onSubmit={handleResetPassword}>
+                        <Form.Group controlId="email">
+                          <Form.Label>Enter Your Registered Email</Form.Label>
+                          <Form.Control
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={handleInputChange}
+                          />
+                        </Form.Group>
+                        <Form.Group controlId="password" className='mt-4'>
+                          <Form.Label>Enter New Password</Form.Label>
+                          <div className="password-input position-relative">
+                            <Form.Control
+                              type={passwordVisible ? 'text' : 'password'}
+                              name="password"
+                              value={password}
+                              onChange={handleInputChange}
+                            />
+                            <div className='eye-icon position-absolute'>
+                                <Image
+                                    src={passwordVisible ? eyeSlashIcon : eyeIcon}
+                                    width={20}
+                                    height={20}
+                                    alt={passwordVisible ? 'Hide password' : 'Show password'}
+                                    onClick={togglePasswordVisibility}
+                                    className="password-toggle"
+                                />
+                            </div>
+                          </div>
+                        </Form.Group>
+                        <div className="d-flex justify-content-between align-items-center">
+                          <Button
+                            type="submit" // Specify the type as "submit"
+                            label="Reset Password"
+                            className="golden w-100"
+                            disabled={!formValid}
+                          />
+                        </div>
+                          <div className='d-flex justify-content-between align-items-center'>
+                              <Button label="Login" onClick={loginPage} className="outlined w-100" />
+                          </div>
+                      </Form>
+                  </Col>
+                </Row>
+              </Container>
+            </div>
+          </div>
+          <div className='page-footer-bg'></div>
+        </div>
+      </div>
 
        {/* Loading Modal for API call */}
-       <Modal className='loader-modal' show={isLoading} centered>
+      <Modal className='loader-modal' show={isLoading} centered>
           <Modal.Body>
               <div className='certificate-loader'>
                   <Image
@@ -182,7 +191,7 @@ const ResetPassword = () => {
               )}
           </Modal.Body>
       </Modal>
-    </div>
+    </>
   );
 };
 

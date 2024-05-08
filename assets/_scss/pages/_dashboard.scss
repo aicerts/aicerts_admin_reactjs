@@ -10,8 +10,7 @@
     }
 
     .card {
-        border: none;
-        box-shadow: 0px 4px 25px 0px rgba(0, 0, 0, 0.08);
+        border: 1px solid #BFC0C2;
 
         .card-header {
             color: rgba(47, 56, 71, 1);
@@ -32,7 +31,6 @@
                     height: 137px;
                     line-height: 180px;
                     text-align: center;
-                    border-radius: 10px;
                     cursor: pointer;
                     position: relative;
                     
@@ -83,8 +81,71 @@
                 }
             }
         }
+
+        // 1600
+        @media (min-width: $large-min) and (max-width: $large-max) {
+            
+        }
+
+        // 1440
+        @media (min-width: $medium-min) and (max-width: $medium-max) {
+            
+        }
+
+        // 1366
+        @media (min-width: $small-min) and (max-width: $small-max) {
+            
+        }
+
+        // 1280
+        @media (min-width: $laptop-min) and (max-width: $laptop-max) {
+            .card-header {
+                font-size: 18px;
+            }
+
+            .card-body {
+                .balance {
+                    font-size: 40px;
+                }
+            }
+        }
+    }
+
+    .issuer-data {
+        overflow: hidden;
+        height: 650px;
+        overflow-y: auto;
+
+        .table {
+            thead {
+
+            }
+        }
+
+        // 1600
+        @media (min-width: $large-min) and (max-width: $large-max) {
+            height: 600px;
+        }
+
+        // 1440
+        @media (min-width: $medium-min) and (max-width: $medium-max) {
+            height: 600px;
+        }
+
+
+        // 1366
+        @media (min-width: $small-min) and (max-width: $small-max) {
+            height: 480px;
+        }
+
+        // 1280
+        @media (min-width: $laptop-min) and (max-width: $laptop-max) {
+            height: 450px;
+        }
     }
 }
+
+
 
 .drawer-overlay {
     display: none; // Initially hidden
@@ -113,7 +174,6 @@
     overflow-x: hidden;
     transition: transform 0.3s ease-in-out;
     transform: translateX(100%); // Initially off-screen
-    border-radius: 30px 0px 0px 30px;
     box-shadow: -4px 0px 50px 0px rgba(229, 231, 232, 0.80);
     padding: 32px 30px;
   
@@ -165,6 +225,7 @@
                 font-style: normal;
                 font-weight: 700;
                 line-height: normal;
+                margin-bottom: 10px;
             }
 
             .designation {
@@ -198,6 +259,37 @@
                 }
             }
         }
+
+        // 1600
+        @media (min-width: $large-min) and (max-width: $large-max) {
+           
+        }
+
+        // 1440
+        @media (min-width: $medium-min) and (max-width: $medium-max) {
+           
+        }
+
+
+        // 1366
+        @media (min-width: $small-min) and (max-width: $small-max) {
+            .pic {
+                font-size: 32px;
+                width: 100px;
+                height: 100px;
+                line-height: 100px;
+            }
+        }
+
+        // 1280
+        @media (min-width: $laptop-min) and (max-width: $laptop-max) {
+            .pic {
+                font-size: 32px;
+                width: 100px;
+                height: 100px;
+                line-height: 100px;
+            }
+        }
     }
 
     .org-details {
@@ -208,7 +300,6 @@
             font-weight: 700;
             line-height: normal;
             margin: 40px 0 20px;
-            border-radius: 10px;
             background: #F3F3F3;
             padding: 14px 20px  ;
         }
@@ -236,6 +327,35 @@
             font-style: normal;
             font-weight: 600;
             line-height: normal;
+        }
+
+        // 1600
+        @media (min-width: $large-min) and (max-width: $large-max) {
+            
+        }
+
+        // 1440
+        @media (min-width: $medium-min) and (max-width: $medium-max) {
+            
+        }
+
+
+        // 1366
+        @media (min-width: $small-min) and (max-width: $small-max) {
+            .title {
+                font-size: 16px;
+                padding: 12px 20px ;
+                margin: 20px 0;
+            }
+        }
+
+        // 1280
+        @media (min-width: $laptop-min) and (max-width: $laptop-max) {
+            .title {
+                font-size: 16px;
+                padding: 12px 20px ;
+                margin: 20px 0;
+            }
         }
     }
 
