@@ -141,7 +141,7 @@ const Dashboard = () => {
             <div className='page-bg'>
                 <div className='position-relative h-100'>
                     <div className='vertical-center dashboard-pos'>
-                        <Container fluid className='dashboard mt-5'>
+                        <Container className='dashboard mt-5'>
                             <Row>
                                 <Col xs md="8">
                                     <div className='heading d-flex justify-content-between align-items-center mb-4'>

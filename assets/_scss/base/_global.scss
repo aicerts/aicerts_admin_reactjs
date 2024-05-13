@@ -117,6 +117,29 @@ a {
     bottom: 0;
     right: 0;
     overflow: auto;
+
+    // 1600
+    @media (min-width: $large-min) and (max-width: $large-max) {
+        background-position-y: -7em;
+        background-position-x: 4em;   
+    }
+
+    // 1440
+    @media (min-width: $medium-min) and (max-width: $medium-max) {
+        
+    }
+
+
+    // 1366
+    @media (min-width: $small-min) and (max-width: $small-max) {
+        background-position-y: -5em;
+        background-position-x: 4em;
+    }
+
+    // 1280
+    @media (min-width: $laptop-min) and (max-width: $laptop-max) {
+      
+    }
 }
 
 .page-footer-bg {
