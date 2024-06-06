@@ -1,6 +1,6 @@
 .global-button {
     border: none;
-    padding: 20px 0;
+    padding: 14px 30px;
     font-size: 18px;
     border-radius: 0 !important;
     -webkit-border-radius: 0 !important;
@@ -9,7 +9,6 @@
     -o-border-radius: 0 !important;
     
     &.golden {
-        padding: 20px 120px;
         color: $white;
         font-style: normal;
         font-weight: 600;
@@ -22,7 +21,7 @@
         -o-transition: 0.5s;
 
         &:hover {
-            box-shadow: inset 0px 0px 20px 0px #675213c9;
+            background: rgba(186, 152, 47, 1);
         }
     }
 
