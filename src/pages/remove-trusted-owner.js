@@ -67,9 +67,7 @@ const RemoveTrustedOwner = () => {
         }
     };
 
-    useEffect(() => {
-    console.log("Test response: ", message);
-    }, [message]);
+
 
     return (
         <>

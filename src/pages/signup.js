@@ -17,9 +17,14 @@ const Signup = () => {
     const [show, setShow] = useState(false);
     const [error, setError] = useState(null);
     const [passwordVisible, setPasswordVisible] = useState(false);
-        
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
+        setConfirmPasswordVisible(!confirmPasswordVisible);
     };
 
     const handleClose = () => {
@@ -34,18 +39,35 @@ const Signup = () => {
         name: '',
         email: '',
         password: '',
+        confirmPassword: '',
     });
 
     const [passwordError, setPasswordError] = useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [passwordStrengthError, setPasswordStrengthError] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
 
         if (name === 'password') {
+            const strengthErrors = [];
             if (value.length < 8) {
-                setPasswordError('Password should be minimum 8 characters');
+                strengthErrors.push('Password should be minimum 8 characters');
+            }
+            if (!/[A-Z]/.test(value)) {
+                strengthErrors.push('Password should have at least one uppercase letter');
+            }
+            if (!/[!@#$%^&*]/.test(value)) {
+                strengthErrors.push('Password should have at least one special character');
+            }
+            setPasswordStrengthError(strengthErrors.join(', '));
+        }
+
+        if (name === 'confirmPassword') {
+            if (value !== formData.password) {
+                setConfirmPasswordError('Passwords do not match');
             } else {
-                setPasswordError('');
+                setConfirmPasswordError('');
             }
         }
 
@@ -55,8 +77,8 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (passwordError) {
-            console.error('Signup failed: Password is too short');
+        if (passwordStrengthError || confirmPasswordError) {
+            console.error('Signup failed: Password requirements not met');
             return;
         }
 
@@ -73,15 +95,11 @@ const Signup = () => {
             const responseData = await response.json();
 
 
-            console.log("Response Data: ", responseData.message)
 
             if (responseData.status === 'SUCCESS') {
-                // Successful signup, handle accordingly (redirect or show a success message)
                 setSignupMessage(responseData.message || 'SUCCESS')
                 setError('');
-                // router.push('/admin');
             } else {
-                // Handle signup error (show error message or redirect to an error page)
                 setSignupMessage(responseData.message || 'Failed')
                 setError(responseData.error || 'An error occurred while fetching balance');
             }
@@ -95,10 +113,16 @@ const Signup = () => {
         }
     };
 
-    const isLoginFormValid = () => {
-        return formData.email.trim() !== '' && formData.password.trim() !== '' && formData.name.trim() !== '';
+    const isFormValid = () => {
+        return (
+            formData.email.trim() !== '' &&
+            formData.password.trim() !== '' &&
+            formData.name.trim() !== '' &&
+            formData.password === formData.confirmPassword &&
+            passwordStrengthError === '' &&
+            confirmPasswordError === ''
+        );
     };
-
 
     return (
         <div className='login-page'>
@@ -177,10 +201,43 @@ const Signup = () => {
                                             />
                                         </div>
                                     </div>
-                                    {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
+                                    {passwordStrengthError && <p style={{ color: 'red' }}>{passwordStrengthError}</p>}
                                 </Form.Group>
+
+                                <Form.Group controlId="confirmPassword">
+                                    <Form.Label>
+                                        <Image
+                                            src="/icons/lock-icon.svg"
+                                            width={20}
+                                            height={20}
+                                            alt='Confirm Password'
+                                        />
+                                        Confirm Password
+                                    </Form.Label>
+                                    <div className="password-input position-relative">
+                                        <Form.Control 
+                                            type={confirmPasswordVisible ? 'text' : 'password'}
+                                            name='confirmPassword'
+                                            required
+                                            value={formData.confirmPassword}
+                                            onChange={handleChange}
+                                        />
+                                        <div className='eye-icon position-absolute'>
+                                            <Image
+                                                src={confirmPasswordVisible ? eyeSlashIcon : eyeIcon}
+                                                width={20}
+                                                height={20}
+                                                alt={confirmPasswordVisible ? 'Hide password' : 'Show password'}
+                                                onClick={toggleConfirmPasswordVisibility}
+                                                className="password-toggle"
+                                            />
+                                        </div>
+                                    </div>
+                                    {confirmPasswordError && <p style={{ color: 'red' }}>{confirmPasswordError}</p>}
+                                </Form.Group>
+                                
                                 <div className='d-flex justify-content-center align-items-center'>
-                                    <Button label="Signup" className="golden" disabled={!isLoginFormValid()}/>
+                                    <Button label="Signup" className="golden" disabled={!isFormValid()}/>
                                 </div>
                             </Form>
                             {signupMessage.status === 'SUCCESS' && ( 

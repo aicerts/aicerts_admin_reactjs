@@ -30,10 +30,8 @@ const MyContextProvider = ({ children }) => {
         body: JSON.stringify(credentials),
       });
 
-      console.log('Response: ', response.status, response.statusText);
       const responseData = await response.json();
 
-      console.log('Response Data:', responseData);
 
       if (response.ok) {
         if (responseData.status === 'success') {

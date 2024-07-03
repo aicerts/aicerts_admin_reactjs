@@ -190,7 +190,7 @@ const Dashboard = () => {
                                     <Card className=''>
                                         <Card.Header>Admin Wallet Balance</Card.Header>
                                         <Card.Body>
-                                            {balance && <h2 className='my-2 balance'>&#8377;: <strong>{balance}</strong></h2>}
+                                            {balance && <h2 className='my-2 balance'><Image height={35} width={35} src="/icons/matic.svg" /> <strong>{balance}</strong></h2>}
                                             <hr className='dashed' />
                                             <div className='latest-update'><span>Last Updated:</span> <strong>02/03/2024</strong></div>
                                         </Card.Body>
