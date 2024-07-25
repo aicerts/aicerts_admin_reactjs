@@ -2,16 +2,49 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-
+import { jwtDecode } from 'jwt-decode';
 const Navigation = () => {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-  // let isUserLoggedIn;
-  useEffect(()=>{
-    setIsUserLoggedIn(localStorage.getItem('user') !== null);
-    //  isUserLoggedIn = localStorage?.getItem('user') !== null;
-  },[])
+  // // let isUserLoggedIn;
+  // useEffect(()=>{
+  //   setIsUserLoggedIn(localStorage.getItem('user') !== null);
+  //   //  isUserLoggedIn = localStorage?.getItem('user') !== null;
+  // },[])
+  const setLogoutTimer = (token: string) => {
+    interface DecodedToken {
+      exp: number;
+    }
+    try {
+      const decodedToken = jwtDecode<DecodedToken>(token);
+      const expirationTimeUTC = (decodedToken.exp * 1000) - 60000; // Convert to milliseconds since epoch
+      const timeout = expirationTimeUTC - Date.now();
+      if (Date.now() >= expirationTimeUTC) {
+        handleLogout();
+      }
+    } catch (error) {
+      handleLogout();
+    }
+  };
+
+  
+   // @ts-ignore: Implicit any for children prop
+   useEffect(() => {
+    // Check if the token is available in localStorage
+    // @ts-ignore: Implicit any for children prop
+    const userDetails = JSON.parse(localStorage?.getItem('user'));
+
+    if (userDetails && userDetails.JWTToken) {
+      // If token is available, set it in the state
+      // fetchData(userDetails.email)
+      setLogoutTimer(userDetails.JWTToken)
+    } else {
+      // If token is not available, redirect to the login page
+      router.push('/');
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]);
 
   const handleLogout = () => {
   
@@ -19,6 +52,7 @@ const Navigation = () => {
     
     router.push('/');
   };
+
 
   const routesWithLogoutButton = ['/dashboard', '/add-trusted-owner', '/remove-trusted-owner','/check-balance'];
   return (

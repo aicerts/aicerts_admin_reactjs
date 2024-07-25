@@ -4,6 +4,9 @@ import Image from 'next/legacy/image';
 import { Table, Modal, Container, Row, Col, Card } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import IssuerDetailsDrawer from '../components/issuer-details-drawer';
+import DashboardCard from "../components/dashboardCard"
+import dashboardServices from "../services/dashboardServices"
+
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const Dashboard = () => {
@@ -15,9 +18,12 @@ const Dashboard = () => {
     const [token, setToken] = useState('');
     const [address] = useState(process.env.NEXT_PUBLIC_BASE_OWNER_ADDRESS); // Static address
     const [balance, setBalance] = useState('');
+    const [tab, setTab] = useState(1);
+    const [details, setDetails] = useState({});
     const [showDrawer, setShowDrawer] = useState(false);
     const handleShowDrawer = () => setShowDrawer(true);
     const handleCloseDrawer = () => setShowDrawer(false);
+
 
     const handleClose = () => {
         setShow(false);
@@ -31,6 +37,10 @@ const Dashboard = () => {
     const removeTrustedOwner = () => {
         window.location = "/remove-trusted-owner"
     }
+
+    const handleChange = (value) => {
+        setTab(value);
+      };
 
     useEffect(() => {
         // Fetch data from the API endpoint
@@ -60,6 +70,43 @@ const Dashboard = () => {
                 console.error('Error fetching data:', error);
             }
         };
+
+        const createDetail = (response, period, index) => ({
+            title: "Issuance",
+            titleValue: period,
+            badgeIcon: "",
+            value: response?.data?.details[period][index] || "0",
+            percentage: "+21.01%",
+            image: "/icons/badge-cert.svg",
+          });
+          
+
+        const getDetails = async () => {
+            try {
+              dashboardServices.getDetails(storedUser.email, (response) => {
+                if (response.status === 'SUCCESS') {
+                  const details = {
+                    NetComday: createDetail(response, "Day", 0),
+                    Lmsday: createDetail(response, "Day", 1),
+                    NetComWeek: createDetail(response, "Week", 0),
+                    LmsWeek: createDetail(response, "Week", 1),
+                    NetComMonth: createDetail(response, "Month", 0),
+                    LmsMonth: createDetail(response, "Month", 1),
+                    NetComTotal: createDetail(response, "Total", 0),
+                    LmsTotal: createDetail(response, "Total", 1),
+                  };
+                  setDetails(details);
+                } else {
+                  console.error("Failed to fetch details", response);
+                }
+              });
+            } catch (error) {
+              console.error("Error in getDetails:", error);
+            }
+          };
+          
+
+       
 
         const handleSubmit = async (e) => {
             // e.preventDefault();
@@ -98,6 +145,7 @@ const Dashboard = () => {
 
         fetchData();
         handleSubmit();
+        getDetails();
     }, [address, router]);
 
     const handleApproval = async (email, status) => {
@@ -187,6 +235,30 @@ const Dashboard = () => {
                                     </div>
                                 </Col>
                                 <Col xs md="4">
+                        
+                                
+                                <Card style={{borderRadius:"0"}} className='p-3 mb-2'>
+                                <div className='admin-button-container mb-2'>
+          <span onClick={() => handleChange(1)} className={`btn ${tab === 1 ? 'btn-golden' : ''}`}>NetCom</span>
+          <span className="vertical-line"></span>
+          <span onClick={() => handleChange(2)} className={`btn ${tab === 2 ? 'btn-golden' : ''}`}>LMS</span>
+        </div>
+                                <Col xs md="12">
+                                <DashboardCard item={tab === 1? details.NetComTotal : details.LmsTotal}/>
+                                
+                                </Col>
+                                <Row className='mt-2'>
+                                <Col xs md="6">
+                                <DashboardCard item={tab === 1?details.NetComMonth: details.LmsMonth}/>
+                                
+                                </Col>
+                                <Col xs md="6">
+                                <DashboardCard item={tab === 1?details.NetComWeek: details.LmsWeek}/>
+                                
+                                </Col>
+                                </Row>
+                                
+                                    </Card>
                                     <Card className=''>
                                         <Card.Header>Admin Wallet Balance</Card.Header>
                                         <Card.Body>

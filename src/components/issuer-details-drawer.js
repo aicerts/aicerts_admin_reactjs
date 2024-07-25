@@ -3,6 +3,8 @@ import Button from '../../shared/button/button';
 import Image from 'next/legacy/image';
 import Link from 'next/link'
 import { Row, Col, Form, Modal } from 'react-bootstrap';
+import dashboardServices from "../services/dashboardServices"
+
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) => {
@@ -14,6 +16,9 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
     const [token, setToken] = useState('');
     const [message, setMessage] = useState('');
     const [issuers, setIssuers] = useState([]);
+    const [actionType, setActionType] = useState('');
+    const [lockType, setLockType] = useState('');
+    const [value, setValue] = useState('');
 
     const handleChange = (e) => {
         setIssuerEmail(e.target.value);
@@ -30,6 +35,64 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
     const handleClose = () => {
         setShow(false);
         setIssuerDetails('')
+    };
+
+    const handleLock = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+    
+        const requestData = {
+            email: issuerEmail,
+            status: false,
+            service: Number(lockType),
+            credits: 0
+          }
+    
+        try {
+          // Call the updateLimit function and handle the response
+          dashboardServices.updateLimit(requestData, (response) => {
+            if (response.status === 'SUCCESS') {
+              setError('');
+              setMessage("Updated Successfully")
+              setShow(true)
+            } else {
+              setError(response.message || 'An error occurred');
+            }
+          });
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setIsLoading(false);
+        }
+    };
+
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+    
+        const requestData = {
+            email: issuerEmail,
+            status: true,
+            service: Number(actionType),
+            credits: Number(value)
+          }
+    
+        try {
+          // Call the updateLimit function and handle the response
+          dashboardServices.updateLimit(requestData, (response) => {
+            if (response.status === 'SUCCESS') {
+              setError('');
+              setMessage("Updated Successfully")
+              setShow(true)
+            } else {
+              setError(response.message || 'An error occurred');
+            }
+          });
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setIsLoading(false);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -52,6 +115,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
             if (data.status === 'SUCCESS') {
                 setIssuerDetails(data.data);
                 setError('');
+               
             } else {
                 setError(data.message);
             }
@@ -91,7 +155,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
         } catch (error) {
             console.error('Error approving issuer:', error);
         }
-        handleCancel();
+        handleClose();
     };  
     
 
@@ -230,6 +294,79 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                                     </Col>
                                 )}
                             </Row>
+
+                        </div>
+                        <div className='org-details'>
+                            <h2 className='title'>Manage Credits</h2>
+                            <Form onSubmit={handleUpdate}>
+                                <Row className="justify-content-md-center align-items-md-center">
+                                    <Col md={5} xs={12}>
+                                        <Form.Group controlId="actionType" className="mb-3">
+                                            <Form.Label>Select a Option <span className='text-danger'>*</span></Form.Label>
+                                            <Form.Control
+                                                as="select"
+                                                name="actionType"
+                                                value={actionType}
+                                                onChange={(e) => setActionType(e.target.value)}
+                                                required
+                                                className="custom-input"
+                                            >
+                                                <option value="">Select Action</option>
+                                                <option value={1}>Issuance</option>
+                                                <option value={2}>Reissuance</option>
+                                                <option value={3}>Revocation</option>
+                                                <option value={4}>Reactivation</option>
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md={5} xs={12}>
+                                        <Form.Group controlId="value" className="mb-3">
+                                            <Form.Label>Enter a Value <span className='text-danger'>*</span></Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="value"
+                                                value={value}
+                                                onChange={(e) => setValue(e.target.value)}
+                                                required
+                                                className="custom-input"
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                    <Col style={{height:"50px"}} md={2} xs={12} className="d-flex justify-content-center align-items-end">
+                                        <Button  type="submit" label="Update" className="golden custom-button" />
+                                    </Col>
+                                </Row>
+                            </Form>
+                        </div>
+                        <div className='org-details'>
+                            <h2 className='title'>Limit Credits</h2>
+                            <Form onSubmit={handleLock}>
+                                <Row className=" align-items-md-center">
+                                    <Col md={5} xs={12}>
+                                        <Form.Group controlId="lockType" className="mb-3">
+                                            <Form.Label>Select a Option <span className='text-danger'>*</span></Form.Label>
+                                            <Form.Control
+                                                as="select"
+                                                name="lockType"
+                                                value={lockType}
+                                                onChange={(e) => setLockType(e.target.value)}
+                                                required
+                                                className="custom-input"
+                                            >
+                                                <option value="">Select Action</option>
+                                                <option value={1}>Issuance</option>
+                                                <option value={2}>Reissuance</option>
+                                                <option value={3}>Revocation</option>
+                                                <option value={4}>Reactivation</option>
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                    
+                                    <Col style={{height:"50px"}} md={2} xs={12} className="d-flex justify-content-center align-items-end">
+                                        <Button  type="submit" label="Lock" className="golden custom-button" />
+                                    </Col>
+                                </Row>
+                            </Form>
                         </div>
                         <div className='action'>
                             <Button 
@@ -244,6 +381,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                 )}
                
             </div>
+           
 
             {/* Loading Modal */}
             <Modal className='loader-modal' show={isLoading} centered>
@@ -267,7 +405,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                     Are you sure you want to reject <strong>{issuerDetails?.email}</strong>?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button label="Cancel" className='golden w-auto pe-4 ps-4 py-3' onClick={handleCancel} />
+                    <Button label="Cancel" className='golden w-auto pe-4 ps-4 py-3' onClick={handleClose} />
                     {issuerDetails && (
                         <Button 
                             label={
@@ -280,6 +418,20 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                         />
                     )}
                 </Modal.Footer>
+            </Modal>
+            <Modal onHide={()=>{setShow(false)}} className='loader-modal text-center' show={show} centered>
+                <Modal.Body className='p-5'>
+                    <div className='error-icon'>
+                        <Image
+                            src="/icons/check-mark.svg"
+                            layout='fill'
+                            objectFit='contain'
+                            alt='Loader'
+                        />
+                    </div>
+                    <h3 style={{ color: '#198754' }}>{message}</h3>
+                    <button className='success' onClick={()=>{setShow(false)}}>Ok</button>
+                </Modal.Body>
             </Modal>
         </>
     );
