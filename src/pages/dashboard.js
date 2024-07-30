@@ -84,10 +84,9 @@ const Dashboard = () => {
         const getDetails = async () => {
             try {
               dashboardServices.getDetails(storedUser.email, (response) => {
+
                 if (response.status === 'SUCCESS') {
                   const details = {
-                    NetComday: createDetail(response, "Day", 0),
-                    Lmsday: createDetail(response, "Day", 1),
                     NetComWeek: createDetail(response, "Week", 0),
                     LmsWeek: createDetail(response, "Week", 1),
                     NetComMonth: createDetail(response, "Month", 0),
@@ -95,6 +94,7 @@ const Dashboard = () => {
                     NetComTotal: createDetail(response, "Total", 0),
                     LmsTotal: createDetail(response, "Total", 1),
                   };
+
                   setDetails(details);
                 } else {
                   console.error("Failed to fetch details", response);

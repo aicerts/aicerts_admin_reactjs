@@ -10,7 +10,7 @@ import Head from 'next/head';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter();
-  const isLoginPage = router.pathname === '/' ;
+  const isLoginPage = router.pathname === '/' || router.pathname === '/signup' ;
   return (
     <MyContextProvider>
       <Head>

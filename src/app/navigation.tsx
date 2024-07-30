@@ -41,7 +41,7 @@ const Navigation = () => {
       setLogoutTimer(userDetails.JWTToken)
     } else {
       // If token is not available, redirect to the login page
-      router.push('/');
+      // router.push('/');
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
