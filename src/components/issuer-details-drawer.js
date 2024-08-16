@@ -4,6 +4,7 @@ import Image from 'next/legacy/image';
 import Link from 'next/link'
 import { Row, Col, Form, Modal } from 'react-bootstrap';
 import dashboardServices from "../services/dashboardServices"
+import SearchAdmin from './searchAdmin';
 
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -175,7 +176,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                 </div>
                 <hr />
                 {/* Drawer content */}
-                <Form onSubmit={handleSubmit}>
+                {/* <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="search">
                         <div className="search d-flex">
                             <Form.Control 
@@ -203,7 +204,8 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                             </div>
                         </div>
                     </Form.Group>
-                </Form>
+                </Form> */}
+                <SearchAdmin issuerDetails={issuerDetails} setIssuerDetails={setIssuerDetails} />
                 {error && <h6 className='mt-2' style={{ color: 'red' }}>{error}</h6>}
                 {issuerDetails && (
                     <>

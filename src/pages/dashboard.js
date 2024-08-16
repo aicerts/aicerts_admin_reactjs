@@ -42,6 +42,17 @@ const Dashboard = () => {
         setTab(value);
       };
 
+      const createDetail = (response, period, index) => ({
+        title: "Issuance",
+        titleValue: period,
+        badgeIcon: "",
+        value: response?.data?.details[period][index] || "0",
+        percentage: "+21.01%",
+        image: "/icons/badge-cert.svg",
+      });
+      
+
+    
     useEffect(() => {
         // Fetch data from the API endpoint
         const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -62,6 +73,7 @@ const Dashboard = () => {
                     });
                     const data = await response.json();
                     setIssuers(data.data);
+
                 } else {
                     // User is not available, redirect to login
                     router.push('/');
@@ -71,40 +83,7 @@ const Dashboard = () => {
             }
         };
 
-        const createDetail = (response, period, index) => ({
-            title: "Issuance",
-            titleValue: period,
-            badgeIcon: "",
-            value: response?.data?.details[period][index] || "0",
-            percentage: "+21.01%",
-            image: "/icons/badge-cert.svg",
-          });
-          
-
-        const getDetails = async () => {
-            try {
-              dashboardServices.getDetails(storedUser.email, (response) => {
-
-                if (response.status === 'SUCCESS') {
-                  const details = {
-                    NetComWeek: createDetail(response, "Week", 0),
-                    LmsWeek: createDetail(response, "Week", 1),
-                    NetComMonth: createDetail(response, "Month", 0),
-                    LmsMonth: createDetail(response, "Month", 1),
-                    NetComTotal: createDetail(response, "Total", 0),
-                    LmsTotal: createDetail(response, "Total", 1),
-                  };
-
-                  setDetails(details);
-                } else {
-                  console.error("Failed to fetch details", response);
-                }
-              });
-            } catch (error) {
-              console.error("Error in getDetails:", error);
-            }
-          };
-          
+        
 
        
 
@@ -145,7 +124,6 @@ const Dashboard = () => {
 
         fetchData();
         handleSubmit();
-        getDetails();
     }, [address, router]);
 
     const handleApproval = async (email, status) => {
@@ -181,6 +159,37 @@ const Dashboard = () => {
     const handleReject = async (email) => {
         await handleApproval(email, 2);
     };
+
+    const getDetails = async () => {
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+
+        try {
+          dashboardServices.getDetails(storedUser.email, (response) => {
+            if (response.status === 'SUCCESS') {
+              const details = {
+                NetComWeek: createDetail(response, "Week", 0),
+                LmsWeek: createDetail(response, "Week", 1),
+                NetComMonth: createDetail(response, "Month", 0),
+                LmsMonth: createDetail(response, "Month", 1),
+                NetComTotal: createDetail(response, "Annual", 0),
+                LmsTotal: createDetail(response, "Annual", 1),
+              };
+              setDetails(details);
+              console.log(details)
+              
+            } else {
+              console.error("Failed to fetch details", response);
+            }
+          });
+        } catch (error) {
+          console.error("Error in getDetails:", error);
+        }
+      };
+      useEffect(()=>{
+       
+          
+          getDetails();
+      },[])
 
     const unapprovedIssuers = issuers?.filter(issuer => !issuer.approved);
 
