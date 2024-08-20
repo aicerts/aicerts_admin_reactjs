@@ -50,9 +50,25 @@ const getDetails = (data: any,callback: (response: Response) => void) => {
     });
 };
 
+const getStatus = (data: any,callback: (response: Response) => void) => {
+  API({
+    method: "POST",
+    url: `${BASE_URL}/api/get-credits-by-email`,
+    data:{
+      email:data
+    }
+  })
+    .then((response) => {
+      callback({ status: "SUCCESS", data: response.data });
+    })
+    .catch((error) => {
+      callback({ status: "ERROR", error: error });
+    });
+};
 const dashboard = {
     updateLimit,
-    getDetails
+    getDetails,
+    getStatus
   }
   // Export the register function as the default export for this module
   export default dashboard;

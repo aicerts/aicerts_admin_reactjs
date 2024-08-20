@@ -4,7 +4,7 @@ import Image from 'next/image';
 import axios from 'axios';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-const SearchAdmin = ({issuerDetails, setIssuerDetails}) => {
+const SearchAdmin = ({issuerDetails, setIssuerDetails, handleStatus}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchBy, setSearchBy] = useState('email'); // Default search parameter
     const [suggestions, setSuggestions] = useState([]);
@@ -68,6 +68,7 @@ const SearchAdmin = ({issuerDetails, setIssuerDetails}) => {
     const handleSuggestionClick = (suggestion) => {
         // setSearchTerm(suggestion);
         setIssuerDetails(suggestion)
+        handleStatus(suggestion?.email)
         setShowSuggestions(false);
     };
 

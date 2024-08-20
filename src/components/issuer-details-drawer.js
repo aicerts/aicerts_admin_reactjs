@@ -9,7 +9,6 @@ import SearchAdmin from './searchAdmin';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) => {
-    const [issuerEmail, setIssuerEmail] = useState('');
     const [issuerDetails, setIssuerDetails] = useState(null);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -20,10 +19,24 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
     const [actionType, setActionType] = useState('');
     const [lockType, setLockType] = useState('');
     const [value, setValue] = useState('');
+    const [statusDetails, setStatusDetails] = useState([]);
+    const [isLocked, setIsLocked] = useState(true);  
+    const [serviceId, setServiceId] = useState(null);  
 
-    const handleChange = (e) => {
-        setIssuerEmail(e.target.value);
+   
+    const handleSelectChange = (e) => {
+        const selectedService = e.target.value;
+        setLockType(selectedService);
+       
+    
+
+
+        const service = statusDetails.find(s => s.serviceId === selectedService);
+        if (service) {
+            setIsLocked(service.status); 
+        }
     };
+
 
     const showModal = () => {
         setShow(true)
@@ -41,11 +54,31 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
     const handleLock = async (e) => {
         e.preventDefault();
         setIsLoading(true);
+
+        let serviceId;
+        switch (lockType) {
+            case "issue":
+                serviceId = 1;
+                break;
+            case "renew":
+                serviceId = 2;
+                break;
+            case "revoke":
+                serviceId = 3;
+                break;
+            case "reactivate":
+                serviceId = 4;
+                break;
+            default:
+                serviceId = null; // In case no valid option is selected
+        }
+    
+        
     
         const requestData = {
-            email: issuerEmail,
-            status: false,
-            service: Number(lockType),
+            email: issuerDetails.email,
+            status: isLocked ?  false: true,
+            service: serviceId,
             credits: 0
           }
     
@@ -56,6 +89,8 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
               setError('');
               setMessage("Updated Successfully")
               setShow(true)
+              handleStatus(issuerDetails?.email)
+              setIsLocked(!isLocked)
             } else {
               setError(response.message || 'An error occurred');
             }
@@ -67,12 +102,39 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
         }
     };
 
+    const handleStatus = async (email) => {
+        setIsLoading(true);
+    
+       
+        try {
+          // Call the updateLimit function and handle the response
+          dashboardServices.getStatus(email, (response) => {
+
+            if (response.status === 'SUCCESS') {
+              setError('');
+              setMessage("Updated Successfully")
+              setShow(true)
+
+              setStatusDetails(response.data.details)
+            } else {
+              setError(response.message || 'An error occurred');
+            }
+          });
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setIsLoading(false);
+        }
+    };
+
+   
+
     const handleUpdate = async (e) => {
         e.preventDefault();
         setIsLoading(true);
     
         const requestData = {
-            email: issuerEmail,
+            email: issuerDetails.email,
             status: true,
             service: Number(actionType),
             credits: Number(value)
@@ -105,7 +167,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                 headers: {
                 'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({email:issuerEmail}),
+                body: JSON.stringify({email:issuerDetails?.email}),
             });
         
             if (!response.ok) {
@@ -205,7 +267,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                         </div>
                     </Form.Group>
                 </Form> */}
-                <SearchAdmin issuerDetails={issuerDetails} setIssuerDetails={setIssuerDetails} />
+                <SearchAdmin issuerDetails={issuerDetails} setIssuerDetails={setIssuerDetails} handleStatus={handleStatus} />
                 {error && <h6 className='mt-2' style={{ color: 'red' }}>{error}</h6>}
                 {issuerDetails && (
                     <>
@@ -341,35 +403,43 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                             </Form>
                         </div>
                         <div className='org-details'>
-                            <h2 className='title'>Limit Credits</h2>
-                            <Form onSubmit={handleLock}>
-                                <Row className=" align-items-md-center">
-                                    <Col md={5} xs={12}>
-                                        <Form.Group controlId="lockType" className="mb-3">
-                                            <Form.Label>Select a Option <span className='text-danger'>*</span></Form.Label>
-                                            <Form.Control
-                                                as="select"
-                                                name="lockType"
-                                                value={lockType}
-                                                onChange={(e) => setLockType(e.target.value)}
-                                                required
-                                                className="custom-input"
-                                            >
-                                                <option value="">Select Action</option>
-                                                <option value={1}>Issuance</option>
-                                                <option value={2}>Reissuance</option>
-                                                <option value={3}>Revocation</option>
-                                                <option value={4}>Reactivation</option>
-                                            </Form.Control>
-                                        </Form.Group>
-                                    </Col>
-                                    
-                                    <Col style={{height:"50px"}} md={2} xs={12} className="d-flex justify-content-center align-items-end">
-                                        <Button  type="submit" label="Lock" className="golden custom-button" />
-                                    </Col>
-                                </Row>
-                            </Form>
-                        </div>
+            <h2 className='title'>Limit Credits</h2>
+            <Form onSubmit={handleLock}>
+                <Row className="align-items-md-center">
+                    <Col md={5} xs={12}>
+                        <Form.Group controlId="lockType" className="mb-3">
+                            <Form.Label>Select an Option <span className='text-danger'>*</span></Form.Label>
+                            <Form.Control
+                                as="select"
+                                name="lockType"
+                                value={lockType}
+                                onChange={handleSelectChange}
+                                required
+                                className="custom-input"
+                            >
+                                <option value="">Select Action</option>
+                                {statusDetails && statusDetails.map(service => (
+                                    <option 
+                                        key={service.serviceId} 
+                                        value={service.serviceId} 
+                                        style={service.status ? {} : { color: 'red' }}
+                                    >
+                                        {service.status ? 
+                                            service.serviceId.charAt(0).toUpperCase() + service.serviceId.slice(1) : 
+                                            `${service.serviceId.charAt(0).toUpperCase() + service.serviceId.slice(1)} (Locked)`}
+                                    </option>
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+
+                    <Col style={{ height: "50px" }} md={2} xs={12} className="d-flex justify-content-center align-items-end">
+                        <Button  type="submit" className="golden custom-button" label={isLocked ? "Lock" : "Unlock"} />
+                            
+                    </Col>
+                </Row>
+            </Form>
+        </div>
                         <div className='action'>
                             <Button 
                                 label='Reject' 
@@ -378,7 +448,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                                 onClick={showModal}
                             />
                         </div>
-                        <p className='text-center text-success font-monospace mt-3 fs-5'>{message}</p>
+                        {/* <p className='text-center text-success font-monospace mt-3 fs-5'>{message}</p> */}
                     </>
                 )}
                
