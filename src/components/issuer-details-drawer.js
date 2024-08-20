@@ -87,8 +87,6 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
           dashboardServices.updateLimit(requestData, (response) => {
             if (response.status === 'SUCCESS') {
               setError('');
-              setMessage("Updated Successfully")
-              setShow(true)
               handleStatus(issuerDetails?.email)
               setIsLocked(!isLocked)
             } else {

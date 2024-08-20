@@ -376,7 +376,9 @@ margin: 0 2px;
             font-style: normal;
             font-weight: 600;
             line-height: normal;
+            word-wrap: break-word; /* Or use overflow-wrap: break-word; */
         }
+        
 
         // 1600
         @media (min-width: $large-min) and (max-width: $large-max) {
