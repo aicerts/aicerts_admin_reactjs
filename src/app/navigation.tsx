@@ -3,10 +3,11 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { jwtDecode } from 'jwt-decode';
+import { Nav } from 'react-bootstrap';
 const Navigation = () => {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-
+  const [selectedTab, setSelectedTab] = useState(0)
   // // let isUserLoggedIn;
   // useEffect(()=>{
   //   setIsUserLoggedIn(localStorage.getItem('user') !== null);
@@ -28,6 +29,10 @@ const Navigation = () => {
     }
   };
 
+   // @ts-ignore: Implicit any for children prop
+   const handleClickTab = ((value) => {
+    setSelectedTab(value)
+  })
   
    // @ts-ignore: Implicit any for children prop
    useEffect(() => {
@@ -69,7 +74,22 @@ const Navigation = () => {
                   alt='AI Certs logo'
                 />
               </Link>
-            </div>        
+            </div>  
+            <Nav className="me-auto ">
+                <Nav.Link 
+                  onClick={() => { handleClickTab(0) }} className={`nav-item ${selectedTab === 0 ? "tab-golden" : ""}`} 
+                  href="/dashboard"
+                >Dashboard</Nav.Link>
+                <Nav.Link onClick={() => { handleClickTab(1) }} className={`nav-item ${selectedTab === 1 ? "tab-golden" : ""}`} href="/gallery">
+                    Gallery
+                </Nav.Link>
+                <Nav.Link onClick={() => { handleClickTab(2) }} className={`nav-item ${selectedTab === 2 ? "tab-golden" : ""}`} href="/certificates">
+                  Issuance
+                </Nav.Link>
+                <Nav.Link onClick={() => { handleClickTab(4) }} className={`nav-item ${selectedTab === 4 ? "tab-golden" : ""}`} href="/admin">
+                  Administration
+                </Nav.Link>
+              </Nav>      
                 {routesWithLogoutButton.includes(router.pathname) && (
                   <div className='nav-logo logout'>
                     <button className="btn btn-link" onClick={handleLogout}>
