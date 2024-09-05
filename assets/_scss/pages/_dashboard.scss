@@ -211,19 +211,25 @@ margin: 0 2px;
     }
   }
   
-  .drawer-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 920px; // Adjust width as needed
-    background-color: white;
-    z-index: 1050; // Ensure it's above modal backdrop
-    overflow-x: hidden;
-    transition: transform 0.3s ease-in-out;
-    transform: translateX(100%); // Initially off-screen
-    box-shadow: -4px 0px 50px 0px rgba(229, 231, 232, 0.80);
-    padding: 32px 30px;
+  .drawer-wrapper {
+    /* Ensure the wrapper takes up the full height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: adds a semi-transparent background */
+    z-index: 9999; /* Ensures the modal is above other content */
+  
+    .modal-content {
+      width: 70vw !important;
+      padding: 30px 40px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+  
+ 
   
     // Slide in when showDrawer is true
     &.drawer-open {

@@ -80,14 +80,11 @@ const Navigation = () => {
                   onClick={() => { handleClickTab(0) }} className={`nav-item ${selectedTab === 0 ? "tab-golden" : ""}`} 
                   href="/dashboard"
                 >Dashboard</Nav.Link>
-                <Nav.Link onClick={() => { handleClickTab(1) }} className={`nav-item ${selectedTab === 1 ? "tab-golden" : ""}`} href="/gallery">
-                    Gallery
+                <Nav.Link onClick={() => { handleClickTab(1) }} className={`nav-item ${selectedTab === 1 ? "tab-golden" : ""}`} href="/live-server">
+                   Live Servers
                 </Nav.Link>
-                <Nav.Link onClick={() => { handleClickTab(2) }} className={`nav-item ${selectedTab === 2 ? "tab-golden" : ""}`} href="/certificates">
-                  Issuance
-                </Nav.Link>
-                <Nav.Link onClick={() => { handleClickTab(4) }} className={`nav-item ${selectedTab === 4 ? "tab-golden" : ""}`} href="/admin">
-                  Administration
+                <Nav.Link onClick={() => { handleClickTab(2) }} className={`nav-item ${selectedTab === 2 ? "tab-golden" : ""}`} href="/blockchain">
+                  Blockchain
                 </Nav.Link>
               </Nav>      
                 {routesWithLogoutButton.includes(router.pathname) && (
