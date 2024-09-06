@@ -87,10 +87,12 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
           dashboardServices.updateLimit(requestData, (response) => {
             if (response.status === 'SUCCESS') {
               setError('');
+              setMessage('Successfully Updated')
+              setShow(true);
               handleStatus(issuerDetails?.email)
               setIsLocked(!isLocked)
             } else {
-              setError(response.message || 'An error occurred');
+              setError(response.message || 'Please try after some time');
             }
           });
         } catch (error) {
@@ -110,8 +112,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
 
             if (response.status === 'SUCCESS') {
               setError('');
-              setMessage("Updated Successfully")
-              setShow(true)
+              
 
               setStatusDetails(response.data.details)
             } else {
@@ -266,7 +267,6 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                     </Form.Group>
                 </Form> */}
                 <SearchAdmin issuerDetails={issuerDetails} setIssuerDetails={setIssuerDetails} handleStatus={handleStatus} />
-                {error && <h6 className='mt-2' style={{ color: 'red' }}>{error}</h6>}
                 {issuerDetails && (
                     <>
                         <div className='profile-info d-flex'>
