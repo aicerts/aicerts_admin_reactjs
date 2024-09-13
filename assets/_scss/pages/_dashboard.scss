@@ -23,6 +23,67 @@
         }
 
 
+        .card-body-dashboard {
+            .trusted-owner-wrapper {
+                column-gap: 20px;
+
+                .trusted-owner {
+                    width: 195px;
+                    height: 137px;
+                    line-height: 120px;
+                    text-align: center;
+                    cursor: pointer;
+                    position: relative;
+                    
+                    .hero-name {
+                        color: #FFF;
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 700;
+                        line-height: normal;
+                        position: absolute;
+                        bottom: 16px;
+                        left: 0;
+                        right: 0;
+                    }
+
+                    &.add {
+                        background: linear-gradient(244deg, #FFD75C 0%, #CFA935 100%);
+                    }
+
+                    &.remove {
+                        background: linear-gradient(64deg, #D11A2A 0%, #F64050 100%);
+                    }
+                }
+                
+            }
+
+            .balance {
+                color: #000;
+                font-size: 50px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                
+            }
+
+            hr.dashed {
+                border-top: none;
+                border-bottom: dashed 2px #757e8e;
+            }
+
+            .latest-update {
+                span {
+                    color: #4D5060;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                }
+            }
+            
+        }
+
         .card-body {
             .trusted-owner-wrapper {
                 column-gap: 20px;
@@ -30,7 +91,7 @@
                 .trusted-owner {
                     width: 195px;
                     height: 137px;
-                    line-height: 180px;
+                    line-height: 120px;
                     text-align: center;
                     cursor: pointer;
                     position: relative;
@@ -147,9 +208,14 @@
     }
 }
 
+.live-wrapper{
+    padding: 150px 200px;
+    }
+    
+
 .admin-button-container{
     background-color: white;
-    width: 100%;
+    width: 430px;
 height: 50px;
 display: flex;
 // border-radius: 10px;
@@ -211,19 +277,20 @@ margin: 0 2px;
     }
   }
   
-  .drawer-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 920px; // Adjust width as needed
-    background-color: white;
-    z-index: 1050; // Ensure it's above modal backdrop
-    overflow-x: hidden;
-    transition: transform 0.3s ease-in-out;
-    transform: translateX(100%); // Initially off-screen
-    box-shadow: -4px 0px 50px 0px rgba(229, 231, 232, 0.80);
-    padding: 32px 30px;
+  .drawer-wrapper {
+    /* Ensure the wrapper takes up the full height */
+   width: "100vw";
+    .modal-content {
+      width: 50vw !important;
+      padding: 30px 40px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+  
+ 
   
     // Slide in when showDrawer is true
     &.drawer-open {
@@ -462,6 +529,8 @@ margin: 0 2px;
    border: 1px solid #BFC0C2;
 }
 
+
+
 .item-title {
     color: var(--Neutral-Colors-400, #9291A5);
     // font-family: "Inter";
@@ -480,6 +549,18 @@ margin: 0 2px;
 }
 
 .badge-container {
+  
+    /* Adjusted position from right */
+    width: 44px;
+    height: 100%;
+    border-radius: 6px;
+    background: #EFF0F3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.badge-container-admin {
     position: absolute;
     /* Changed to absolute positioning */
     top: 10px;
@@ -494,6 +575,7 @@ margin: 0 2px;
     justify-content: center;
     align-items: center;
 }
+
 
 .badge-cert {
     width: 24px;
@@ -555,4 +637,88 @@ margin: 0 2px;
         stroke-width: 3px;
         stroke: var(--System-Colors-Blue-400, #2D5BFF);
       }
+      
+}
+
+.outer-container {
+    height: 300px;
+    margin-top: 20px;
+    // border-radius: 6px;
+    border: 1px solid #D5DDEA;
+    background-color: white;
+    position: relative;
+
+    .filter-options {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 15px;
+
+        label {
+            margin: 0 10px 0 0;
+            font-family: "Montserrat";
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 17.07px;
+
+
+            input {
+                margin-right: 5px;
+                accent-color: red;
+                border: 1px solid red
+            }
+        }
+    }
+
+    /* Base styles for all radio buttons */
+    .filter-options input[type="radio"] {
+        appearance: none;
+        /* Remove default radio button styling */
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        vertical-align: middle;
+        cursor: pointer;
+        outline: none;
+    }
+
+    /* Styles for radio button borders when checked */
+    .filter-options input[type="radio"]:checked {
+        border-width: 4px;
+    }
+
+    /* Specific colors for each radio button */
+    .filter-options input[value="Issued"]:checked {
+        border-color: #CFA935;
+    }
+
+    .filter-options input[value="Reactivated"]:checked {
+        border-color: #A28F65;
+    }
+
+    .filter-options input[value="Reissued"]:checked {
+        border-color: #228B22;
+    }
+
+    .filter-options input[value="Revoked"]:checked {
+        border-color: #ff7858;
+    }
+
+    .filter-options input[value="Single Issued"]:checked {
+        border-color: #CFA935;
+    }
+
+    .filter-options input[value="Batch Issued"]:checked {
+        border-color: #ffcf40;
+    }
+
+    /* Styles for label to align with the custom radio buttons */
+    .filter-options label {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
 }

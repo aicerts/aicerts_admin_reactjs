@@ -1,0 +1,51 @@
+.admin-header-wrapper{
+border-radius: 20px;
+border: 1px solid #CFA935;
+padding:55px;
+margin: 30px;
+
+.admin-header-card{
+    width: 25vw;
+    border: 1px solid #CFA935;
+    padding: 10px;
+    height: 109px;
+
+    .text-header-card{
+    color: #5B5A5F;
+font-family: Montserrat;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+.text-header-card-bold{
+    color: #000;
+font-family: Montserrat;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+}
+    .card-title{
+        min-height: 55px;
+        background: #F3F3F3;
+        color: #1C1F30;
+        font-family: Montserrat;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+
+    }
+}
+}
+
+.active-wrapper{
+    padding: 7px 15px;
+    background-color: rgba(255, 136, 91, 0.1);
+    color: #FF885B;
+}
+.inactive-wrapper{
+    padding: 7px 15px;
+    background-color: rgba(219, 55, 31, 0.1);
+    color: rgba(219, 55, 31, 1);
+
+}

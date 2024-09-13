@@ -3,10 +3,11 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { jwtDecode } from 'jwt-decode';
+import { Nav } from 'react-bootstrap';
 const Navigation = () => {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-
+  const [selectedTab, setSelectedTab] = useState(0)
   // // let isUserLoggedIn;
   // useEffect(()=>{
   //   setIsUserLoggedIn(localStorage.getItem('user') !== null);
@@ -28,6 +29,27 @@ const Navigation = () => {
     }
   };
 
+  useEffect(() => {
+    const currentPath = router.pathname;
+    switch (currentPath) {
+      case '/dashboard':
+        setSelectedTab(0);
+        break;
+      case "/live-server":
+        setSelectedTab(1);
+        break;
+      case '/blockchain':
+        setSelectedTab(2);
+        break;
+      default:
+        setSelectedTab(0); // Default to the first tab
+    }
+  }, [router.pathname]);
+
+   // @ts-ignore: Implicit any for children prop
+   const handleClickTab = ((value) => {
+    setSelectedTab(value)
+  })
   
    // @ts-ignore: Implicit any for children prop
    useEffect(() => {
@@ -54,7 +76,7 @@ const Navigation = () => {
   };
 
 
-  const routesWithLogoutButton = ['/dashboard', '/add-trusted-owner', '/remove-trusted-owner','/check-balance'];
+  const routesWithLogoutButton = ['/dashboard', '/add-trusted-owner', '/remove-trusted-owner','/check-balance','/live-server', '/blockchain'];
   return (
     <>
       <nav className="global-header navbar navbar-expand-lg navbar-light bg-light">
@@ -69,7 +91,19 @@ const Navigation = () => {
                   alt='AI Certs logo'
                 />
               </Link>
-            </div>        
+            </div>  
+            <Nav className=" ">
+                <Nav.Link 
+                  onClick={() => { handleClickTab(0) }} className={`nav-item ${selectedTab === 0 ? "tab-golden" : ""}`} 
+                  href="/dashboard"
+                >Dashboard</Nav.Link>
+                <Nav.Link onClick={() => { handleClickTab(1) }} className={`nav-item ${selectedTab === 1 ? "tab-golden" : ""}`} href="/live-server">
+                   Live Servers
+                </Nav.Link>
+                <Nav.Link onClick={() => { handleClickTab(2) }} className={`nav-item ${selectedTab === 2 ? "tab-golden" : ""}`} href="/blockchain">
+                  Blockchain
+                </Nav.Link>
+              </Nav>      
                 {routesWithLogoutButton.includes(router.pathname) && (
                   <div className='nav-logo logout'>
                     <button className="btn btn-link" onClick={handleLogout}>

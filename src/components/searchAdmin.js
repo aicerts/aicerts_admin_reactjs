@@ -67,9 +67,9 @@ const SearchAdmin = ({issuerDetails, setIssuerDetails, handleStatus}) => {
 
     const handleSuggestionClick = (suggestion) => {
         // setSearchTerm(suggestion);
-        setIssuerDetails(suggestion)
-        handleStatus(suggestion?.email)
-        setShowSuggestions(false);
+        // setIssuerDetails(suggestion)
+        // handleStatus(suggestion?.email)
+        // setShowSuggestions(false);
     };
 
     const handleSubmit = async (e) => {
@@ -94,23 +94,24 @@ const SearchAdmin = ({issuerDetails, setIssuerDetails, handleStatus}) => {
     return (
         <Form onSubmit={handleSubmit}>
             <Form.Group controlId="search">
-                <div className="search d-flex align-items-start">
+                <div  className="search d-flex align-items-start">
                     {/* Search Criteria Dropdown */}
-                    <Dropdown onSelect={handleSearchBySelect} className="me-2">
-                        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                    <Dropdown style={{backgroundColor:"#F6F6F6"}} onSelect={handleSearchBySelect} className="me-2  golden-dropdown">
+                        <Dropdown.Toggle style={{backgroundColor:"#F6F6F6", borderColor:"#F6F6F6", color:"#5B5A5F"}} variant="secondary" id="dropdown-basic">
                             Search by: {searchBy.charAt(0).toUpperCase() + searchBy.slice(1)}
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
                             <Dropdown.Item eventKey="name">Name</Dropdown.Item>
                             <Dropdown.Item eventKey="email">Email</Dropdown.Item>
-                            <Dropdown.Item eventKey="organizationName">Organization Name</Dropdown.Item>
+                            <Dropdown.Item eventKey="organization">Organization Name</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
 
                     {/* Search Input and Suggestions */}
-                    <div style={{ position: 'relative', flex: 1 }}>
+                    <div style={{ position: 'relative', width:"300px" }}>
                         <Form.Control
+                        style={{borderRadius:0}}
                             type="text"
                             placeholder={`Search by ${searchBy}`}
                             value={searchTerm}
@@ -118,7 +119,9 @@ const SearchAdmin = ({issuerDetails, setIssuerDetails, handleStatus}) => {
                             autoComplete="off"
                         />
                         {showSuggestions && suggestions.length > 0 && (
-                            <ul className="suggestions-list" style={suggestionsListStyle}>
+                            <ul 
+                        
+                        className="suggestions-list" style={suggestionsListStyle}>
                                 {suggestions?.map((suggestion, index) => (
                                     <li
                                         key={index}
@@ -132,11 +135,13 @@ const SearchAdmin = ({issuerDetails, setIssuerDetails, handleStatus}) => {
                             </ul>
                         )}
                     </div>
-
+                    <div className=' search-icon-container' >
+                        <Image width={10} height={10} src="/icons/search.svg" alt='search' />
+                    </div>
                     {/* Search Button */}
-                    {/* <div className="submit ms-2">
+                    {/* <div className="search-icon-container submit ms-2">
                         <Button
-                            className="golden"
+                            className="global-button golden"
                             type="submit"
                             disabled={!searchTerm.trim()}
                         >

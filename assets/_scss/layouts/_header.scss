@@ -1,5 +1,5 @@
 .global-header {
-  padding: 20px 0;
+  padding: 20px 0 5px 0;
   box-shadow: 0px 4px 50px 0px rgba(229, 231, 232, 0.80);
   z-index: 99;
 
@@ -12,6 +12,28 @@
       object-position: left;
     }
   }
+
+  .nav-item {
+    font-family: $font-family;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 27px;
+    text-align: right;
+    text-decoration: none;
+    margin-left: 30px;
+    color: #000;
+
+  }
+
+  .tab-golden {
+    color: #CFA935;
+    border-bottom: 5px solid #CFA935;
+    padding-bottom: 27px;
+    border-radius: 3px;
+    /* Curved downwards */
+  }
+
+
 
   .logout {
     img {

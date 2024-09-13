@@ -8,8 +8,7 @@ import SearchAdmin from './searchAdmin';
 
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) => {
-    const [issuerDetails, setIssuerDetails] = useState(null);
+const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetails,setIssuerDetails}) => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [show, setShow] = useState(false);
@@ -157,38 +156,11 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            setIsLoading(true)
-            const response = await fetch(`${apiUrl}/api/get-issuer-by-email`, {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({email:issuerDetails?.email}),
-            });
-        
-            if (!response.ok) {
-                throw new Error('Failed to fetch issuer details');
-            }
-        
-            const data = await response.json();
-            if (data.status === 'SUCCESS') {
-                setIssuerDetails(data.data);
-                setError('');
-               
-            } else {
-                setError(data.message);
-            }
-        } catch (error) {
-          setError(error.message);
-        } finally {
-            setIsLoading(false)
-        }
-    };   
+   
 
-    const handleReject = async (email) => {
+    
+
+    const handleIssuer = async (email,status) => {
         try {
             const storedUser = JSON.parse(localStorage.getItem('user'));
             if (storedUser && storedUser.JWTToken) {
@@ -199,7 +171,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                         'Content-Type': 'application/json',
                         'Authorization': "Bearer " + storedUser.JWTToken // Use the token directly here
                     },
-                    body: JSON.stringify({ email, status: 2 }),
+                    body: JSON.stringify({ email, status:status }),
                 });
     
                 const data = await response.json();
@@ -222,11 +194,10 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
     
 
     return (
-        <>
-            <div className={`drawer-container ${showDrawer ? 'drawer-open' : ''}`}>
-                <div className='header d-flex align-items-center justify-content-between'>
+        <Modal className='drawer-wrapper'   show={modalShow} onHide={onHide}>
+                <div  className='header d-flex align-items-center justify-content-between'>
                     <h2 className='title'>Issuer Details</h2>
-                    <div className='close' onClick={handleCloseDrawer}>
+                    <div className='close' onClick={onHide}>
                         <Image 
                             src="https://images.netcomlearning.com/ai-certs/icons/close-grey-bg.svg"
                             width={40}
@@ -236,37 +207,8 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                     </div>
                 </div>
                 <hr />
-                {/* Drawer content */}
-                {/* <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="search">
-                        <div className="search d-flex">
-                            <Form.Control 
-                                type='text'
-                                placeholder='Search User by email'
-                                value={issuerEmail} 
-                                onChange={handleChange}
-                            />
-                            <div className='submit'>
-                                <Button 
-                                    label={
-                                        <div className='magnifier'>
-                                            <Image 
-                                                src="https://images.netcomlearning.com/ai-certs/icons/magnifier-white.svg"
-                                                layout='fill'
-                                                objectFit='contain'
-                                                alt='test'                                    
-                                            />
-                                        </div>
-                                    }
-                                    className='golden'
-                                    type="submit" 
-                                    disabled={!issuerEmail.trim()}
-                                />
-                            </div>
-                        </div>
-                    </Form.Group>
-                </Form> */}
-                <SearchAdmin issuerDetails={issuerDetails} setIssuerDetails={setIssuerDetails} handleStatus={handleStatus} />
+                
+                {error && <h6 className='mt-2' style={{ color: 'red' }}>{error}</h6>}
                 {issuerDetails && (
                     <>
                         <div className='profile-info d-flex'>
@@ -438,19 +380,18 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                 </Row>
             </Form>
         </div>
-                        <div className='action'>
-                            <Button 
-                                label='Reject' 
-                                className='warning w-25' 
-                                // onClick={() => handleReject(issuerDetails.email)}
-                                onClick={showModal}
-                            />
-                        </div>
+        <div className='action'>
+    <Button 
+        label={issuerDetails.approved ? 'Reject' : 'Accept'} 
+        className={issuerDetails.approved ? 'warning w-25' : 'success w-25'} 
+        onClick={()=>{issuerDetails.approved ?showModal(): handleIssuer(issuerDetails.email, 1)}}
+    />
+</div>
+
                         {/* <p className='text-center text-success font-monospace mt-3 fs-5'>{message}</p> */}
                     </>
                 )}
                
-            </div>
            
 
             {/* Loading Modal */}
@@ -483,7 +424,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                             }
                             className='warning w-25 py-3 mt-0 rounded-4' 
                             onClick={() => {
-                                handleReject(issuerDetails.email);
+                                handleIssuer(issuerDetails.email, 2);
                             }}
                         />
                     )}
@@ -503,7 +444,7 @@ const IssuerDetailsDrawer = ({ showDrawer, handleCloseDrawer, displayMessage }) 
                     <button className='success' onClick={()=>{setShow(false)}}>Ok</button>
                 </Modal.Body>
             </Modal>
-        </>
+            </Modal>
     );
 }
 
