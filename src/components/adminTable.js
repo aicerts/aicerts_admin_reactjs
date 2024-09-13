@@ -30,13 +30,13 @@ const AdminTable = ({ issuers, selectedTab, onView }) => {
                     onClick={() => onView(issuer)}
                     className='golden ps-3 pe-3 py-2'
                   />
-                  {selectedTab !== 'newRequest' && (
+                  {/* {selectedTab !== 'newRequest' && (
                     <Button
                       label='Add Matic'
                       onClick={() => handleAddMatic(issuer._id)}
-                      className='success ps-3 pe-3 py-2'
+                      className='succ ps-3 pe-3 py-2'
                     />
-                  )}
+                  )} */}
                 </div>
               </td>
             </tr>

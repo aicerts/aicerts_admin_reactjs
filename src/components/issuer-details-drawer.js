@@ -155,9 +155,11 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
         }
     };
 
+   
+
     
 
-    const handleReject = async (email) => {
+    const handleIssuer = async (email,status) => {
         try {
             const storedUser = JSON.parse(localStorage.getItem('user'));
             if (storedUser && storedUser.JWTToken) {
@@ -168,7 +170,7 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
                         'Content-Type': 'application/json',
                         'Authorization': "Bearer " + storedUser.JWTToken // Use the token directly here
                     },
-                    body: JSON.stringify({ email, status: 2 }),
+                    body: JSON.stringify({ email, status:status }),
                 });
     
                 const data = await response.json();
@@ -191,7 +193,7 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
     
 
     return (
-        <Modal   show={modalShow} onHide={onHide}>
+        <Modal className='drawer-wrapper'   show={modalShow} onHide={onHide}>
                 <div  className='header d-flex align-items-center justify-content-between'>
                     <h2 className='title'>Issuer Details</h2>
                     <div className='close' onClick={onHide}>
@@ -205,7 +207,6 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
                 </div>
                 <hr />
                 
-                <SearchAdmin issuerDetails={issuerDetails} setIssuerDetails={setIssuerDetails} handleStatus={handleStatus} />
                 {error && <h6 className='mt-2' style={{ color: 'red' }}>{error}</h6>}
                 {issuerDetails && (
                     <>
@@ -378,14 +379,14 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
                 </Row>
             </Form>
         </div>
-                        <div className='action'>
-                            <Button 
-                                label='Reject' 
-                                className='warning w-25' 
-                                // onClick={() => handleReject(issuerDetails.email)}
-                                onClick={showModal}
-                            />
-                        </div>
+        <div className='action'>
+    <Button 
+        label={issuerDetails.approved ? 'Reject' : 'Accept'} 
+        className={issuerDetails.approved ? 'warning w-25' : 'success w-25'} 
+        onClick={()=>{issuerDetails.approved ?showModal(): handleIssuer(issuerDetails.email, 1)}}
+    />
+</div>
+
                         {/* <p className='text-center text-success font-monospace mt-3 fs-5'>{message}</p> */}
                     </>
                 )}
@@ -422,7 +423,7 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
                             }
                             className='warning w-25 py-3 mt-0 rounded-4' 
                             onClick={() => {
-                                handleReject(issuerDetails.email);
+                                handleIssuer(issuerDetails.email, 2);
                             }}
                         />
                     )}

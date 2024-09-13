@@ -29,6 +29,23 @@ const Navigation = () => {
     }
   };
 
+  useEffect(() => {
+    const currentPath = router.pathname;
+    switch (currentPath) {
+      case '/dashboard':
+        setSelectedTab(0);
+        break;
+      case "/live-server":
+        setSelectedTab(1);
+        break;
+      case '/blockchain':
+        setSelectedTab(2);
+        break;
+      default:
+        setSelectedTab(0); // Default to the first tab
+    }
+  }, [router.pathname]);
+
    // @ts-ignore: Implicit any for children prop
    const handleClickTab = ((value) => {
     setSelectedTab(value)
@@ -59,7 +76,7 @@ const Navigation = () => {
   };
 
 
-  const routesWithLogoutButton = ['/dashboard', '/add-trusted-owner', '/remove-trusted-owner','/check-balance'];
+  const routesWithLogoutButton = ['/dashboard', '/add-trusted-owner', '/remove-trusted-owner','/check-balance','/live-server', '/blockchain'];
   return (
     <>
       <nav className="global-header navbar navbar-expand-lg navbar-light bg-light">
@@ -75,7 +92,7 @@ const Navigation = () => {
                 />
               </Link>
             </div>  
-            <Nav className="me-auto ">
+            <Nav className=" ">
                 <Nav.Link 
                   onClick={() => { handleClickTab(0) }} className={`nav-item ${selectedTab === 0 ? "tab-golden" : ""}`} 
                   href="/dashboard"

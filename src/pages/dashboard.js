@@ -5,15 +5,23 @@ import Button from '../../shared/button/button';
 import { Modal } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import IssuerDetailsDrawer from '../components/issuer-details-drawer';
+import SearchAdmin from '../components/searchAdmin';
+import BarChart from '../components/barChart';
+import PieChart from '../components/pieChart';
 
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const Dashboard = () => {
-  const [selectedTab, setSelectedTab] = useState('issueList'); // Default to 'issueList' tab
+  const [selectedTab, setSelectedTab] = useState('newRequest'); // Default to 'issueList' tab
   const [token, setToken] = useState('');
   const [issuers, setIssuers] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [issuerDetails, setIssuerDetails] = useState(null);
+  const [dashboardData, setDashboardData] = useState({
+    allIssuers:0,
+    activeIssuers:0,
+    inactiveIssuers:0
+  });
   const router = useRouter();
 
   const handleTabChange = (tab) => {
@@ -35,6 +43,11 @@ const Dashboard = () => {
           });
           const data = await response.json();
           setIssuers(data.data);
+          setDashboardData({
+            allIssuers:data?.allIssuers,
+            activeIssuers:data?.activeIssuers,
+            inactiveIssuers:data?.inactiveIssuers
+          })
         } else {
           router.push('/');
         }
@@ -63,18 +76,32 @@ const Dashboard = () => {
 
   return (
     <div>
-      <AdminHeader />
-      <div className='px-5'>
-        <Button
-          label="Issue List"
-          className={selectedTab === 'issueList' ? 'golden m-2' : 'outlined m-2'}
-          onClick={() => handleTabChange('issueList')}
-        />
+      <AdminHeader dashboardData={dashboardData} />
+<BarChart/>
+{/* <PieChart/> */}
+<br/>
+      <div className='px-5 d-flex flex-row justify-content-between'>
+      <SearchAdmin issuerDetails={issuerDetails} setIssuerDetails={setIssuerDetails}  />
+
+        <div>
+
+      
         <Button
           label="New Request"
           className={selectedTab === 'newRequest' ? 'golden m-2' : 'outlined m-2'}
           onClick={() => handleTabChange('newRequest')}
         />
+          <Button
+          label="Issue List"
+          className={selectedTab === 'issueList' ? 'golden m-2' : 'outlined m-2'}
+          onClick={() => handleTabChange('issueList')}
+        />
+        </div>
+
+
+      </div>
+      <div className='px-5'>
+
         <AdminTable selectedTab={selectedTab} issuers={filteredIssuers} onView={handleView} />
       </div>
       <IssuerDetailsDrawer modalShow={modalShow} setIssuerDetails={setIssuerDetails} onHide={handleCloseModal} issuerDetails={issuerDetails} />
