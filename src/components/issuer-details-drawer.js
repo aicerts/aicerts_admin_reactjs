@@ -86,10 +86,12 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
           dashboardServices.updateLimit(requestData, (response) => {
             if (response.status === 'SUCCESS') {
               setError('');
+              setMessage('Successfully Updated')
+              setShow(true);
               handleStatus(issuerDetails?.email)
               setIsLocked(!isLocked)
             } else {
-              setError(response.message || 'An error occurred');
+              setError(response.message || 'Please try after some time');
             }
           });
         } catch (error) {
@@ -109,8 +111,7 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
 
             if (response.status === 'SUCCESS') {
               setError('');
-              setMessage("Updated Successfully")
-              setShow(true)
+              
 
               setStatusDetails(response.data.details)
             } else {
