@@ -75,27 +75,30 @@ const ServerTable = ({ onView }) => {
                             <td>{issuer.name}</td>
                             <td>{issuer.ip || 'N/A'}</td>
                             <td>
-                                <div 
-                                    style={{ 
-                                        display: 'flex', 
-                                        alignItems: 'center',
-                                        backgroundColor: issuer.status === 'active' ? 'rgba(255, 136, 91, 0.1)' : 'transparent',
-                                        padding: '2px 6px',
-                                        borderRadius: '4px'
-                                    }}
-                                >
-                                    <span 
-                                        style={{ 
-                                            display: 'inline-block',
-                                            width: '10px',
-                                            height: '10px',
-                                            borderRadius: '50%',
-                                            backgroundColor: issuer.status === 'active' ? 'green' : 'red',
-                                            marginRight: '5px'
-                                        }}
-                                    />
-                                    {issuer.status === 'active' ? 'Active' : 'Inactive'}
-                                </div>
+                            <div 
+  style={{ 
+    display: 'flex', 
+    alignItems: 'center',
+    backgroundColor: issuer.status === 'active' ? 'rgba(255, 136, 91, 0.1)' : 'rgba(250, 188, 63, 0.1)',
+    padding: '2px 6px',
+    borderRadius: '4px',
+    width: 'fit-content',
+    color: issuer.status === 'active' ? '#FF885B' : '#FABC3F' // Change text color based on status
+  }}
+>
+  <span 
+    style={{ 
+      display: 'inline-block',
+      width: '10px',
+      height: '10px',
+      borderRadius: '50%',
+      backgroundColor: issuer.status === 'active' ? '#FF885B' : '#FABC3F',
+      marginRight: '5px'
+    }}
+  />
+  {issuer.status === 'active' ? 'Active' : 'Inactive'}
+</div>
+
                             </td>
                             <td>
                             <span style={{color:"#DB371F", cursor: 'pointer'}} className='d-flex text-center align-items-center'>

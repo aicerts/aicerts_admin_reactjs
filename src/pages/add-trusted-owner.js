@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Card, Modal } from 'react-bootstrap';
 import CopyrightNotice from '../app/CopyrightNotice';
 import { useRouter } from 'next/router';
-import NavigationLogin from '@/app/navigation-login';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const AddTrustedOwner = () => {
@@ -60,7 +59,6 @@ const AddTrustedOwner = () => {
 
         setShow(true);
 
-        // setMessage(responseData?.message || 'there is an issue');
         } catch (error) {
           setMessage(error.message || 'An error occurred while fetching balance');
           setShow(true)
@@ -139,13 +137,13 @@ const AddTrustedOwner = () => {
                         <>
                             <div className='error-icon'>
                                 <Image
-                                    src="/icons/check-mark.svg"
+                                    src="/icons/success.gif"
                                     layout='fill'
                                     objectFit='contain'
                                     alt='Loader'
                                 />
                             </div>
-                            <h3 style={{ color: '#198754' }}>{message}</h3>
+                            <h3 style={{ color: '#CFA935' }}>{message}</h3>
                             <button className='success' onClick={handleClose}>Ok</button>
                         </>
                     )}

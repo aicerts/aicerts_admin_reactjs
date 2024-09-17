@@ -179,13 +179,13 @@ const ResetPassword = () => {
                   <>
                       <div className='error-icon'>
                           <Image
-                              src="/icons/check-mark.svg"
+                              src="/icons/success.gif"
                               layout='fill'
                               objectFit='contain'
                               alt='Loader'
                           />
                       </div>
-                      <h3 style={{ color: '#198754' }}>{message}</h3>
+                      <h3 style={{ color: '#CFA935' }}>{message}</h3>
                       <button className='success' onClick={handleClose}>Ok</button>
                   </>
               )}

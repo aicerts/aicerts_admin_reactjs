@@ -85,6 +85,8 @@
         }
 
         .card-body {
+            min-height: 200px;
+            border-radius: 0 !important;
             .trusted-owner-wrapper {
                 column-gap: 20px;
 
@@ -176,11 +178,16 @@
 
     .issuer-data {
         overflow: hidden;
+        color: rgba(91, 90, 95, 1);
         height: 650px;
         overflow-y: auto;
+        margin-bottom: 20px;
+        font-family: $font-family;
 
         .table {
-            thead {
+            thead, tbody,tr,td,th {
+                font-family: $font-family;
+                color: rgba(91, 90, 95, 1);
 
             }
         }
@@ -207,6 +214,42 @@
         }
     }
 }
+
+.issuer-data {
+    font-family: $font-family; /* Default font for the entire table */
+    color: #5B5A5F;
+
+  }
+  
+  .issuer-data .no-data-found {
+    text-align: center;
+    margin-top: 20px;
+    color: #FF885B;
+    font-family: $font-family; /* Custom font for the "No Data Found" message */
+    font-size: 18px;
+    color: #5B5A5F;
+
+  }
+  
+  .issuer-data table {
+    font-family: $font-family; /* Font for the table */
+    color: #5B5A5F;
+
+  }
+  
+  .issuer-data th, .issuer-data td {
+    font-family: $font-family; /* Ensures all table text uses this font */
+    font-size: 14px; /* Adjust size as needed */
+    color: #5B5A5F;
+  }
+  
+  .issuer-data .d-flex {
+    font-family: $font-family; /* Font for dynamic content within the table cells */
+    color: #5B5A5F;
+
+
+  }
+  
 
 .live-wrapper{
     padding: 150px 200px;
@@ -276,12 +319,14 @@ margin: 0 2px;
       display: block;
     }
   }
-  
+  .modal-content::-webkit-scrollbar {
+    display: none; /* Hides the scrollbar in Webkit browsers */
+  }
   .drawer-wrapper {
     /* Ensure the wrapper takes up the full height */
-   width: "100vw";
+//    width: "100";
     .modal-content {
-      width: 50vw !important;
+    //   width: 50vw !important;
       padding: 30px 40px;
       max-height: 90vh;
       overflow-y: auto;

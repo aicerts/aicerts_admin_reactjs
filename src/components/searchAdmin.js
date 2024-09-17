@@ -4,7 +4,7 @@ import Image from 'next/image';
 import axios from 'axios';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-const SearchAdmin = ({issuerDetails, setIssuerDetails, handleStatus}) => {
+const SearchAdmin = ({issuers, setIssuers, handleStatus}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchBy, setSearchBy] = useState('email'); // Default search parameter
     const [suggestions, setSuggestions] = useState([]);
@@ -66,15 +66,14 @@ const SearchAdmin = ({issuerDetails, setIssuerDetails, handleStatus}) => {
     };
 
     const handleSuggestionClick = (suggestion) => {
-        // setSearchTerm(suggestion);
-        // setIssuerDetails(suggestion)
-        // handleStatus(suggestion?.email)
-        // setShowSuggestions(false);
+        setSearchTerm(suggestion);
+        setShowSuggestions(false);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         // Call the search API with the current search term and criterion
+        setShowSuggestions(false)
         try {
             const response = await axios.post(`${apiUrl}/api/get-filtered-issuers`,
                 {
@@ -84,15 +83,15 @@ const SearchAdmin = ({issuerDetails, setIssuerDetails, handleStatus}) => {
                   }
                 
             );
-            // Process the response as needed
-            console.log('Search Results:', response.data);
+        setIssuers(response.data.details)
+
         } catch (error) {
             console.error('Error during search:', error);
         }
     };
 
     return (
-        <Form onSubmit={handleSubmit}>
+        <Form >
             <Form.Group controlId="search">
                 <div  className="search d-flex align-items-start">
                     {/* Search Criteria Dropdown */}
@@ -129,14 +128,14 @@ const SearchAdmin = ({issuerDetails, setIssuerDetails, handleStatus}) => {
                                         style={suggestionItemStyle}
                                         onMouseDown={(e) => e.preventDefault()} // Prevents input blur
                                     >
-                                        {suggestion[searchBy]}
+                                        {suggestion}
                                     </li>
                                 ))}
                             </ul>
                         )}
                     </div>
                     <div className=' search-icon-container' >
-                        <Image width={10} height={10} src="/icons/search.svg" alt='search' />
+                        <Image onClick={handleSubmit} width={10} height={10} src="/icons/search.svg" alt='search' />
                     </div>
                     {/* Search Button */}
                     {/* <div className="search-icon-container submit ms-2">

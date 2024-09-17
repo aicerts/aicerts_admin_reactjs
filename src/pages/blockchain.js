@@ -181,7 +181,7 @@ const Blockchain = () => {
                             </Card>
                             <Row >
                                 <Col md={6}>
-                            <Card className='card-body'>
+                            <Card style={{borderRadius:"0px"}}  className='card-body'>
                                 <Card.Header>Admin Wallet Balance</Card.Header>
                                 <Card.Body>
                                     {balance && <h2 className='my-2 balance'><Image height={35} width={35} src="/icons/matic.svg" /> <strong>{balance}</strong></h2>}
@@ -191,7 +191,7 @@ const Blockchain = () => {
                             </Card>
                             </Col>
                             <Col md={6}>
-                            <Card className='mt-4 mt-md-0 card-body'>
+                            <Card style={{borderRadius:"0px"}}  className='mt-4 mt-md-0 card-body'>
                                 <Card.Header>Trusted Owner</Card.Header>
                                 <Card.Body>
                                     <div className='trusted-owner-wrapper d-block d-md-flex align-items-center justify-content-center'>

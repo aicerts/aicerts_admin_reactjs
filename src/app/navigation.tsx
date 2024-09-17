@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { jwtDecode } from 'jwt-decode';
 import { Nav } from 'react-bootstrap';
+import Button from '../../shared/button/button';
 const Navigation = () => {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -106,6 +107,8 @@ const Navigation = () => {
               </Nav>      
                 {routesWithLogoutButton.includes(router.pathname) && (
                   <div className='nav-logo logout'>
+          
+    
                     <button className="btn btn-link" onClick={handleLogout}>
                       <Image
                         src='https://images.netcomlearning.com/ai-certs/logout.svg'
