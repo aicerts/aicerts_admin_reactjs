@@ -6,6 +6,11 @@ import Image from 'next/image'
 
 const AdminHeader = ({dashboardData}) => {
   const [totalBalance, setTotalBalance] = useState('');
+    const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const [address] = useState(process.env.NEXT_PUBLIC_BASE_OWNER_ADDRESS);
+const [message, setMessage] = useState('');
+const [balance, setBalance] = useState('');
+
 
 
   const getDetails = async () => {
@@ -23,9 +28,40 @@ const AdminHeader = ({dashboardData}) => {
       console.error("Error in getDetails:", error);
     }
   };
+
+  const handleSubmit = async (e) => {
+    // e.preventDefault();
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+
+    try {
+        //   setIsLoading(true);
+
+        const response = await fetch(`${apiUrl}/api/check-balance?address=${address}`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${storedUser.JWTToken}`,
+                'Content-Type': 'application/json',
+            },
+        });
+        const responseData = await response.json();
+
+        if (response.status === 200) {
+            setMessage(responseData.message || 'Success');
+            setBalance(parseFloat(responseData.balance).toFixed(2));
+        } else {
+            setMessage(responseData.message || 'Failed');
+            setBalance('');
+        }
+    }
+    catch (error) {
+        console.error('Error fetching balance:', error.message);
+        setBalance('');
+        //   setShow(true)
+    }
+};
   useEffect(()=>{
    
-      
+    handleSubmit()
       getDetails();
   },[])
   return (
@@ -90,9 +126,10 @@ className='d-flex flex-column ms-3'>
   style={{ height: '100%' }}
 
 className='d-flex flex-column ms-3'>
-<p className='text-header-card'>Total Availble Balance/ Matics spent</p>
+<p className='text-header-card'>Total Availble Balance/ Total Matics spent 
+</p>
    
-    <h5 className='text-header-card-bold '>{ 0}</h5>
+    <h5 className='text-header-card-bold '>{ balance || 0} / 55</h5>
    
 </div>
         </div>

@@ -50,6 +50,12 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
         setIssuerDetails('')
     };
 
+    useEffect(()=>{
+        if(issuerDetails?.email){
+            handleStatus(issuerDetails?.email)
+        }
+    },[issuerDetails])
+
     const handleLock = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -112,8 +118,8 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
             if (response.status === 'SUCCESS') {
               setError('');
               
-
               setStatusDetails(response.data.details)
+              debugger
             } else {
               setError(response.message || 'An error occurred');
             }
@@ -194,7 +200,7 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
     
 
     return (
-        <Modal className='drawer-wrapper'   show={modalShow} onHide={onHide}>
+        <Modal size='lg' className='drawer-wrapper'   show={modalShow} onHide={onHide}>
                 <div  className='header d-flex align-items-center justify-content-between'>
                     <h2 className='title'>Issuer Details</h2>
                     <div className='close' onClick={onHide}>
@@ -208,7 +214,6 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
                 </div>
                 <hr />
                 
-                {error && <h6 className='mt-2' style={{ color: 'red' }}>{error}</h6>}
                 {issuerDetails && (
                     <>
                         <div className='profile-info d-flex'>
@@ -434,13 +439,13 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
                 <Modal.Body className='p-5'>
                     <div className='error-icon'>
                         <Image
-                            src="/icons/check-mark.svg"
+                            src="/icons/success.gif"
                             layout='fill'
                             objectFit='contain'
                             alt='Loader'
                         />
                     </div>
-                    <h3 style={{ color: '#198754' }}>{message}</h3>
+                    <h3 style={{ color: '#CFA935' }}>{message}</h3>
                     <button className='success' onClick={()=>{setShow(false)}}>Ok</button>
                 </Modal.Body>
             </Modal>

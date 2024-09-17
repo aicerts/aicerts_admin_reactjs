@@ -287,13 +287,13 @@ const Signup = () => {
                         <>
                             <div className='error-icon'>
                                 <Image
-                                    src="/icons/check-mark.svg"
+                                    src="/icons/success.gif"
                                     layout='fill'
                                     objectFit='contain'
                                     alt='Loader'
                                 />
                             </div>
-                            <h3 style={{ color: '#198754' }}>{signupMessage}</h3>
+                            <h3 style={{ color: '#CFA935' }}>{signupMessage}</h3>
                             <p className='text-center mb-0 mt-3'>Redirecting to login page</p>
                             <button className='success' onClick={handleClose && handleLogin}>Ok</button>
                         </>

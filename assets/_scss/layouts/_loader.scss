@@ -105,12 +105,75 @@
 // </header>
 
 .loader-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;  
+    min-height: fit-content;  
+
     .progress-bar {
         background-color: $golden;
     }
-.certificate-loader {
-    position: relative;
-    width: auto;
-    height: 200px;
-}
+
+    .certificate-loader {
+        position: relative;
+        width: 224px;
+        height: 200px;
+        margin: auto;
+    }
+    .modal-content {
+        min-width: 400px;
+        // min-height: auto;
+        max-height: max-content;
+        border-radius: 0;
+        // width: auto;
+        // max-width: 100%;
+        padding: 10px;
+
+        .modal-body {
+            padding: 0;
+
+            .text {
+                color: #000;
+                font-family: $font-family;
+                font-size: 22px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+        }
+    }
+
+    .text-cert-wrapper {
+        justify-content: center;
+        text-align: center;
+        column-gap: 10px;
+
+        .cert-number {
+            font-size: 12px;
+
+           
+        }
+
+        span {
+            &:nth-child(10) {
+                display: none;
+            }
+        }
+    }
+
+    @media (min-width: $mobile-min) and (max-width: $mobile-max) {
+        .modal-content {
+            min-width: 250px;
+            min-height: 250px;
+            padding: 20px;
+
+            .modal-body {
+                .text {
+                    font-size: 16px; 
+                }
+            }
+        }
+    }
 }

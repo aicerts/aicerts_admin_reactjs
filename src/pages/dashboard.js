@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import AdminHeader from '../components/adminHeader';
 import AdminTable from '../components/adminTable';
 import Button from '../../shared/button/button';
-import { Modal } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import IssuerDetailsDrawer from '../components/issuer-details-drawer';
 import SearchAdmin from '../components/searchAdmin';
 import BarChart from '../components/barChart';
-import PieChart from '../components/pieChart';
 
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -58,6 +56,8 @@ const Dashboard = () => {
     fetchData();
   }, [router]);
 
+  
+
   // Handle view button click
   const handleView = (data) => {
     setIssuerDetails(data);
@@ -76,12 +76,13 @@ const Dashboard = () => {
 
   return (
     <div>
+      <IssuerDetailsDrawer modalShow={modalShow} setIssuerDetails={setIssuerDetails} onHide={handleCloseModal} issuerDetails={issuerDetails} />
       <AdminHeader dashboardData={dashboardData} />
 <BarChart/>
 {/* <PieChart/> */}
 <br/>
       <div className='px-5 d-flex flex-row justify-content-between'>
-      <SearchAdmin issuerDetails={issuerDetails} setIssuerDetails={setIssuerDetails}  />
+      <SearchAdmin issuers={issuers} setIssuers={setIssuers}  />
 
         <div>
 
@@ -104,7 +105,6 @@ const Dashboard = () => {
 
         <AdminTable selectedTab={selectedTab} issuers={filteredIssuers} onView={handleView} />
       </div>
-      <IssuerDetailsDrawer modalShow={modalShow} setIssuerDetails={setIssuerDetails} onHide={handleCloseModal} issuerDetails={issuerDetails} />
     </div>
   );
 };
