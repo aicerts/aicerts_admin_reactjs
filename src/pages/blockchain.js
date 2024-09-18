@@ -3,15 +3,21 @@ import React, { useEffect, useState } from 'react'
 import { Card, Col, Image, Row } from 'react-bootstrap';
 import DashboardCard from '../components/dashboardCard';
 import dashboardServices from "../services/dashboardServices"
+import AddTrustedOwnerModal from '../components/add-trusted-owner';
+import RemoveTrustedOwnerModal from '../components/remove-trusted-owner';
 
 const Blockchain = () => {
     const [details, setDetails] = useState({});
     const [token, setToken] = useState('');
     const [balance, setBalance] = useState('');
+    const [balancebackup, setBalanceBackup] = useState('');
     const [issuers, setIssuers] = useState([]);
     const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const [address] = useState(process.env.NEXT_PUBLIC_BASE_OWNER_ADDRESS);
+    const [address2] = useState(process.env.NEXT_PUBLIC_BASE_OWNER_ADDRESS2);
     const [message, setMessage] = useState('');
+    const [showAdd, setShowAdd] = useState(false);
+    const [showRemove, setShowRemove] = useState(false);
     const router = useRouter();
     const [tab, setTab] = useState(1);
 
@@ -24,11 +30,14 @@ const Blockchain = () => {
 
 
     const addTrustedOwner = () => {
-        window.location = "/add-trusted-owner"
+        setShowAdd(true)
     }
 
     const removeTrustedOwner = () => {
-        window.location = "/remove-trusted-owner"
+        setShowRemove(true)
+    }
+    const handleCloseRemove = () => {
+        setShowRemove(false)
     }
 
     const createDetail = (response, period, index) => ({
@@ -141,15 +150,56 @@ const Blockchain = () => {
             }
         };
 
+        const handleSubmitBackup = async (e) => {
+            // e.preventDefault();
+
+            try {
+                //   setIsLoading(true);
+
+                const response = await fetch(`${apiUrl}/api/check-balance?address=${address2}`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${storedUser.JWTToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const responseData = await response.json();
+
+                if (response.status === 200) {
+                    setMessage(responseData.message || 'Success');
+                    setBalanceBackup(parseFloat(responseData.balance).toFixed(2));
+                    // setError('');
+                } else {
+                    setMessage(responseData.message || 'Failed');
+                    setBalanceBackup('');
+                    // setError(responseData.error || 'An error occurred while fetching balance');
+                }
+
+                // setShow(true);
+            }
+            catch (error) {
+                console.error('Error fetching balance:', error.message);
+                //   setMessage(error.message || 'An error occurred while fetching balance');
+                setBalanceBackup('');
+                //   setShow(true)
+            }
+        };
+
         fetchData();
         handleSubmit();
+        handleSubmitBackup();
     }, [address, router]);
+
+    const handleCloseAdd=(()=>{
+        setShowAdd(false)
+    })
 
     
   return (
     <div className='d-flex justify-content-center mt-2 dashboard'>
       <Col xs md="10" >
-                        
+            <AddTrustedOwnerModal show={showAdd} handleClose={handleCloseAdd}/>            
+            <RemoveTrustedOwnerModal show={showRemove} handleClose={handleCloseRemove}/>            
                                 
                         <Card style={{borderRadius:"0"}} className='p-3 mb-2 card-body'>
                             <div className='d-flex flex-row justify-content-between text-center align-items-center'>
@@ -180,11 +230,21 @@ const Blockchain = () => {
                         
                             </Card>
                             <Row >
-                                <Col md={6}>
+                                <Col md={3}>
                             <Card style={{borderRadius:"0px"}}  className='card-body'>
                                 <Card.Header>Admin Wallet Balance</Card.Header>
                                 <Card.Body>
                                     {balance && <h2 className='my-2 balance'><Image height={35} width={35} src="/icons/matic.svg" /> <strong>{balance}</strong></h2>}
+                                    <hr className='dashed' />
+                                    <div className='latest-update'><span>Last Updated:</span> <strong>02/03/2024</strong></div>
+                                </Card.Body>
+                            </Card>
+                            </Col>
+                            <Col md={3}>
+                            <Card style={{borderRadius:"0px"}}  className='card-body'>
+                                <Card.Header>Backup Wallet Balance</Card.Header>
+                                <Card.Body>
+                                    {balancebackup && <h2 className='my-2 balance'><Image height={35} width={35} src="/icons/matic.svg" /> <strong>{balancebackup}</strong></h2>}
                                     <hr className='dashed' />
                                     <div className='latest-update'><span>Last Updated:</span> <strong>02/03/2024</strong></div>
                                 </Card.Body>

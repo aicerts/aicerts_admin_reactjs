@@ -18,7 +18,8 @@ const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState({
     allIssuers:0,
     activeIssuers:0,
-    inactiveIssuers:0
+    inactiveIssuers:0,
+    pendingIssuers:0
   });
   const router = useRouter();
 
@@ -26,33 +27,37 @@ const Dashboard = () => {
     setSelectedTab(tab);
   };
 
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
 
-    const fetchData = async () => {
-      try {
-        if (storedUser && storedUser.JWTToken) {
-          setToken(storedUser.JWTToken);
+  const fetchData = async () => {
+  const storedUser = JSON.parse(localStorage.getItem('user'));
 
-          const response = await fetch(`${apiUrl}/api/get-all-issuers/`, {
-            headers: {
-              Authorization: `Bearer ${storedUser.JWTToken}`,
-            },
-          });
-          const data = await response.json();
-          setIssuers(data.data);
-          setDashboardData({
-            allIssuers:data?.allIssuers,
-            activeIssuers:data?.activeIssuers,
-            inactiveIssuers:data?.inactiveIssuers
-          })
-        } else {
-          router.push('/');
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
+    try {
+      if (storedUser && storedUser.JWTToken) {
+        setToken(storedUser.JWTToken);
+
+        const response = await fetch(`${apiUrl}/api/get-all-issuers/`, {
+          headers: {
+            Authorization: `Bearer ${storedUser.JWTToken}`,
+          },
+        });
+        const data = await response.json();
+        setIssuers(data.data);
+        setDashboardData({
+          allIssuers:data?.allIssuers,
+          activeIssuers:data?.activeIssuers,
+          inactiveIssuers:data?.inactiveIssuers,
+          pendingIssuers:data?.pendingIssuers,
+        })
+      } else {
+        router.push('/');
       }
-    };
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+   
     fetchData();
   }, [router]);
 
@@ -71,13 +76,13 @@ const Dashboard = () => {
 
   // Filtering issuers based on the selected tab
   const filteredIssuers = selectedTab === 'issueList'
-    ? issuers.filter(issuer => issuer.approved === true)
-    : issuers.filter(issuer => issuer.approved === false);
+    ? issuers.filter(issuer => issuer.status === 1 || issuer.status === 2 )
+    : issuers.filter(issuer => issuer.status === 0);
 
   return (
     <div>
-      <IssuerDetailsDrawer modalShow={modalShow} setIssuerDetails={setIssuerDetails} onHide={handleCloseModal} issuerDetails={issuerDetails} />
-      <AdminHeader dashboardData={dashboardData} />
+      <IssuerDetailsDrawer modalShow={modalShow} setIssuerDetails={setIssuerDetails} onHide={handleCloseModal} issuerDetails={issuerDetails} fetchData={fetchData}  />
+      <AdminHeader dashboardData={dashboardData}  />
 <BarChart/>
 {/* <PieChart/> */}
 <br/>
@@ -103,7 +108,7 @@ const Dashboard = () => {
       </div>
       <div className='px-5'>
 
-        <AdminTable selectedTab={selectedTab} issuers={filteredIssuers} onView={handleView} />
+        <AdminTable selectedTab={selectedTab} issuers={filteredIssuers} onView={handleView} fetchData={fetchData}/>
       </div>
     </div>
   );

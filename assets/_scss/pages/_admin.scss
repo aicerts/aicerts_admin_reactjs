@@ -7,7 +7,7 @@ margin: 30px;
     width: 25vw;
     border: 1px solid #CFA935;
     padding: 10px;
-    height: 109px;
+    height: 125px;
 
     .text-header-card{
     color: #5B5A5F;
@@ -38,13 +38,20 @@ line-height: normal;
 }
 
 .active-wrapper{
-    padding: 7px 15px;
+    padding: 3px 15px;
     background-color: rgba(255, 136, 91, 0.1);
     color: #FF885B;
 }
 .inactive-wrapper{
-    padding: 7px 15px;
+    padding: 3px 15px;
     background-color: rgba(219, 55, 31, 0.1);
     color: rgba(219, 55, 31, 1);
+
+}
+
+.pending-wrapper{
+    padding: 3px 15px;
+    background-color: rgba(172, 49, 30, 0.1);
+    color: rgb(133, 19, 1);
 
 }

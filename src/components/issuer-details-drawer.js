@@ -5,31 +5,30 @@ import Link from 'next/link'
 import { Row, Col, Form, Modal } from 'react-bootstrap';
 import dashboardServices from "../services/dashboardServices"
 import SearchAdmin from './searchAdmin';
+import AlertModal from './alertModal';
+import Loading from './loading';
 
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetails,setIssuerDetails}) => {
-    const [error, setError] = useState(null);
+const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetails,setIssuerDetails, fetchData}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [show, setShow] = useState(false);
     const [token, setToken] = useState('');
     const [message, setMessage] = useState('');
-    const [issuers, setIssuers] = useState([]);
     const [actionType, setActionType] = useState('');
     const [lockType, setLockType] = useState('');
     const [value, setValue] = useState('');
     const [statusDetails, setStatusDetails] = useState([]);
     const [isLocked, setIsLocked] = useState(true);  
     const [serviceId, setServiceId] = useState(null);  
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
    
     const handleSelectChange = (e) => {
         const selectedService = e.target.value;
         setLockType(selectedService);
-       
-    
-
-
         const service = statusDetails.find(s => s.serviceId === selectedService);
         if (service) {
             setIsLocked(service.status); 
@@ -47,7 +46,6 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
 
     const handleClose = () => {
         setShow(false);
-        setIssuerDetails('')
     };
 
     useEffect(()=>{
@@ -91,17 +89,20 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
           // Call the updateLimit function and handle the response
           dashboardServices.updateLimit(requestData, (response) => {
             if (response.status === 'SUCCESS') {
-              setError('');
-              setMessage('Successfully Updated')
+              setSuccessMessage('Successfully Updated');
               setShow(true);
               handleStatus(issuerDetails?.email)
               setIsLocked(!isLocked)
             } else {
-              setError(response.message || 'Please try after some time');
+              setErrorMessage(response.message || 'Please try after some time');
+              setShow(true);
+
             }
           });
         } catch (error) {
-          setError(error.message);
+          setErrorMessage(error.message);
+          setShow(true);
+
         } finally {
           setIsLoading(false);
         }
@@ -109,23 +110,20 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
 
     const handleStatus = async (email) => {
         setIsLoading(true);
-    
-       
         try {
           // Call the updateLimit function and handle the response
           dashboardServices.getStatus(email, (response) => {
 
             if (response.status === 'SUCCESS') {
-              setError('');
-              
               setStatusDetails(response.data.details)
-              debugger
             } else {
-              setError(response.message || 'An error occurred');
+              setErrorMessage(response.message || 'Please try after some time');
+              setShow(true);
+
             }
           });
         } catch (error) {
-          setError(error.message);
+          setErrorMessage(error.message);
         } finally {
           setIsLoading(false);
         }
@@ -148,15 +146,19 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
           // Call the updateLimit function and handle the response
           dashboardServices.updateLimit(requestData, (response) => {
             if (response.status === 'SUCCESS') {
-              setError('');
-              setMessage("Updated Successfully")
+        
+              setSuccessMessage("Updated Successfully")
               setShow(true)
             } else {
-              setError(response.message || 'An error occurred');
+              setErrorMessage(response.message || 'Please try after some time');
+              setShow(true);
+
             }
           });
         } catch (error) {
-          setError(error.message);
+          setErrorMessage(error.message);
+          setShow(true);
+
         } finally {
           setIsLoading(false);
         }
@@ -166,41 +168,54 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
 
     
 
-    const handleIssuer = async (email,status) => {
+    const handleIssuer = async (email, status) => {
+        setLoading(true);
+        setErrorMessage(''); // Clear previous error messages
+        setSuccessMessage(''); // Clear previous success messages
+    
         try {
-            const storedUser = JSON.parse(localStorage.getItem('user'));
-            if (storedUser && storedUser.JWTToken) {
-                // Hit the API to approve the issuer with the given email
-                const response = await fetch(`${apiUrl}/api/validate-issuer`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': "Bearer " + storedUser.JWTToken // Use the token directly here
-                    },
-                    body: JSON.stringify({ email, status:status }),
-                });
+          const storedUser = JSON.parse(localStorage.getItem('user'));
+          if (!storedUser || !storedUser.JWTToken) {
+            throw new Error('User is not authenticated. Please log in again.');
+          }
     
-                const data = await response.json();
+          // Make the API call
+          const response = await fetch(`${apiUrl}/api/validate-issuer`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${storedUser.JWTToken}`,
+            },
+            body: JSON.stringify({ email, status }),
+          });
     
-                // Update the local state to reflect the approval status
-                setShow(true)
-                setMessage(data.message)
-                setIssuers((prevIssuers) =>
-                    prevIssuers.map((issuerDetails) =>
-                    issuerDetails.email === email ? { ...issuerDetails, approved: true } : issuerDetails
-                    )
-                );
-            }
+          // Check if the response is not OK (non-2xx status code)
+          if (!response.ok) {
+            const error = await response.json(); // Fetch any error message from the server
+            setErrorMessage(error.message || 'Please try again later.');
+            setShow(true);
+          }
     
+          const data = await response.json();
+          // Handle success response
+          setSuccessMessage(data.message || 'Issuer successfully validated.');
+          setShow(true);
+          fetchData();
         } catch (error) {
-            console.error('Error approving issuer:', error);
+          // Display error message in the UI
+          setErrorMessage(error.message || 'Please try again later.');
+          setShow(true);
+        } finally {
+          setLoading(false);
         }
-        handleClose();
-    };  
+      };
     
 
     return (
         <Modal size='lg' className='drawer-wrapper'   show={modalShow} onHide={onHide}>
+                 <AlertModal handleClose={handleClose} show={show} successMessage={successMessage} errorMessage={errorMessage} />
+                 <Loading isLoading={loading} />
+                
                 <div  className='header d-flex align-items-center justify-content-between'>
                     <h2 className='title'>Issuer Details</h2>
                     <div className='close' onClick={onHide}>
@@ -341,8 +356,8 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
                                             />
                                         </Form.Group>
                                     </Col>
-                                    <Col style={{height:"50px"}} md={2} xs={12} className="d-flex justify-content-center align-items-end">
-                                        <Button  type="submit" label="Update" className="golden custom-button" />
+                                    <Col md={2} xs={12} className="d-flex justify-content-center align-items-end pt-3">
+                                        <Button  type="submit" label="Update" className="golden custom-button " />
                                     </Col>
                                 </Row>
                             </Form>
@@ -351,49 +366,53 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
             <h2 className='title'>Limit Credits</h2>
             <Form onSubmit={handleLock}>
                 <Row className="align-items-md-center">
-                    <Col md={5} xs={12}>
-                        <Form.Group controlId="lockType" className="mb-3">
-                            <Form.Label>Select an Option <span className='text-danger'>*</span></Form.Label>
-                            <Form.Control
-                                as="select"
-                                name="lockType"
-                                value={lockType}
-                                onChange={handleSelectChange}
-                                required
-                                className="custom-input"
-                            >
-                                <option value="">Select Action</option>
-                                {statusDetails && statusDetails.map(service => (
-                                    <option 
-                                        key={service.serviceId} 
-                                        value={service.serviceId} 
-                                        style={service.status ? {} : { color: 'red' }}
-                                    >
-                                        {service.status ? 
-                                            service.serviceId.charAt(0).toUpperCase() + service.serviceId.slice(1) : 
-                                            `${service.serviceId.charAt(0).toUpperCase() + service.serviceId.slice(1)} (Locked)`}
-                                    </option>
-                                ))}
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
+    <Col md={5} xs={12}>
+        <Form.Group controlId="lockType" className="mb-3">
+            <Form.Label>Select an Option <span className='text-danger'>*</span></Form.Label>
+            <Form.Control
+                as="select"
+                name="lockType"
+                value={lockType}
+                onChange={handleSelectChange}
+                required
+                className="custom-input"
+            >
+                <option value="">Select Action</option>
+                {statusDetails && statusDetails.map(service => (
+                    <option 
+                        key={service.serviceId} 
+                        value={service.serviceId} 
+                        style={service.status ? {} : { color: 'red' }}
+                    >
+                        {service.status ? 
+                            service.serviceId.charAt(0).toUpperCase() + service.serviceId.slice(1) : 
+                            `${service.serviceId.charAt(0).toUpperCase() + service.serviceId.slice(1)} (Locked)`}
+                    </option>
+                ))}
+            </Form.Control>
+        </Form.Group>
+    </Col>
 
-                    <Col style={{ height: "50px" }} md={2} xs={12} className="d-flex justify-content-center align-items-end">
-                        <Button  type="submit" className="golden custom-button" label={isLocked ? "Lock" : "Unlock"} />
-                            
-                    </Col>
-                </Row>
+    <Col md={2} xs={12} className="d-flex align-items-center justify-content-center pt-3">
+        <Button 
+            type="submit" 
+            className="golden custom-button " 
+            label={isLocked ? "Lock" : "Unlock"}
+        />
+    </Col>
+</Row>
+
+
             </Form>
         </div>
         <div className='action'>
     <Button 
         label={issuerDetails.approved ? 'Reject' : 'Accept'} 
         className={issuerDetails.approved ? 'warning w-25' : 'success w-25'} 
-        onClick={()=>{issuerDetails.approved ?showModal(): handleIssuer(issuerDetails.email, 1)}}
+        onClick={()=>{issuerDetails.approved ?handleIssuer(issuerDetails.email, 2): handleIssuer(issuerDetails.email, 1)}}
     />
 </div>
 
-                        {/* <p className='text-center text-success font-monospace mt-3 fs-5'>{message}</p> */}
                     </>
                 )}
                
@@ -410,43 +429,6 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
                             alt='Loader'
                         />
                     </div>
-                </Modal.Body>
-            </Modal>
-
-            <Modal className='loader-modal' show={show} centered>
-                <Modal.Header closeButton={false}>
-                    <Modal.Title>Confirm Reject</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Are you sure you want to reject <strong>{issuerDetails?.email}</strong>?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button label="Cancel" className='golden w-auto pe-4 ps-4 py-3' onClick={handleClose} />
-                    {issuerDetails && (
-                        <Button 
-                            label={
-                                <strong>Confirm</strong>
-                            }
-                            className='warning w-25 py-3 mt-0 rounded-4' 
-                            onClick={() => {
-                                handleIssuer(issuerDetails.email, 2);
-                            }}
-                        />
-                    )}
-                </Modal.Footer>
-            </Modal>
-            <Modal onHide={()=>{setShow(false)}} className='loader-modal text-center' show={show} centered>
-                <Modal.Body className='p-5'>
-                    <div className='error-icon'>
-                        <Image
-                            src="/icons/success.gif"
-                            layout='fill'
-                            objectFit='contain'
-                            alt='Loader'
-                        />
-                    </div>
-                    <h3 style={{ color: '#CFA935' }}>{message}</h3>
-                    <button className='success' onClick={()=>{setShow(false)}}>Ok</button>
                 </Modal.Body>
             </Modal>
             </Modal>
