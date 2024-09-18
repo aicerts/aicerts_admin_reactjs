@@ -12,6 +12,16 @@
       object-position: left;
     }
   }
+  .nav-logout {
+    position: relative;
+    // width: 193px;
+    height: 40px;
+
+
+    img {
+      object-position: left;
+    }
+  }
 
   .nav-item {
     font-family: $font-family;
@@ -36,6 +46,7 @@
 
 
   .logout {
+    width: fit-content !important;
     img {
       object-position: right;
     }

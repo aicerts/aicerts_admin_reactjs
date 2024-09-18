@@ -119,6 +119,26 @@
         }
     }
 
+    &.golden-matic {
+        color: $white;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        padding: 12px 16px 12px 16px;
+        border-radius: 8px;
+        background: $golden;
+        position: relative;
+        transition: 0.5s;
+        -webkit-transition: 0.5s;
+        -moz-transition: 0.5s;
+        -ms-transition: 0.5s;
+        -o-transition: 0.5s;
+    
+        &:hover {
+            box-shadow: inset 0px 0px 20px 0px #675213c9;
+        }
+    }
+
     &.outlined {
         color: $golden;
         font-style: normal;
@@ -167,6 +187,9 @@
     }
 }
 
+.lock-md{
+    height: 40px !important;
+}
 
 .golden-dropdown {
     color: $white;

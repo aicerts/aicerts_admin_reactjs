@@ -26,7 +26,7 @@ const NavigationLogin = () => {
           <span className="navbar-toggler-icon"></span>
         </button> */}
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        {/* <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
               <span className='nav-text text-decoration-none'>Dont have an account?</span>
@@ -35,7 +35,7 @@ const NavigationLogin = () => {
               <Button label="Register" onClick={handleClick} className="golden" />
             </Navbar.Text>
           </Navbar.Collapse>
-        </div>
+        </div> */}
       </div>
     </nav>
   );

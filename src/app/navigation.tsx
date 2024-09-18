@@ -79,7 +79,7 @@ const Navigation = () => {
 
   const routesWithLogoutButton = ['/dashboard', '/add-trusted-owner', '/remove-trusted-owner','/check-balance','/live-server', '/blockchain'];
   return (
-    <>
+    <div>
       <nav className="global-header navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <div className='d-flex justify-content-between align-items-center w-100'>
@@ -104,25 +104,32 @@ const Navigation = () => {
                 <Nav.Link onClick={() => { handleClickTab(2) }} className={`nav-item ${selectedTab === 2 ? "tab-golden" : ""}`} href="/blockchain">
                   Blockchain
                 </Nav.Link>
-              </Nav>      
+               
+              </Nav>  
+              {
+                router.pathname == '/live-server' &&
+                <button className='global-button golden-matic'>
+                  Add Matic
+                </button>
+              }    
                 {routesWithLogoutButton.includes(router.pathname) && (
-                  <div className='nav-logo logout'>
-          
-    
+                  <div className='nav-logout logout'>
                     <button className="btn btn-link" onClick={handleLogout}>
                       <Image
                         src='https://images.netcomlearning.com/ai-certs/logout.svg'
-                        layout='fill'
+                        height={40}
+                        width={40}
                         objectFit="contain"
                         alt='logout Icon'
                       />
                     </button>
+                    
                   </div>
                 )}
             </div>
         </div>
       </nav>
-    </>
+    </div>
   );
 };
 
