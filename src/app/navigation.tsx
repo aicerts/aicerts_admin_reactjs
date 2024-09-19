@@ -5,10 +5,12 @@ import { useRouter } from 'next/router';
 import { jwtDecode } from 'jwt-decode';
 import { Nav } from 'react-bootstrap';
 import Button from '../../shared/button/button';
+import AddServerModal from "../components/addServerModal";
 const Navigation = () => {
   const router = useRouter();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0)
+  const [show, setShow] = useState(false)
   // // let isUserLoggedIn;
   // useEffect(()=>{
   //   setIsUserLoggedIn(localStorage.getItem('user') !== null);
@@ -18,6 +20,8 @@ const Navigation = () => {
     interface DecodedToken {
       exp: number;
     }
+
+  
     try {
       const decodedToken = jwtDecode<DecodedToken>(token);
       const expirationTimeUTC = (decodedToken.exp * 1000) - 60000; // Convert to milliseconds since epoch
@@ -47,6 +51,9 @@ const Navigation = () => {
     }
   }, [router.pathname]);
 
+  const handleClose=(()=>{
+    setShow(false)
+  })
    // @ts-ignore: Implicit any for children prop
    const handleClickTab = ((value) => {
     setSelectedTab(value)
@@ -80,7 +87,8 @@ const Navigation = () => {
   const routesWithLogoutButton = ['/dashboard', '/add-trusted-owner', '/remove-trusted-owner','/check-balance','/live-server', '/blockchain'];
   return (
     <div>
-      <nav className="global-header navbar navbar-expand-lg navbar-light bg-light">
+<AddServerModal onHide={handleClose} show={show} />
+<nav className="global-header navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <div className='d-flex justify-content-between align-items-center w-100'>
             <div className='nav-logo'>
@@ -108,8 +116,8 @@ const Navigation = () => {
               </Nav>  
               {
                 router.pathname == '/live-server' &&
-                <button className='global-button golden-matic'>
-                  Add Matic
+                <button onClick={()=>{setShow(true)}} className='global-button golden-matic'>
+                  Add New Server
                 </button>
               }    
                 {routesWithLogoutButton.includes(router.pathname) && (
