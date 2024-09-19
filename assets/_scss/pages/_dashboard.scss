@@ -15,7 +15,7 @@
         .card-header {
             color: rgba(47, 56, 71, 1);
             font-weight: 600;
-            font-size: 22px;
+            font-size: 15px;
             line-height: 26px;
             background-color: rgba(243, 243, 243, 1);
             border-bottom: none;
@@ -764,6 +764,8 @@ margin: 0 2px;
                 border: 1px solid red
             }
         }
+
+
     }
 
     /* Base styles for all radio buttons */
@@ -816,5 +818,34 @@ margin: 0 2px;
         align-items: center;
         margin-bottom: 10px;
     }
+.add-modal-header{
+    background-color: #F3F3F3 !important;
+}
+    .add-modal-title{
+        font-family: $font-family;
+font-size: 18px;
+font-weight: 700;
+line-height: 21.94px;
+    }
+.add-modal-label{
+    font-family: $font-family;
 
+}
+}
+
+.blockchain-wrapper{
+    .title-blockchain{
+        font-family: $font-family;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 26.82px;
+        
+    }
+    .card-title-blockchain{
+        font-family: $font-family;
+font-size: 18px;
+font-weight: 700;
+line-height: 26.82px;
+
+    }
 }

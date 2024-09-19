@@ -196,7 +196,7 @@ const Blockchain = () => {
 
     
   return (
-    <div className='d-flex justify-content-center mt-2 dashboard'>
+    <div className='blockchain-wrapper d-flex justify-content-center mt-2 dashboard'>
       <Col xs md="10" >
             <AddTrustedOwnerModal show={showAdd} handleClose={handleCloseAdd}/>            
             <RemoveTrustedOwnerModal show={showRemove} handleClose={handleCloseRemove}/>            
@@ -204,7 +204,7 @@ const Blockchain = () => {
                         <Card style={{borderRadius:"0"}} className='p-3 mb-2 card-body'>
                             <div className='d-flex flex-row justify-content-between text-center align-items-center'>
 
-                        <h4 className='font-weight-bold' >Issuance</h4>
+                        <p className='font-weight-bold title-blockchain' >Issuance</p>
 
                         <div className='admin-button-container mb-2'>
   <span onClick={() => handleChange(1)} className={`btn ${tab === 1 ? 'btn-golden' : ''}`}>NetCom</span>
@@ -232,7 +232,7 @@ const Blockchain = () => {
                             <Row >
                                 <Col md={3}>
                             <Card style={{borderRadius:"0px"}}  className='card-body'>
-                                <Card.Header>Admin Wallet Balance</Card.Header>
+                                <Card.Header className='card-title-blockchain'>Admin Wallet Balance</Card.Header>
                                 <Card.Body>
                                     {balance && <h2 className='my-2 balance'><Image height={35} width={35} src="/icons/matic.svg" /> <strong>{balance}</strong></h2>}
                                     <hr className='dashed' />
@@ -242,7 +242,7 @@ const Blockchain = () => {
                             </Col>
                             <Col md={3}>
                             <Card style={{borderRadius:"0px"}}  className='card-body'>
-                                <Card.Header>Backup Wallet Balance</Card.Header>
+                                <Card.Header className='card-title-blockchain'>Backup Wallet Balance</Card.Header>
                                 <Card.Body>
                                     {balancebackup && <h2 className='my-2 balance'><Image height={35} width={35} src="/icons/matic.svg" /> <strong>{balancebackup}</strong></h2>}
                                     <hr className='dashed' />
