@@ -79,6 +79,7 @@ const AdminTable = ({ issuers, selectedTab, onView, setIssuers, fetchData }) => 
         <Table bordered>
           <thead>
             <tr>
+              <th>S.No</th> {/* Add S.No column here */}
               <th>Name</th>
               <th>Email</th>
               <th>Status</th>
@@ -88,8 +89,9 @@ const AdminTable = ({ issuers, selectedTab, onView, setIssuers, fetchData }) => 
             </tr>
           </thead>
           <tbody>
-            {issuers.map((issuer) => (
+            {issuers.map((issuer, index) => (
               <tr key={issuer._id}>
+                <td>{index + 1}</td> {/* Display S.No here */}
                 <td>{issuer.name}</td>
                 <td>{issuer.email}</td>
                 <td>

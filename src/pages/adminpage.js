@@ -319,7 +319,7 @@ const AdminPage  = () => {
                             alt='Loader'
                         />
                     </div>
-                    <h3 style={{ color: '#CFA935' }}>{message}</h3>
+                    <h3 className='text' style={{ color: '#CFA935' }}>{message}</h3>
                     <button className='success' onClick={handleClose}>Ok</button>
                 </Modal.Body>
             </Modal>

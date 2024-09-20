@@ -82,7 +82,7 @@ const [balance, setBalance] = useState('');
       getDetails();
   },[])
   return (
-    <div style={{background: "../../assets/img/bg-adminheader.svg"}} className='admin-header-wrapper d-flex flex-column flex-md-row justify-content-between'>
+    <div style={{background: "../../assets/img/bg-adminheader.svg"}} className='mt-5 admin-header-wrapper d-flex flex-column flex-md-row justify-content-between'>
         {/* <div className='admin-header-card d-flex flex-column text-centre'>
 <div className='card-title d-flex justify-content-center align-items-center text-center'>
 Total Issuer
@@ -91,7 +91,9 @@ Total Issuer
     <h2 className='d-flex text-center'>{dashboardData?.allIssuers || 0}</h2>
  
 </div>
-        </div> */}
+        </div> */
+      }
+
            <div className='admin-header-card d-flex flex-row text-centre justify-content-between'>
        <div className='d-flex flex-row text-centre justify-content-center'>
         <div className='badge-container'>
@@ -101,7 +103,7 @@ Total Issuer
   style={{ height: '100%' }}
 
 className='d-flex flex-column ms-3'>
-<p className='text-header-card'>Total Issuer</p>
+<p className='text-header-card'>Total Issuers</p>
    
     <h5 className='text-header-card-bold '>{dashboardData?.allIssuers || 0}</h5>
    
@@ -133,7 +135,7 @@ className='d-flex flex-column ms-3'>
   style={{ height: '100%' }}
 
 className='d-flex flex-column ms-3'>
-<p className='text-header-card'>Total Certifcated Issuer</p>
+<p className='text-header-card'>Total Issuance</p>
    
     <h5 className='text-header-card-bold '>{totalBalance || 0}</h5>
    
@@ -147,7 +149,7 @@ className='d-flex flex-column ms-3'>
   style={{ height: '100%' }}
 
 className='d-flex flex-column ms-3'>
-<p className='text-header-card'>Total Availble Balance/ Total Matics Spent 
+<p className='text-header-card'>Total Avl.Bal./Matic's Spent so far 
 </p>
    
     <h5 className='text-header-card-bold '>{ balance || 0} / 55</h5>

@@ -320,6 +320,8 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
                             </Row>
 
                         </div>
+                        {issuerDetails.approved &&
+                        <>
                         <div className='org-details'>
                             <h2 className='title'>Manage Credits</h2>
                             <Form onSubmit={handleUpdate}>
@@ -405,6 +407,8 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
 
             </Form>
         </div>
+        </>
+                }
         <div className='action'>
     <Button 
         label={issuerDetails.approved ? 'Reject' : 'Accept'} 

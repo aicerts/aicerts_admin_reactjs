@@ -80,13 +80,19 @@ const Dashboard = () => {
     : issuers.filter(issuer => issuer.status === 0);
 
   return (
-    <div>
+    <div >
+        <p style={{position:"absolute", left:"90px"}} className='font-weight-bold title-blockchain' >Blockchain</p>
+
       <IssuerDetailsDrawer modalShow={modalShow} setIssuerDetails={setIssuerDetails} onHide={handleCloseModal} issuerDetails={issuerDetails} fetchData={fetchData}  />
+      <div style={{marginTop:"30px"}}>
+
       <AdminHeader dashboardData={dashboardData}  />
+      </div>
 <BarChart/>
 {/* <PieChart/> */}
 <br/>
-      <div className='px-5 d-flex flex-row justify-content-between'>
+      <div  className='px-5 d-flex flex-row justify-content-between'>
+        
       <SearchAdmin issuers={issuers} setIssuers={setIssuers}  />
 
         <div>
