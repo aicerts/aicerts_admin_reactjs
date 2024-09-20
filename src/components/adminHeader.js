@@ -149,7 +149,7 @@ className='d-flex flex-column ms-3'>
   style={{ height: '100%' }}
 
 className='d-flex flex-column ms-3'>
-<p className='text-header-card'>Total Avl.Bal./Matic's Spent so far 
+<p className='text-header-card'>Total Avl.Bal./Matics Spent so far 
 </p>
    
     <h5 className='text-header-card-bold '>{ balance || 0} / 55</h5>
