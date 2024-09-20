@@ -552,45 +552,49 @@ margin: 0 2px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    // padding: 0 40px;
     margin-top: 140px;
     flex-wrap: wrap;
     gap: 20px;
 }
 
 .card-container {
-    position: relative;
-    /* Added to establish a positioning context */
+    display: flex;
+    flex-direction: row;
     width: 100%;
-    /* Adjust as needed for the number of cards per row */
-    
-    /* Added for better responsiveness */
-    height: 130px;
+    height: 109px;
     flex-shrink: 0;
-    // border-radius: 10px;
-
     padding: 15px;
     background: #FFF;
-   border: 1px solid #BFC0C2;
+    border: 1px solid #BFC0C2;
 }
 
 
 
 .item-title {
     color: var(--Neutral-Colors-400, #9291A5);
-    // font-family: "Inter";
     font-weight: 500;
     font-size: 14px;
     margin-bottom: 3px;
 }
 
 .title-value {
-    color: var(--Neutral-Colors-Black, #1E1B39);
-    font-feature-settings: 'clig'off, 'liga'off;
-    /* Headings/H5 */
-    font-family: "Inter";
+    font-family: $font-family;
+    color: #5B5A5F;
+    font-feature-settings: 'liga' off, 'clig' off;
     font-size: 18px;
-    font-weight: bold;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    margin-bottom: 10px;
+}
+
+.title-value-number {
+    font-family: $font-family;
+    color: #000;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
 
 .badge-container {
@@ -606,14 +610,9 @@ margin: 0 2px;
 }
 
 .badge-container-admin {
-    position: absolute;
-    /* Changed to absolute positioning */
-    top: 10px;
-    /* Adjusted position from top */
-    right: 10px;
-    /* Adjusted position from right */
+   
     width: 44px;
-    height: 44px;
+    height: 100%;
     border-radius: 6px;
     background: #EFF0F3;
     display: flex;
@@ -621,6 +620,16 @@ margin: 0 2px;
     align-items: center;
 }
 
+.text {
+    color: #000;
+    font-family: $font-family;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    margin-bottom: 20px;
+}
 
 .badge-cert {
     width: 24px;
@@ -631,7 +640,7 @@ margin: 0 2px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .item-value {
@@ -834,18 +843,19 @@ line-height: 21.94px;
 }
 
 .blockchain-wrapper{
-    .title-blockchain{
-        font-family: $font-family;
-        font-size: 22px;
-        font-weight: 700;
-        line-height: 26.82px;
-        
-    }
+  
     .card-title-blockchain{
         font-family: $font-family;
-font-size: 18px;
+font-size: 22px;
 font-weight: 700;
 line-height: 26.82px;
 
     }
+}
+.title-blockchain{
+    font-family: $font-family;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 26.82px;
+    
 }

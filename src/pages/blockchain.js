@@ -1,10 +1,12 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
-import { Card, Col, Image, Row } from 'react-bootstrap';
+import { Card, Col, Row } from 'react-bootstrap';
 import DashboardCard from '../components/dashboardCard';
 import dashboardServices from "../services/dashboardServices"
 import AddTrustedOwnerModal from '../components/add-trusted-owner';
 import RemoveTrustedOwnerModal from '../components/remove-trusted-owner';
+import RemoveOwnerIcon from "../../assets/img/removed-trusted-owner.svg";
+import Image from 'next/image';
 
 const Blockchain = () => {
     const [details, setDetails] = useState({});
@@ -204,7 +206,7 @@ const Blockchain = () => {
                         <Card style={{borderRadius:"0"}} className='p-3 mb-2 card-body'>
                             <div className='d-flex flex-row justify-content-between text-center align-items-center'>
 
-                        <p className='font-weight-bold title-blockchain' >Issuance</p>
+                        <p className='font-weight-bold title-blockchain' >Blockchain</p>
 
                         <div className='admin-button-container mb-2'>
   <span onClick={() => handleChange(1)} className={`btn ${tab === 1 ? 'btn-golden' : ''}`}>NetCom</span>
@@ -266,7 +268,7 @@ const Blockchain = () => {
                                         </div>
                                         <div className='trusted-owner remove mt-4 mt-md-0' onClick={removeTrustedOwner}>
                                             <Image
-                                                src="https://images.netcomlearning.com/ai-certs/icons/add-trusted-owner.svg"
+                                                src={RemoveOwnerIcon}
                                                 width={57}
                                                 height={57}
                                                 alt='Add trusted owner'

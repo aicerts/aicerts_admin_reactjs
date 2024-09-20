@@ -166,13 +166,13 @@ const ResetPassword = () => {
                   <>
                       <div className='error-icon'>
                           <Image
-                              src="/icons/close.svg"
+                              src="/icons/invalid-password.gif"
                               layout='fill'
                               objectFit='contain'
                               alt='Loader'
                           />
                       </div>
-                      <h3 style={{ color: 'red' }}>{message}</h3>
+                      <h3 className='text' style={{ color: 'red' }}>{message}</h3>
                       <button className='warning' onClick={handleClose}>Ok</button>
                   </>
               ) : (                
@@ -185,7 +185,7 @@ const ResetPassword = () => {
                               alt='Loader'
                           />
                       </div>
-                      <h3 style={{ color: '#CFA935' }}>{message}</h3>
+                      <h3 className='text' style={{ color: '#CFA935' }}>{message}</h3>
                       <button className='success' onClick={handleClose}>Ok</button>
                   </>
               )}

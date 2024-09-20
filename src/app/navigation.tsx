@@ -107,7 +107,7 @@ const Navigation = () => {
                   href="/dashboard"
                 >Dashboard</Nav.Link>
                 <Nav.Link onClick={() => { handleClickTab(1) }} className={`nav-item ${selectedTab === 1 ? "tab-golden" : ""}`} href="/live-server">
-                   Live Servers
+                   Live Server
                 </Nav.Link>
                 <Nav.Link onClick={() => { handleClickTab(2) }} className={`nav-item ${selectedTab === 2 ? "tab-golden" : ""}`} href="/blockchain">
                   Blockchain

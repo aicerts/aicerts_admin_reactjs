@@ -274,13 +274,13 @@ const Signup = () => {
                         <>
                             <div className='error-icon'>
                                 <Image
-                                    src="/icons/close.svg"
+                                    src="/icons/invalid-password.gif"
                                     layout='fill'
                                     objectFit='contain'
                                     alt='Loader'
                                 />
                             </div>
-                            <h3 style={{ color: 'red' }}>{signupMessage}</h3>
+                            <h3 className='text' style={{ color: 'red' }}>{signupMessage}</h3>
                             <button className='warning' onClick={handleClose}>Ok</button>
                         </>
                     ) : (
@@ -293,7 +293,7 @@ const Signup = () => {
                                     alt='Loader'
                                 />
                             </div>
-                            <h3 style={{ color: '#CFA935' }}>{signupMessage}</h3>
+                            <h3 className='text' style={{ color: '#CFA935' }}>{signupMessage}</h3>
                             <p className='text-center mb-0 mt-3'>Redirecting to login page</p>
                             <button className='success' onClick={handleClose && handleLogin}>Ok</button>
                         </>

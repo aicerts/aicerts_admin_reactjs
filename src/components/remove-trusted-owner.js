@@ -41,11 +41,11 @@ const RemoveTrustedOwnerModal = ({ show, handleClose }) => {
             const responseData = await response.json();
 
             if (response.ok) {
-                setMessage(responseData?.message || 'Success');
+                setMessage(responseData?.message || 'Updated Successfully');
                 setError(null);
             } else {
-                setMessage(responseData?.message || 'Failed');
-                setError(responseData.error || 'An error occurred while processing your request.');
+                setMessage(null);
+                setError(responseData.message|| 'An error occurred while processing your request.');
             }
         } catch (error) {
             setMessage(error.message || 'An error occurred while processing your request.');
@@ -75,7 +75,7 @@ handleClose()
                 <Modal.Title>Remove Trusted Owner</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            { !message && (
+            {(!message && !error) && (
                     <Form className='login-form' onSubmit={handleSubmit}>
                         <Form.Group controlId="address" className='mb-3'>
                             <Form.Label>Insert Address</Form.Label>
@@ -102,32 +102,32 @@ handleClose()
                 )}
 
 
-                {!isLoading && message && (
+                {!isLoading && (message || error) && (
                     <div className='text-center'>
                         {error ? (
                             <>
                                 <div className='error-icon'>
                                     <Image
-                                        src="/icons/close.svg"
+                                        src="/icons/invalid-password.gif"
                                         layout='fill'
                                         objectFit='contain'
                                         alt='Error'
                                     />
                                 </div>
-                                <h3 style={{ color: 'red' }}>{message}</h3>
+                                <h3 className='text' style={{ color: 'red' }}>{error}</h3>
                             </>
                         ) : (
                             <>
-                                <div className='success-icon'>
-                                    <Image
-                                        src="/icons/success.gif"
-                                        layout='fill'
-                                        objectFit='contain'
-                                        alt='Success'
-                                    />
-                                </div>
-                                <h3 style={{ color: '#CFA935' }}>{message}</h3>
-                            </>
+                            <div className='error-icon'>
+                                <Image
+                                    src="/icons/success.gif"
+                                    layout='fill'
+                                    objectFit='contain'
+                                    alt='Success'
+                                />
+                            </div>
+                            <h3 className='text' style={{ color: '#CFA935' }}>{message}</h3>
+                        </>
                         )}
                         <button className='global-button golden mt-3' onClick={handleBack}>
                             Ok

@@ -60,9 +60,12 @@ const ServerTable = ({ onView }) => {
 
     return (
         <div className='issuer-data'>
+            <p className='font-weight-bold title-blockchain' >Live Servers</p>
+
             <Table bordered>
-                <thead style={{ backgroundColor: '#F3F3F3' }}>
+                <thead class="table-secondary"> {/* Set header background color to gray */}
                     <tr>
+                        <th>S.No</th> {/* Serial Number column */}
                         <th>Name</th>
                         <th>IP</th>
                         <th>Status</th>
@@ -72,38 +75,38 @@ const ServerTable = ({ onView }) => {
                 <tbody>
                     {issuers.map((issuer, index) => (
                         <tr key={index}>
+                            <td>{index + 1}</td> {/* Display the serial number */}
                             <td>{issuer.name}</td>
                             <td>{issuer.ip || 'N/A'}</td>
                             <td>
-                            <div 
-  style={{ 
-    display: 'flex', 
-    alignItems: 'center',
-    backgroundColor: issuer.status === 'active' ? 'rgba(255, 136, 91, 0.1)' : 'rgba(250, 188, 63, 0.1)',
-    padding: '2px 6px',
-    borderRadius: '4px',
-    width: 'fit-content',
-    color: issuer.status === 'active' ? '#FF885B' : '#FABC3F' // Change text color based on status
-  }}
->
-  <span 
-    style={{ 
-      display: 'inline-block',
-      width: '10px',
-      height: '10px',
-      borderRadius: '50%',
-      backgroundColor: issuer.status === 'active' ? '#FF885B' : '#FABC3F',
-      marginRight: '5px'
-    }}
-  />
-  {issuer.status === 'active' ? 'Active' : 'Inactive'}
-</div>
-
+                                <div 
+                                    style={{ 
+                                        display: 'flex', 
+                                        alignItems: 'center',
+                                        backgroundColor: issuer.status === 'active' ? 'rgba(255, 136, 91, 0.1)' : 'rgba(250, 188, 63, 0.1)',
+                                        padding: '2px 6px',
+                                        borderRadius: '4px',
+                                        width: 'fit-content',
+                                        color: issuer.status === 'active' ? '#FF885B' : '##DB371F' // Change text color based on status
+                                    }}
+                                >
+                                    <span 
+                                        style={{ 
+                                            display: 'inline-block',
+                                            width: '10px',
+                                            height: '10px',
+                                            borderRadius: '50%',
+                                            backgroundColor: issuer.status === 'active' ? '#FF885B' : '#FABC3F',
+                                            marginRight: '5px'
+                                        }}
+                                    />
+                                    {issuer.status === 'active' ? 'Active' : 'Inactive'}
+                                </div>
                             </td>
                             <td>
-                            <span style={{color:"#DB371F", cursor: 'pointer'}} className='d-flex text-center align-items-center'>
+                                <span style={{color:"#DB371F", cursor: 'pointer'}} className='d-flex text-center align-items-center'>
                                     <Image src={Recycle} alt='remove' style={{color:"#DB371F", width: '16px' }} />
-                                    Remove
+                                    Delete
                                 </span>
                             </td>
                         </tr>
