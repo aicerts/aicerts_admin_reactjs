@@ -24,6 +24,7 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const [certInfo, setCertInfo] = useState(null);
 
    
     const handleSelectChange = (e) => {
@@ -49,7 +50,7 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
     };
 
     useEffect(()=>{
-        if(issuerDetails?.email){
+        if(issuerDetails?.email && issuerDetails.isApproved){
             handleStatus(issuerDetails?.email)
         }
     },[issuerDetails])
@@ -209,6 +210,39 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
           setLoading(false);
         }
       };
+
+
+
+    const fetchInfoData = async (email) => {
+        try {
+          const response = await fetch(`${apiUrl}/api/get-issuers-log`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: email,
+              queryCode: 1,
+            }),
+          });
+    
+          if (!response.ok) {
+            throw new Error('Failed to fetch data');
+          }
+    
+          const data = await response.json();
+          setCertInfo(data?.data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          // Handle error as needed
+        }
+    };
+    
+    useEffect(() => {
+        if (issuerDetails?.email) {
+            fetchInfoData(issuerDetails.email);
+        }
+    }, [issuerDetails]);
     
 
     return (
@@ -320,6 +354,35 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
                             </Row>
 
                         </div>
+                        { certInfo && 
+                        <div className='org-details'>
+                            <h2 className='title'>Issuance Metrics</h2>
+                            <Row>
+                               
+                                    <Col xs={12} md={4}>
+                                        <div className='label'>Issued Certification</div>
+                                        <div className='info'>{certInfo?.issued || 0}</div>
+                                    </Col>
+                                    <Col xs={12} md={4}>
+                                        <div className='label'>Reissued Certification</div>
+                                        <div className='info'>{certInfo?.renewed || 0 }</div>
+                                    </Col>
+                                    <Col xs={12} md={4}>
+                                        <div className='label'>Reactivated Certification</div>
+                                        <div className='info'>{certInfo?.reactivated || 0 }</div>
+                                    </Col>
+                                    <Col xs={12} md={4}>
+                                        <div className='label'>Revocked Certification</div>
+                                        <div className='info'>{certInfo?.revoked || 0 }</div>
+                                    </Col>
+                                    <Col xs={12} md={4}>
+                                        <div className='label'>Matic Spent</div>
+                                        <div className='info'>{issuerDetails?.transactionFee || 0 }</div>
+                                    </Col>
+                            </Row>
+
+                        </div>
+                        }
                         {issuerDetails.approved &&
                         <>
                         <div className='org-details'>
@@ -365,7 +428,7 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
                             </Form>
                         </div>
                         <div className='org-details'>
-            <h2 className='title'>Limit Credits</h2>
+            <h2 className='title'>Restrict Issuance</h2>
             <Form onSubmit={handleLock}>
                 <Row className="align-items-md-center">
     <Col md={5} xs={12}>

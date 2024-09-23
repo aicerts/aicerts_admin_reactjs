@@ -14,6 +14,7 @@ interface Response {
 
 // Set the base URL for the app server using the configuration
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const apiUrl = process.env.NEXT_PUBLIC_BASE_URL_USER;
 
 /**
  * Function to register a user
@@ -65,10 +66,44 @@ const getStatus = (data: any,callback: (response: Response) => void) => {
       callback({ status: "ERROR", error: error });
     });
 };
+
+const AddServer = (data: any,callback: (response: Response) => void) => {
+  API({
+    method: "POST",
+    url: `${apiUrl}/api/upload-server-details`,
+    data: data
+  })
+    .then((response) => {
+      callback({ status: "SUCCESS", data: response.data });
+    })
+    .catch((error) => {
+      callback({ status: "ERROR", error: error });
+    });
+};
+
+
+const getAllServer = (callback: (response: Response) => void) => {
+  API({
+    method: "GET",
+    url: `${BASE_URL}/api/get-server-details`,
+  })
+    .then((response) => {
+      callback({ status: "SUCCESS", data: response.data });
+    })
+    .catch((error) => {
+      // Improved error handling
+      callback({ status: "ERROR", error: error.message || error });
+    });
+};
+
+
+
 const dashboard = {
     updateLimit,
     getDetails,
-    getStatus
+    getStatus,
+    AddServer,
+    getAllServer
   }
   // Export the register function as the default export for this module
   export default dashboard;

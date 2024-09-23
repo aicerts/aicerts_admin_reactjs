@@ -20,6 +20,8 @@ const AdminTable = ({ issuers, selectedTab, onView, setIssuers, fetchData }) => 
         return { color: '#FF885B', backgroundColor: 'rgba(255, 136, 91, 0.1)' }; // Active (green)
       case 2:
         return { color: '#FF0000', backgroundColor: 'rgba(255, 0, 0, 0.1)' }; // Inactive (red)
+        case 3:
+          return { color: '#A52A2A', backgroundColor: 'rgba(165, 42, 42, 0.1)' }
       default:
         return {};
     }
@@ -58,14 +60,13 @@ const AdminTable = ({ issuers, selectedTab, onView, setIssuers, fetchData }) => 
       }
 
       const data = await response.json();
+
       // Handle success response
       setSuccessMessage(data.message || 'Issuer successfully validated.');
       setShow(true);
       fetchData();
     } catch (error) {
-      // Display error message in the UI
-      setErrorMessage(error.message || 'Please try again later.');
-      setShow(true);
+   console.log(error)
     } finally {
       setLoading(false);
     }
@@ -109,12 +110,26 @@ const AdminTable = ({ issuers, selectedTab, onView, setIssuers, fetchData }) => 
                         height: '10px',
                         width: '10px',
                         backgroundColor:
-                          issuer.status === 1 ? '#FF885B' : issuer.status === 2 ? '#FF0000' : '#FABC3F',
+                        issuer.status === 1 
+                          ? '#FF885B' // Active
+                          : issuer.status === 2 
+                          ? '#FF0000' // Inactive
+                          : issuer.status === 3 
+                          ? '#A52A2A' // Rejected (example color, you can change it)
+                          : '#FABC3F', // Pending
+                      
                         borderRadius: '50%',
                         display: 'inline-block',
                       }}
                     ></span>
-                    {issuer.status === 1 ? 'Active' : issuer.status === 2 ? 'Inactive' : 'Pending'}
+                {issuer.status === 1 
+  ? 'Active' 
+  : issuer.status === 2 
+  ? 'Inactive' 
+  : issuer.status === 3
+  ? 'Rejected' 
+  : 'Pending'}
+
                   </div>
                 </td>
                 {selectedTab !== 'newRequest' && <td>{issuer.matic || 'N/A'}</td>}
@@ -130,17 +145,38 @@ const AdminTable = ({ issuers, selectedTab, onView, setIssuers, fetchData }) => 
                     </div>
                   </td>
                 )}
-                {selectedTab === 'newRequest' && (
-                  <td>
-                    <div
-                      className='d-flex align-items-center pointer'
-                      style={{ columnGap: '10px', color: 'green', cursor: 'pointer', fontWeight: '700' }}
-                      onClick={() => handleIssuer(issuer.email, 1)}
-                    >
-                      Accept
-                    </div>
-                  </td>
-                )}
+               {selectedTab === 'newRequest' && (
+  <td>
+    <div className='d-flex align-items-center pointer' style={{ columnGap: '10px', cursor: 'pointer', fontWeight: '700' }}>
+      {/* Show both Accept and Reject buttons if issuer.status is not 3 */}
+      {issuer.status !== 3 ? (
+        <>
+          <div
+            style={{ color: 'green' }}
+            onClick={() => handleIssuer(issuer.email, 1)}
+          >
+            Accept
+          </div>
+          <div
+            style={{ color: 'red' }}
+            onClick={() => handleIssuer(issuer.email, 2)}
+          >
+            Reject
+          </div>
+        </>
+      ) : (
+        // Show only Accept button if issuer.status is 3
+        <div
+          style={{ color: 'green' }}
+          onClick={() => handleIssuer(issuer.email, 1)}
+        >
+          Accept
+        </div>
+      )}
+    </div>
+  </td>
+)}
+
               </tr>
             ))}
           </tbody>
