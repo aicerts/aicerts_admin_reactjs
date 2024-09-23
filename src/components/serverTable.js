@@ -1,69 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import Recycle from '../../assets/img/recycle.png';
-
 import Button from '../../shared/button/button';
 import Image from 'next/image';
+const apiUrl = process.env.NEXT_PUBLIC_BASE_URL_USER;
 
 const ServerTable = ({ onView }) => {
-    const [status, setStatus] = useState({
-        certs365Admin: 'pending',
-        certs365Issuer: 'pending',
-        lmsLive: 'pending',
-        lmsBackup: 'pending',
-    });
+    const [servers, setServers] = useState([]); // Hold servers fetched from API
 
-    const checkStatus = async (ip, key) => {
+    // Fetch server list from API
+    const fetchServers = async () => {
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        if (storedUser && storedUser.JWTToken) {
         try {
-            const response = await fetch(`${ip}/api/health`);
+            const response = await fetch(`${apiUrl}/api/get-server-details`, {
+                headers: {
+                  Authorization: `Bearer ${storedUser.JWTToken}`,
+                },
+              }); // API call to get server details
             const data = await response.json();
-
-            if (response.ok && data.status === 'SUCCESS') {
-                setStatus(prevStatus => ({ ...prevStatus, [key]: 'active' }));
+            if (response.ok) {
+                setServers(data.data); // Assuming `data` contains an array of servers
             } else {
-                setStatus(prevStatus => ({ ...prevStatus, [key]: 'inactive' }));
+                console.error('Error fetching servers:', data.error);
             }
         } catch (error) {
-            setStatus(prevStatus => ({ ...prevStatus, [key]: 'inactive' }));
+            console.error('Error fetching servers:', error.message);
         }
+    }
+
     };
 
+  
+
+    // Fetch servers on mount
     useEffect(() => {
-        checkStatus('http://52.72.67.100:8000', 'lmsLive');
-        checkStatus('http://54.146.227.42:3002', 'lmsBackup');
-        checkStatus('https://api1.certs365.io', 'certs365Admin');
-        checkStatus('https://api2.certs365.io', 'certs365Issuer');
+        fetchServers();
     }, []);
 
-    const issuers = [
-        {
-            name: "certs365 Admin",
-            status: status.certs365Admin,
-            ip: "https://api1.certs365.io", 
-        },
-        {
-            name: "certs365 Issuer",
-            status: status.certs365Issuer,
-            ip: "https://api2.certs365.io", 
-        },
-        {
-            name: "LMS Live",
-            status: status.lmsLive,
-            ip: "http://52.72.67.100:8000"
-        },
-        {
-            name: "LMS BackUp",
-            status: status.lmsBackup,
-            ip: "http://54.146.227.42:3002"
-        }
-    ];
+
 
     return (
         <div className='issuer-data'>
-            <p className='font-weight-bold title-blockchain' >Live Servers</p>
-
+            <p className='font-weight-bold title-blockchain'>Live Servers</p>
             <Table bordered>
-                <thead class="table-secondary"> {/* Set header background color to gray */}
+                <thead className="table-secondary"> {/* Set header background color to gray */}
                     <tr>
                         <th>S.No</th> {/* Serial Number column */}
                         <th>Name</th>
@@ -73,34 +54,52 @@ const ServerTable = ({ onView }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {issuers.map((issuer, index) => (
+                    {servers.map((server, index) => (
                         <tr key={index}>
                             <td>{index + 1}</td> {/* Display the serial number */}
-                            <td>{issuer.name}</td>
-                            <td>{issuer.ip || 'N/A'}</td>
+                            <td>{server.serverName}</td>
                             <td>
-                                <div 
-                                    style={{ 
-                                        display: 'flex', 
+                                {server.serverAddress ? (
+                                    <a
+                                    href={
+                                        server.serverAddress.startsWith('http://') ||
+                                        server.serverAddress.startsWith('https://')
+                                        ? server.serverAddress
+                                        : `http://${server.serverAddress}`
+                                    }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >
+                                    {server.serverAddress}
+                                    </a>
+                                ) : (
+                                    'N/A'
+                                )}
+                                </td>
+
+                            <td>
+                                <div
+                                    style={{
+                                        display: 'flex',
                                         alignItems: 'center',
-                                        backgroundColor: issuer.status === 'active' ? 'rgba(255, 136, 91, 0.1)' : 'rgba(250, 188, 63, 0.1)',
+                                        backgroundColor: server.serverStatus ? 'rgba(255, 136, 91, 0.1)' : 'rgba(250, 188, 63, 0.1)',
                                         padding: '2px 6px',
                                         borderRadius: '4px',
                                         width: 'fit-content',
-                                        color: issuer.status === 'active' ? '#FF885B' : '##DB371F' // Change text color based on status
+                                        color: server.serverStatus ? '#FF885B' : '#DB371F' 
                                     }}
                                 >
-                                    <span 
-                                        style={{ 
+                                    <span
+                                        style={{
                                             display: 'inline-block',
                                             width: '10px',
                                             height: '10px',
                                             borderRadius: '50%',
-                                            backgroundColor: issuer.status === 'active' ? '#FF885B' : '#FABC3F',
+                                            backgroundColor:server.serverStatus ? 'rgba(255, 136, 91, 1)' : 'rgba(219, 55, 31, 1)',
                                             marginRight: '5px'
                                         }}
                                     />
-                                    {issuer.status === 'active' ? 'Active' : 'Inactive'}
+                                    {server.serverStatus ? 'Active' : 'Inactive'}
                                 </div>
                             </td>
                             <td>

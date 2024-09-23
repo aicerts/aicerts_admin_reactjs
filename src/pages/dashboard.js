@@ -7,7 +7,7 @@ import IssuerDetailsDrawer from '../components/issuer-details-drawer';
 import SearchAdmin from '../components/searchAdmin';
 import BarChart from '../components/barChart';
 
-const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
+const apiUrl = process.env.NEXT_PUBLIC_BASE_URL_USER;
 
 const Dashboard = () => {
   const [selectedTab, setSelectedTab] = useState('newRequest'); // Default to 'issueList' tab
@@ -77,7 +77,7 @@ const Dashboard = () => {
   // Filtering issuers based on the selected tab
   const filteredIssuers = selectedTab === 'issueList'
     ? issuers.filter(issuer => issuer.status === 1 || issuer.status === 2 )
-    : issuers.filter(issuer => issuer.status === 0);
+    : issuers.filter(issuer => issuer.status === 0 || issuer.status === 3);
 
   return (
     <div >
