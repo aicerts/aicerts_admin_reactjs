@@ -83,19 +83,9 @@ const [balance, setBalance] = useState('');
   },[])
   return (
     <div style={{background: "../../assets/img/bg-adminheader.svg"}} className='mt-5 admin-header-wrapper d-flex flex-column flex-md-row justify-content-between'>
-        {/* <div className='admin-header-card d-flex flex-column text-centre'>
-<div className='card-title d-flex justify-content-center align-items-center text-center'>
-Total Issuer
-</div>
-<div className='d-flex flex-column justify-content-center align-items-center text-center'>
-    <h2 className='d-flex text-center'>{dashboardData?.allIssuers || 0}</h2>
- 
-</div>
-        </div> */
-      }
 
            <div className='admin-header-card d-flex flex-row text-centre justify-content-between'>
-       <div className='d-flex flex-row text-centre justify-content-center'>
+       <div className='d-flex flex-row text-centre justify-content-center bg-white' >
         <div className='badge-container'>
         <Image width={20} height={50} className='badge-cert' src="/icons/badge-cert.svg" alt='Badge'/> {/* Image for badge */}
       </div>
@@ -127,7 +117,7 @@ className='d-flex flex-column ms-3'>
 
     </div>
         </div>
-        <div className='admin-header-card d-flex flex-row text-centre'>
+        <div className='admin-header-card d-flex flex-row text-centre bg-white'>
         <div className='badge-container'>
         <Image width={20} height={50} className='badge-cert' src="/icons/badge-cert.svg" alt='Badge'/> {/* Image for badge */}
       </div>
@@ -141,7 +131,7 @@ className='d-flex flex-column ms-3'>
    
 </div>
         </div>
-        <div className='admin-header-card d-flex flex-row text-centre'>
+        <div className='admin-header-card d-flex flex-row text-centre bg-white'>
         <div className='badge-container'>
         <Image width={20} height={50} className='badge-cert' src="/icons/badge-cert.svg" alt='Badge'/> {/* Image for badge */}
       </div>
@@ -152,7 +142,7 @@ className='d-flex flex-column ms-3'>
 <p className='text-header-card'>Total Avl.Bal./Matics Spent so far 
 </p>
    
-    <h5 className='text-header-card-bold '>{ balance || 0} / 55</h5>
+    <h5 className='text-header-card-bold '>{ balance || 0} / { dashboardData?.maticSpent || 0}</h5>
    
 </div>
         </div>

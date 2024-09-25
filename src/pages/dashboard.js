@@ -19,7 +19,8 @@ const Dashboard = () => {
     allIssuers:0,
     activeIssuers:0,
     inactiveIssuers:0,
-    pendingIssuers:0
+    pendingIssuers:0,
+    maticSpent:0
   });
   const router = useRouter();
 
@@ -47,6 +48,7 @@ const Dashboard = () => {
           activeIssuers:data?.activeIssuers,
           inactiveIssuers:data?.inactiveIssuers,
           pendingIssuers:data?.pendingIssuers,
+          maticSpent:data?.maticSpent
         })
       } else {
         router.push('/');
@@ -80,8 +82,9 @@ const Dashboard = () => {
     : issuers.filter(issuer => issuer.status === 0 || issuer.status === 3);
 
   return (
-    <div >
-        <p style={{position:"absolute", left:"90px"}} className='font-weight-bold title-blockchain' >Blockchain</p>
+    <div  className='page-bg'>
+      <div style={{padding:"0px 100px", marginTop:"140px"}} className='position-relative h-100'>
+        <p style={{position:"absolute", left:"100px",top:"0px"}} className='font-weight-bold title-blockchain' >Dashboard</p>
 
       <IssuerDetailsDrawer modalShow={modalShow} setIssuerDetails={setIssuerDetails} onHide={handleCloseModal} issuerDetails={issuerDetails} fetchData={fetchData}  />
       <div style={{marginTop:"30px"}}>
@@ -91,7 +94,7 @@ const Dashboard = () => {
 <BarChart/>
 {/* <PieChart/> */}
 <br/>
-      <div  className='px-5 d-flex flex-row justify-content-between'>
+      <div  className=' d-flex flex-row justify-content-between'>
         
       <SearchAdmin issuers={issuers} setIssuers={setIssuers}  />
 
@@ -112,10 +115,11 @@ const Dashboard = () => {
 
 
       </div>
-      <div className='px-5'>
+      <div >
 
         <AdminTable selectedTab={selectedTab} issuers={filteredIssuers} onView={handleView} fetchData={fetchData}/>
       </div>
+    </div>
     </div>
   );
 };

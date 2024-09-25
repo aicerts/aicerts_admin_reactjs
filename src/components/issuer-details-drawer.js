@@ -49,8 +49,24 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
         setShow(false);
     };
 
+    const getLabel = (serviceId) => {
+        switch (serviceId.toLowerCase()) {
+          case 'issue':
+            return 'Issuance';
+          case 'reactivate':
+            return 'Reactivation';
+          case 'renew':
+            return 'ReIssuance';
+          case 'revoke':
+            return 'Revocation';
+            
+          default:
+            return serviceId.charAt(0).toUpperCase() + serviceId.slice(1);
+        }
+      };
+
     useEffect(()=>{
-        if(issuerDetails?.email && issuerDetails.isApproved){
+        if(issuerDetails?.email ){
             handleStatus(issuerDetails?.email)
         }
     },[issuerDetails])
@@ -117,10 +133,6 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
 
             if (response.status === 'SUCCESS') {
               setStatusDetails(response.data.details)
-            } else {
-              setErrorMessage(response.message || 'Please try after some time');
-              setShow(true);
-
             }
           });
         } catch (error) {
@@ -444,15 +456,15 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
             >
                 <option value="">Select Action</option>
                 {statusDetails && statusDetails.map(service => (
-                    <option 
-                        key={service.serviceId} 
-                        value={service.serviceId} 
-                        style={service.status ? {} : { color: 'red' }}
-                    >
-                        {service.status ? 
-                            service.serviceId.charAt(0).toUpperCase() + service.serviceId.slice(1) : 
-                            `${service.serviceId.charAt(0).toUpperCase() + service.serviceId.slice(1)} (Locked)`}
-                    </option>
+                     <option 
+                     key={service.serviceId} 
+                     value={service.serviceId} 
+                     style={service.status ? {} : { color: 'red' }}
+                   >
+                     {service.status ? 
+                       getLabel(service.serviceId) : 
+                       `${getLabel(service.serviceId)} (Locked)`}
+                   </option>
                 ))}
             </Form.Control>
         </Form.Group>
