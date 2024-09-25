@@ -169,21 +169,27 @@ function BarChart() {
                 x: {
                     grid: {
                         display: false,
+                        dash: [5],
+                        color: "rgba(0,0,0,0.2)",
+
+
                     },
                     ticks: {
                         display: true,
                     },
-                    barPercentage: 0.6,  // Adjust this value for bar width
-                    categoryPercentage: 0.5,  // Adjust this value for space between groups
+                    barPercentage: 0.6, 
+                    categoryPercentage: 0.5, 
                 },
                 y: {
                     grid: {
+                        display:true,
                         color: "rgba(0,0,0,0.2)",
-                        borderDash: [5],
+                        dash: [10,5],
+                        
                     },
                     ticks: {
-                        stepSize: 5, // Adjust the step size to 5
-                        maxTicksLimit: 10, // Adjust the number of ticks
+                        stepSize: 5,
+                        maxTicksLimit: 10, 
                         callback: function (value) {
                             return value;
                         },
@@ -197,7 +203,7 @@ function BarChart() {
     }, []);
 
     return (
-        <div className="container outer-container">
+        <div className=" outer-container">
               <div className="date-picker-container">
       <DatePicker
         selected={year}
