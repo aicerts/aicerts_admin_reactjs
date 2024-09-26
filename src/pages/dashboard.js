@@ -86,7 +86,7 @@ const Dashboard = () => {
       <div style={{padding:"0px 100px", marginTop:"140px"}} className='position-relative h-100'>
         <p style={{position:"absolute", left:"100px",top:"0px"}} className='font-weight-bold title-blockchain' >Dashboard</p>
 
-      <IssuerDetailsDrawer modalShow={modalShow} setIssuerDetails={setIssuerDetails} onHide={handleCloseModal} issuerDetails={issuerDetails} fetchData={fetchData}  />
+      <IssuerDetailsDrawer setModalShow={setModalShow} modalShow={modalShow} setIssuerDetails={setIssuerDetails} onHide={handleCloseModal} issuerDetails={issuerDetails} fetchData={fetchData}  />
       <div style={{marginTop:"30px"}}>
 
       <AdminHeader dashboardData={dashboardData}  />
