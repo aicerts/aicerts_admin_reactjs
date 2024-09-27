@@ -24,6 +24,11 @@
             background: rgba(186, 152, 47, 1);
         }
     }
+    &.sm{
+        padding: 10px 15px !important;
+    }
+
+    
 
     &.upload {
         color: $golden;

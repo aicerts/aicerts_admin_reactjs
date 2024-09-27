@@ -797,12 +797,12 @@ margin: 0 2px;
     }
 
     /* Specific colors for each radio button */
-    .filter-options input[value="Issued"]:checked {
+    .filter-options input[value="Issuer"]:checked {
         border-color: #CFA935;
     }
 
-    .filter-options input[value="Reactivated"]:checked {
-        border-color: #A28F65;
+    .filter-options input[value="Issuance"]:checked {
+        border-color: #3D915E;
     }
 
     .filter-options input[value="Reissued"]:checked {

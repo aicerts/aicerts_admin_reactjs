@@ -81,6 +81,20 @@ const AddServer = (data: any,callback: (response: Response) => void) => {
     });
 };
 
+const EditServer = (data: any,callback: (response: Response) => void) => {
+  API({
+    method: "POST",
+    url: `${apiUrl}/api/upload-server-details`,
+    data: data
+  })
+    .then((response) => {
+      callback({ status: "SUCCESS", data: response.data });
+    })
+    .catch((error) => {
+      callback({ status: "ERROR", error: error });
+    });
+};
+
 
 const getAllServer = (callback: (response: Response) => void) => {
   API({
@@ -103,7 +117,8 @@ const dashboard = {
     getDetails,
     getStatus,
     AddServer,
-    getAllServer
+    getAllServer,
+    EditServer
   }
   // Export the register function as the default export for this module
   export default dashboard;

@@ -84,9 +84,9 @@ const AdminTable = ({ issuers, selectedTab, onView, setIssuers, fetchData }) => 
               <th>Name</th>
               <th>Email</th>
               <th>Status</th>
-              {/* Conditionally render "Matic" and "Action" columns if selectedTab is not 'newRequest' */}
-              {selectedTab !== 'newRequest' && <th>Matic</th>}
-              <th>Action</th>
+              {/* Conditionally render "Matic" and "Action" columns if selectedTab is not 'issuerRequest' */}
+              {/* {selectedTab !== 'issuerRequest' && <th>Matic</th>} */}
+              <th colSpan={2}>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -132,8 +132,8 @@ const AdminTable = ({ issuers, selectedTab, onView, setIssuers, fetchData }) => 
 
                   </div>
                 </td>
-                {selectedTab !== 'newRequest' && <td>{issuer.matic || 'N/A'}</td>}
-                {selectedTab !== 'newRequest' && (
+                {/* {selectedTab !== 'issuerRequest' && <td>{issuer.matic || 'N/A'}</td>} */}
+                 
                   <td>
                     <div
                       className='d-flex align-items-center pointer'
@@ -144,35 +144,40 @@ const AdminTable = ({ issuers, selectedTab, onView, setIssuers, fetchData }) => 
                       View
                     </div>
                   </td>
-                )}
-               {selectedTab === 'newRequest' && (
+               {selectedTab === 'issuerRequest' && (
   <td>
     <div className='d-flex align-items-center pointer' style={{ columnGap: '10px', cursor: 'pointer', fontWeight: '700' }}>
       {/* Show both Accept and Reject buttons if issuer.status is not 3 */}
-      {issuer.status !== 3 ? (
-        <>
-          <div
-            style={{ color: 'green' }}
-            onClick={() => handleIssuer(issuer.email, 1)}
-          >
-            Accept
-          </div>
-          <div
-            style={{ color: 'red' }}
-            onClick={() => handleIssuer(issuer.email, 2)}
-          >
-            Reject
-          </div>
-        </>
-      ) : (
-        // Show only Accept button if issuer.status is 3
-        <div
-          style={{ color: 'green' }}
-          onClick={() => handleIssuer(issuer.email, 1)}
-        >
-          Accept
-        </div>
-      )}
+      {issuer.status === 0 ? (
+  <>
+    <button
+      className='global-button golden sm'
+      onClick={() => handleIssuer(issuer.email, 1)}
+    >
+      Accept
+    </button>
+    <button
+      className='global-button outlined sm'
+      onClick={() => handleIssuer(issuer.email, 2)}
+    >
+      Reject
+    </button>
+  </>
+) : issuer.status === 2 ? (
+  <button
+    className='global-button golden sm'
+    onClick={() => handleIssuer(issuer.email, 1)}
+  >
+    Reapprove
+  </button>
+) : issuer.status === 3 ? (
+  <button
+    className='global-button golden sm'
+    onClick={() => handleIssuer(issuer.email, 1)}
+  >
+    Accept
+  </button>
+) : null}
     </div>
   </td>
 )}
