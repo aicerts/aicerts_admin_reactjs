@@ -174,12 +174,13 @@ const AdminTable = ({ issuers, selectedTab, onView, setIssuers, fetchData }) => 
   <button
     className='global-button golden sm'
     onClick={() => handleIssuer(issuer.email, 1)}
-  >
+  > 
     Accept
   </button>
 ) : null}
     </div>
   </td>
+  
 )}
 
               </tr>
