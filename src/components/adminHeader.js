@@ -139,10 +139,13 @@ className='d-flex flex-column ms-3'>
   style={{ height: '100%' }}
 
 className='d-flex flex-column ms-3'>
-<p className='text-header-card'>Total Avl.Bal./Matics Spent so far 
+<p className='text-header-card'>Total Avl.Bal./Matics Spent So Far 
 </p>
    
-    <h5 className='text-header-card-bold '>{ balance || 0} / { dashboardData?.maticSpent || 0}</h5>
+<h5 className='text-header-card-bold '>
+  {(balance ? balance : '0.000')} / {(dashboardData?.maticSpent ? dashboardData.maticSpent.toFixed(3) : '0.000')}
+</h5>
+
    
 </div>
         </div>

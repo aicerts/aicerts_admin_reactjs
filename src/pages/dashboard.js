@@ -10,7 +10,7 @@ import BarChart from '../components/barChart';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL_USER;
 
 const Dashboard = () => {
-  const [selectedTab, setSelectedTab] = useState('newRequest'); // Default to 'issueList' tab
+  const [selectedTab, setSelectedTab] = useState('issuerRequest'); // Default to 'issueList' tab
   const [token, setToken] = useState('');
   const [issuers, setIssuers] = useState([]);
   const [modalShow, setModalShow] = useState(false);
@@ -78,15 +78,15 @@ const Dashboard = () => {
 
   // Filtering issuers based on the selected tab
   const filteredIssuers = selectedTab === 'issueList'
-    ? issuers.filter(issuer => issuer.status === 1 || issuer.status === 2 )
-    : issuers.filter(issuer => issuer.status === 0 || issuer.status === 3);
+    ? issuers.filter(issuer => issuer.status === 1  )
+    : issuers.filter(issuer => issuer.status === 0 || issuer.status === 3 || issuer.status === 2);
 
   return (
     <div  className='page-bg'>
       <div style={{padding:"0px 100px", marginTop:"140px"}} className='position-relative h-100'>
         <p style={{position:"absolute", left:"100px",top:"0px"}} className='font-weight-bold title-blockchain' >Dashboard</p>
 
-      <IssuerDetailsDrawer modalShow={modalShow} setIssuerDetails={setIssuerDetails} onHide={handleCloseModal} issuerDetails={issuerDetails} fetchData={fetchData}  />
+      <IssuerDetailsDrawer setModalShow={setModalShow} modalShow={modalShow} setIssuerDetails={setIssuerDetails} onHide={handleCloseModal} issuerDetails={issuerDetails} fetchData={fetchData}  />
       <div style={{marginTop:"30px"}}>
 
       <AdminHeader dashboardData={dashboardData}  />
@@ -102,9 +102,9 @@ const Dashboard = () => {
 
       
         <Button
-          label="New Request"
-          className={selectedTab === 'newRequest' ? 'golden m-2' : 'outlined m-2'}
-          onClick={() => handleTabChange('newRequest')}
+          label="Issuer Request"
+          className={selectedTab === 'issuerRequest' ? 'golden m-2' : 'outlined m-2'}
+          onClick={() => handleTabChange('issuerRequest')}
         />
           <Button
           label="Issue List"

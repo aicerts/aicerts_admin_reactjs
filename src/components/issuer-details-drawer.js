@@ -10,7 +10,7 @@ import Loading from './loading';
 
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetails,setIssuerDetails, fetchData}) => {
+const IssuerDetailsDrawer = ({ modalShow,setModalShow, handleCloseDrawer,  onHide,issuerDetails,setIssuerDetails, fetchData}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [show, setShow] = useState(false);
     const [token, setToken] = useState('');
@@ -25,6 +25,7 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
     const [successMessage, setSuccessMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [certInfo, setCertInfo] = useState(null);
+    const [showButton, setShowButton] = useState(true);
 
    
     const handleSelectChange = (e) => {
@@ -111,7 +112,7 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
               handleStatus(issuerDetails?.email)
               setIsLocked(!isLocked)
             } else {
-              setErrorMessage(response.message || 'Please try after some time');
+              setErrorMessage(response.message || 'Please try after some time1');
               setShow(true);
 
             }
@@ -162,8 +163,10 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
         
               setSuccessMessage("Updated Successfully")
               setShow(true)
+          fetchData();
+
             } else {
-              setErrorMessage(response.message || 'Please try after some time');
+              setErrorMessage(response?.error?.message || 'Please try after some time');
               setShow(true);
 
             }
@@ -214,6 +217,7 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
           setSuccessMessage(data.message || 'Issuer successfully validated.');
           setShow(true);
           fetchData();
+          setShowButton(false)
         } catch (error) {
           // Display error message in the UI
           setErrorMessage(error.message || 'Please try again later.');
@@ -485,11 +489,13 @@ const IssuerDetailsDrawer = ({ modalShow, handleCloseDrawer,  onHide,issuerDetai
         </>
                 }
         <div className='action'>
+            {showButton && 
     <Button 
-        label={issuerDetails.approved ? 'Reject' : 'Accept'} 
-        className={issuerDetails.approved ? 'warning w-25' : 'success w-25'} 
-        onClick={()=>{issuerDetails.approved ?handleIssuer(issuerDetails.email, 2): handleIssuer(issuerDetails.email, 1)}}
+    label={issuerDetails.approved ? 'Reject' : 'Accept'} 
+    className={issuerDetails.approved ? 'warning w-25' : 'success w-25'} 
+    onClick={()=>{issuerDetails.approved ?handleIssuer(issuerDetails.email, 2): handleIssuer(issuerDetails.email, 1)}}
     />
+}
 </div>
 
                     </>

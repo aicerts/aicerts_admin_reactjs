@@ -87,7 +87,7 @@ const Navigation = () => {
   const routesWithLogoutButton = ['/dashboard', '/add-trusted-owner', '/remove-trusted-owner','/check-balance','/live-server', '/blockchain'];
   return (
     <div>
-<AddServerModal onHide={handleClose} show={show} />
+<AddServerModal onHide={handleClose} show={show} isEditMode={false} />
 <nav className="global-header navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <div className='d-flex justify-content-between align-items-center w-100'>

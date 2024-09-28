@@ -105,8 +105,8 @@ function BarChart() {
             },
             {
                 label: "Issuance",
-                backgroundColor: "#ECDDAE",
-                borderColor: "#ECDDAE",
+                backgroundColor: "#3D915E",
+                borderColor: "#3D915E",
                 data: responseData.map(item => item.count[1]),
                 barThickness: 20,
                 borderRadius:12
@@ -125,8 +125,8 @@ function BarChart() {
             },
             {
                 label: "A2",
-                backgroundColor: "#ECDDAE",
-                borderColor: "#ECDDAE",
+                backgroundColor: "#3D915E",
+                borderColor: "#3D915E",
                 data: Array(12).fill(0),
                 barThickness: 20,
                 borderRadius: 6,

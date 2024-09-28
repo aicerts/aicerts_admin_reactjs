@@ -134,7 +134,7 @@ const Blockchain = () => {
 
                 if (response.status === 200) {
                     setMessage(responseData.message || 'Success');
-                    setBalance(parseFloat(responseData.balance).toFixed(2));
+                    setBalance(responseData);
                     // setError('');
                 } else {
                     setMessage(responseData.message || 'Failed');
@@ -169,7 +169,7 @@ const Blockchain = () => {
 
                 if (response.status === 200) {
                     setMessage(responseData.message || 'Success');
-                    setBalanceBackup(parseFloat(responseData.balance).toFixed(2));
+                    setBalanceBackup(responseData);
                     // setError('');
                 } else {
                     setMessage(responseData.message || 'Failed');
@@ -236,9 +236,13 @@ const Blockchain = () => {
                             <Card style={{borderRadius:"0px"}}  className='card-body'>
                                 <Card.Header className='card-title-blockchain'>Admin Wallet Balance</Card.Header>
                                 <Card.Body>
-                                    {balance && <h2 className='my-2 balance'><Image height={35} width={35} src="/icons/matic.svg" /> <strong>{balance}</strong></h2>}
+                                    {balance.balance && <h2 className='my-2 balance'><Image height={35} width={35} src="/icons/matic.svg" /> <strong>{parseFloat(balance.balance).toFixed(2)}</strong></h2>}
+                                    
+                                    {balance.lastUpdate && 
+                                    <>
                                     <hr className='dashed' />
-                                    <div className='latest-update'><span>Last Updated:</span> <strong>02/03/2024</strong></div>
+                                    <div className='latest-update'><span>Last Updated:</span> <strong>{balance.lastUpdate}</strong></div>
+                                    </>}
                                 </Card.Body>
                             </Card>
                             </Col>
@@ -246,9 +250,12 @@ const Blockchain = () => {
                             <Card style={{borderRadius:"0px"}}  className='card-body'>
                                 <Card.Header className='card-title-blockchain'>Backup Wallet Balance</Card.Header>
                                 <Card.Body>
-                                    {balancebackup && <h2 className='my-2 balance'><Image height={35} width={35} src="/icons/matic.svg" /> <strong>{balancebackup}</strong></h2>}
+                                    {balancebackup && <h2 className='my-2 balance'><Image height={35} width={35} src="/icons/matic.svg" /> <strong>{parseFloat(balancebackup.balance).toFixed(2)}</strong></h2>}
+                                    {balance.lastUpdate &&
+                                    <>
                                     <hr className='dashed' />
-                                    <div className='latest-update'><span>Last Updated:</span> <strong>02/03/2024</strong></div>
+                                    <div className='latest-update'><span>Last Updated:</span> <strong>{balance.lastUpdate}</strong></div>
+                                    </>}
                                 </Card.Body>
                             </Card>
                             </Col>
