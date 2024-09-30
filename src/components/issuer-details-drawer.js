@@ -262,17 +262,17 @@ const IssuerDetailsDrawer = ({ modalShow,setModalShow, handleCloseDrawer,  onHid
     
 
     return (
-        <Modal size='lg' className='drawer-wrapper'   show={modalShow} onHide={onHide}>
+        <Modal size='lg'  className='drawer-wrapper'   show={modalShow} onHide={onHide}>
                  <AlertModal handleClose={handleClose} show={show} successMessage={successMessage} errorMessage={errorMessage} />
                  <Loading isLoading={loading} />
                 
                 <div  className='header d-flex align-items-center justify-content-between'>
-                    <h2 className='title'>Issuer Details</h2>
+                    <h2 className='title' style={{fontFamily:"Montserrat"}}>Issuer Details</h2>
                     <div className='close' onClick={onHide}>
                         <Image 
                             src="https://images.netcomlearning.com/ai-certs/icons/close-grey-bg.svg"
-                            width={40}
-                            height={40}
+                            width={32}
+                            height={32}
                             alt='Close Drawer'
                         />
                     </div>
@@ -293,7 +293,7 @@ const IssuerDetailsDrawer = ({ modalShow,setModalShow, handleCloseDrawer,  onHid
                             </div>
                             <div className='details'>
                                 {issuerDetails.name &&
-                                    <div className='name'>{issuerDetails.name}</div>
+                                    <div className='name'style={{fontFamily:"Montserrat"}} >{issuerDetails.name}</div>
                                 }
                                 {issuerDetails.designation && 
                                     <div className='designation'>{issuerDetails.designation}</div>
@@ -350,19 +350,19 @@ const IssuerDetailsDrawer = ({ modalShow,setModalShow, handleCloseDrawer,  onHid
                                     </Col>
                                 }
                                 {issuerDetails.websiteLink &&
-                                    <Col xs={12} md={4}>
+                                    <Col xs={12} md={4}style={{display:"flex", flexDirection:"column", width:"100%"}}>
                                         <div className='label'>Website</div>
                                         <div className='info'>
-                                            <Link href={issuerDetails.websiteLink} target='_blank'>
+                                            <Link href={issuerDetails.websiteLink} target='_blank' style={{textDecoration:"none",color:"black"}}>
                                                 {issuerDetails.websiteLink}
                                             </Link>
                                         </div>
                                     </Col>
                                 }
                                 {issuerDetails.address && issuerDetails.city && issuerDetails.state && issuerDetails.country && issuerDetails.zip && (
-                                    <Col xs={12} md={4}>
+                                    <Col xs={10} md={4} style={{display:"flex", flexDirection:"column", width:"100%"}}>
                                         <div className='label'>Address</div>
-                                        <div className='info'>
+                                        <div className='info'style={{ width:"100%"}}>
                                             {issuerDetails.address}, {issuerDetails.city}, {issuerDetails.state}, {issuerDetails.country}, {issuerDetails.zip}                                            
                                         </div>
                                     </Col>

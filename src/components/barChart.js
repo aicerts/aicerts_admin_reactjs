@@ -206,6 +206,7 @@ function BarChart() {
         <div className=" outer-container">
               <div className="date-picker-container">
       <DatePicker
+      
         selected={year}
         onChange={handleYearChange}
         dateFormat="yyyy"
@@ -213,6 +214,7 @@ function BarChart() {
         customInput={<CustomInput />}
         maxDate={new Date()} // Limits to the current year
         className="form-control"
+        
       />
     </div>
             <div className="filter-options d-none d-md-flex">
