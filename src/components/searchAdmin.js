@@ -95,7 +95,7 @@ const SearchAdmin = ({issuers, setIssuers, handleStatus}) => {
             <Form.Group controlId="search">
                 <div  className="search d-flex align-items-start">
                     {/* Search Criteria Dropdown */}
-                    <Dropdown style={{backgroundColor:"#F6F6F6"}} onSelect={handleSearchBySelect} className="me-2  golden-dropdown">
+                    <Dropdown style={{backgroundColor:"#F3F3F3"}} onSelect={handleSearchBySelect} className="me-2  golden-dropdown">
                         <Dropdown.Toggle style={{backgroundColor:"#F6F6F6", borderColor:"#F6F6F6", color:"#5B5A5F"}} variant="secondary" id="dropdown-basic">
                             Search by: {searchBy.charAt(0).toUpperCase() + searchBy.slice(1)}
                         </Dropdown.Toggle>
