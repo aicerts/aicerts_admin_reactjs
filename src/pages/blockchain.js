@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DashboardCard from "../components/dashboardCard";
 import dashboardServices from "../services/dashboardServices";
@@ -47,7 +47,7 @@ const Blockchain = () => {
     image: "/icons/badge-cert.svg",
   });
 
-  const getDetails = async () => {
+  const getDetails =useCallback( async () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
 
     try {
@@ -70,10 +70,10 @@ const Blockchain = () => {
     } catch (error) {
       console.error("Error in getDetails:", error);
     }
-  };
+  },[]);
   useEffect(() => {
     getDetails();
-  }, []);
+  }, [getDetails]);
 
   useEffect(() => {
     // Fetch data from the API endpoint
@@ -181,7 +181,7 @@ const Blockchain = () => {
     fetchData();
     handleSubmit();
     handleSubmitBackup();
-  }, [address, router]);
+  }, [address, router , address2, apiUrl]);
 
   const handleCloseAdd = () => {
     setShowAdd(false);
@@ -244,7 +244,7 @@ const Blockchain = () => {
               <Card.Body>
                 {balance.balance && (
                   <h2 className="my-2 balance">
-                    <Image height={35} width={35} src="/icons/matic.svg" />{" "}
+                    <Image height={35} width={35} src="/icons/matic.svg" alt="" />{" "}
                     <strong>{parseFloat(balance.balance).toFixed(2)}</strong>
                   </h2>
                 )}
@@ -269,7 +269,7 @@ const Blockchain = () => {
               <Card.Body>
                 {balancebackup && (
                   <h2 className="my-2 balance">
-                    <Image height={35} width={35} src="/icons/matic.svg" />{" "}
+                    <Image height={35} width={35} src="/icons/matic.svg" alt="" />{" "}
                     <strong>
                       {parseFloat(balancebackup.balance).toFixed(2)}
                     </strong>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AdminHeader from "../components/adminHeader";
 import AdminTable from "../components/adminTable";
 import Button from "../../shared/button/button";
@@ -28,7 +28,7 @@ const Dashboard = () => {
     setSelectedTab(tab);
   };
 
-  const fetchData = async () => {
+  const fetchData =useCallback( async () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
 
     try {
@@ -55,11 +55,11 @@ const Dashboard = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  },[router]);
 
   useEffect(() => {
     fetchData();
-  }, [router]);
+  }, [router, fetchData]);
 
   // Handle view button click
   const handleView = (data) => {

@@ -51,7 +51,7 @@ const SearchAdmin = ({issuers, setIssuers, handleStatus}) => {
         return () => {
             clearTimeout(); // Just clear the timeout if you need to handle any remaining timeouts
         };
-    }, [searchTerm, searchBy]);
+    }, [searchTerm, searchBy,fetchSuggestions]);
     
 
     const handleSearchTermChange = (e) => {
