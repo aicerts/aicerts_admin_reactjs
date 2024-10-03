@@ -395,7 +395,7 @@ const IssuerDetailsDrawer = ({ modalShow,setModalShow, handleCloseDrawer,  onHid
                                     </Col>
                                     <Col xs={12} md={4}>
                                         <div className='label'>Matic Spent</div>
-                                        <div className='info'>{issuerDetails?.transactionFee || 0 }</div>
+                                        <div className='info'>{(issuerDetails?.transactionFee || 0).toFixed(3)}</div>
                                     </Col>
                             </Row>
 
