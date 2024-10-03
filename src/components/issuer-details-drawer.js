@@ -376,19 +376,19 @@ const IssuerDetailsDrawer = ({ modalShow,setModalShow, handleCloseDrawer,  onHid
                             <Row>
                                
                                     <Col xs={12} md={4}>
-                                        <div className='label'>Issued Certification</div>
+                                        <div className='label'>Issued</div>
                                         <div className='info'>{certInfo?.issued || 0}</div>
                                     </Col>
                                     <Col xs={12} md={4}>
-                                        <div className='label'>Reissued Certification</div>
+                                        <div className='label'>Reissued</div>
                                         <div className='info'>{certInfo?.renewed || 0 }</div>
                                     </Col>
                                     <Col xs={12} md={4}>
-                                        <div className='label'>Reactivated Certification</div>
+                                        <div className='label'>Reactivated</div>
                                         <div className='info'>{certInfo?.reactivated || 0 }</div>
                                     </Col>
                                     <Col xs={12} md={4}>
-                                        <div className='label'>Revocked Certification</div>
+                                        <div className='label'>Revocked</div>
                                         <div className='info'>{certInfo?.revoked || 0 }</div>
                                     </Col>
                                     <Col xs={12} md={4}>
