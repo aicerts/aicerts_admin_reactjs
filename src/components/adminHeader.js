@@ -114,18 +114,29 @@ const AdminHeader = ({ dashboardData }) => {
             </h5>
           </div>
         </div>
-        <div>
-          <div className="active-wrapper d-flex text-center align-items-center justify-content-center">
-            Active:
-            {dashboardData?.activeIssuers || 0}
+        <div className="d-flex flex-row justify-content-center align-items-center">
+          <div className="mx-2">
+            
+          <div className="mt-2 active-wrapper d-flex text-center align-items-center justify-content-center">
+            Active: 
+            { dashboardData?.activeIssuers || 0}
           </div>
           <div className="mt-2 inactive-wrapper d-flex text-center align-items-center justify-content-center">
-            Inactive:
+            Inactive: 
             {dashboardData?.inactiveIssuers || 0}
           </div>
+          
+          </div>
+         
+          <div>
           <div className="mt-2 pending-wrapper d-flex text-center align-items-center justify-content-center">
             Pending:
             {dashboardData?.pendingIssuers || 0}
+          </div>
+          <div className="mt-2 pending-wrapper d-flex text-center align-items-center justify-content-center">
+            Rejected:
+            {dashboardData?.rejectedIssuers || 0}
+          </div>
           </div>
         </div>
       </div>
