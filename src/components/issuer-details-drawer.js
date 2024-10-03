@@ -48,6 +48,8 @@ const IssuerDetailsDrawer = ({ modalShow,setModalShow, handleCloseDrawer,  onHid
 
     const handleClose = () => {
         setShow(false);
+        setErrorMessage("")
+        setSuccessMessage("")
     };
 
     const getLabel = (serviceId) => {
@@ -262,13 +264,13 @@ const IssuerDetailsDrawer = ({ modalShow,setModalShow, handleCloseDrawer,  onHid
     
 
     return (
-        <Modal size='lg'  className='drawer-wrapper'   show={modalShow} onHide={onHide}>
+        <Modal size='lg'  className='drawer-wrapper'   show={modalShow} onHide={()=>{onHide(); setShowButton(true)}}>
                  <AlertModal handleClose={handleClose} show={show} successMessage={successMessage} errorMessage={errorMessage} />
                  <Loading isLoading={loading} />
                 
                 <div  className='header d-flex align-items-center justify-content-between'>
                     <h2 className='title' style={{fontFamily:"Montserrat"}}>Issuer Details</h2>
-                    <div className='close' onClick={onHide}>
+                    <div className='close' onClick={()=>{onHide(); setShowButton(true)}}>
                         <Image 
                             src="https://images.netcomlearning.com/ai-certs/icons/close-grey-bg.svg"
                             width={32}

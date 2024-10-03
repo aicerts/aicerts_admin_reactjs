@@ -125,7 +125,7 @@ const Dashboard = () => {
             />
             <Button
           
-              label="Issue List"
+              label="Issuer List"
               className={
                 selectedTab === "issueList" ? "golden " : "outlined"
               }
