@@ -20,6 +20,7 @@ const Dashboard = () => {
     activeIssuers: 0,
     inactiveIssuers: 0,
     pendingIssuers: 0,
+    rejectedIssuers:0,
     maticSpent: 0,
   });
   const router = useRouter();
@@ -48,6 +49,7 @@ const Dashboard = () => {
           inactiveIssuers: data?.inactiveIssuers,
           pendingIssuers: data?.pendingIssuers,
           maticSpent: data?.maticSpent,
+          rejectedIssuers:data?.rejectedIssuers
         });
       } else {
         router.push("/");
