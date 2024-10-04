@@ -155,7 +155,7 @@ const AdminTable = ({
                     }}
                     onClick={() => onView(issuer)}
                   >
-                    <Image src={EyeIcon} />
+                    <Image src={EyeIcon} alt="view" />
                     View
                   </div>
                 </td>

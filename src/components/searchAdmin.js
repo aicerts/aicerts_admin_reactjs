@@ -93,9 +93,9 @@ const SearchAdmin = ({issuers, setIssuers, handleStatus}) => {
     return (
         <Form >
             <Form.Group controlId="search">
-                <div  className="search d-flex align-items-start">
+                <div  className="search d-flex flex-column flex-md-row align-items-start gap-3" >
                     {/* Search Criteria Dropdown */}
-                    <Dropdown style={{backgroundColor:"#F3F3F3"}} onSelect={handleSearchBySelect} className="me-2  golden-dropdown">
+                    <Dropdown  style={{backgroundColor:"#F3F3F3"}} onSelect={handleSearchBySelect} className="me-2  golden-dropdown">
                         <Dropdown.Toggle style={{backgroundColor:"#F6F6F6", borderColor:"#F6F6F6", color:"#5B5A5F"}} variant="secondary" id="dropdown-basic">
                             Search by: {searchBy.charAt(0).toUpperCase() + searchBy.slice(1)}
                         </Dropdown.Toggle>
@@ -108,7 +108,8 @@ const SearchAdmin = ({issuers, setIssuers, handleStatus}) => {
                     </Dropdown>
 
                     {/* Search Input and Suggestions */}
-                    <div style={{ position: 'relative', width:"300px" }}>
+                   <div className=' d-flex w-100'>
+                   <div style={{ position: 'relative', width:"300px" }}>
                         <Form.Control
                         style={{borderRadius:0}}
                             type="text"
@@ -137,6 +138,7 @@ const SearchAdmin = ({issuers, setIssuers, handleStatus}) => {
                     <div className=' search-icon-container' >
                         <Image onClick={handleSubmit} width={10} height={10} src="/icons/search.svg" alt='search' />
                     </div>
+                   </div>
                     {/* Search Button */}
                     {/* <div className="search-icon-container submit ms-2">
                         <Button

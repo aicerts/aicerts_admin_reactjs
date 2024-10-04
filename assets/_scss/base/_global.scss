@@ -140,6 +140,15 @@ a {
     @media (min-width: $laptop-min) and (max-width: $laptop-max) {
       
     }
+
+    .header-wrap{
+        width:"100vw";
+         padding: "0px 150px";
+         margin-top: "125px";
+         height:"fit-content";
+        
+
+    }
 }
 
 .page-footer-bg {
@@ -231,3 +240,7 @@ a {
     display: flex;
     align-items: stretch;
 }
+
+
+@media (min-width: $large-min) and (max-width: $large-max) {
+    }

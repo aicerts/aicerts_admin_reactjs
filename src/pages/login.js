@@ -81,6 +81,7 @@ const Login = () => {
           });
 
           const responseData = await response.json();
+          console.log(responseData)
     
           if (response.status === 200) {
             // Successful login, handle accordingly (redirect or show a success message)
@@ -129,7 +130,6 @@ const Login = () => {
         }
     
         if (passwordError) {
-            console.error('Login failed: Password is too short');
             setShow(true);
             return;
         }
@@ -198,7 +198,7 @@ const Login = () => {
                                 </div>
                                 {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
                             </Form.Group>
-                            <div className='d-flex justify-content-between align-items-center'>
+                            <div className='d-flex justify-content-between gap-2 align-items-center'>
                                 <Button label="Login" className="golden" disabled={!isLoginFormValid()}/>
                                 <Link className="forgot-password-text" href="/reset-passwords">Reset Password?</Link>
                             </div>

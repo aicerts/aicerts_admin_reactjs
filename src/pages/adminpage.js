@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Button from '../../shared/button/button';
 import Image from 'next/legacy/image';
 import { Table, Modal, Container, Row, Col, Card } from 'react-bootstrap';
@@ -160,7 +160,7 @@ const AdminPage  = () => {
         await handleApproval(email, 2);
     };
 
-    const getDetails = async () => {
+    const getDetails =useCallback( async () => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
 
         try {
@@ -184,12 +184,12 @@ const AdminPage  = () => {
         } catch (error) {
           console.error("Error in getDetails:", error);
         }
-      };
+      },[]);
       useEffect(()=>{
        
           
           getDetails();
-      },[])
+      },[getDetails])
 
     const unapprovedIssuers = issuers?.filter(issuer => !issuer.approved);
 
@@ -271,7 +271,7 @@ const AdminPage  = () => {
                                     <Card className=''>
                                         <Card.Header>Admin Wallet Balance</Card.Header>
                                         <Card.Body>
-                                            {balance && <h2 className='my-2 balance'><Image height={35} width={35} src="/icons/matic.svg" /> <strong>{balance}</strong></h2>}
+                                            {balance && <h2 className='my-2 balance'><Image height={35} width={35} src="/icons/matic.svg" alt='' /> <strong>{balance}</strong></h2>}
                                             <hr className='dashed' />
                                             <div className='latest-update'><span>Last Updated:</span> <strong>02/03/2024</strong></div>
                                         </Card.Body>

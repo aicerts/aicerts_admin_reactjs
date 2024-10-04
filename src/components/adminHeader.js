@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Button from "../../shared/button/button";
 import bgHeader from "../../assets/img/bg-adminheader.svg";
 import dashboardServices from "../services/dashboardServices";
@@ -12,7 +12,7 @@ const AdminHeader = ({ dashboardData }) => {
   const [message, setMessage] = useState("");
   const [balance, setBalance] = useState("");
 
-  const getDetails = async () => {
+  const getDetails = useCallback( async () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
 
     try {
@@ -26,9 +26,9 @@ const AdminHeader = ({ dashboardData }) => {
     } catch (error) {
       console.error("Error in getDetails:", error);
     }
-  };
+  },[]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit =useCallback( async (e) => {
     // e.preventDefault();
     const storedUser = JSON.parse(localStorage.getItem("user"));
 
@@ -72,17 +72,19 @@ const AdminHeader = ({ dashboardData }) => {
       setBalance("");
       //   setShow(true);
     }
-  };
+  },[apiUrl, address, address2]);
 
   useEffect(() => {
-    handleSubmit();
-    getDetails();
-  }, []);
+    const fetchData = async () => {
+      await Promise.all([handleSubmit(), getDetails()]);
+    };
+    
+    fetchData();
+  }, [handleSubmit, getDetails]);
   return (
     <div
-      style={{ background: "../../assets/img/bg-adminheader.svg"  }}
-      className=" admin-header-wrapper d-flex flex-column flex-md-row justify-content-center gap-5 "
-      
+      style={{ background: "../../assets/img/bg-adminheader.svg" }}
+      className=" admin-header-wrapper d-flex flex-column flex-md-row justify-content-center "
     >
       <div className="admin-header-card d-flex flex-row text-centre justify-content-between">
         <div className="d-flex flex-row text-centre justify-content-center bg-white">
@@ -96,27 +98,46 @@ const AdminHeader = ({ dashboardData }) => {
             />{" "}
             {/* Image for badge */}
           </div>
-          <div style={{ height: "100%", }} className="d-flex flex-column ms-3 justify-content-center">
-            <p className="text-header-card" style={{fontSize:"1rem"}} >Total Issuers</p>
+          <div
+            style={{ height: "100%", width:"100%" }}
+            className="d-flex flex-column ms-3 justify-content-center"
+          >
+            <p className="text-header-card" style={{ fontSize: "1rem" }}>
+              Total Issuers
+            </p>
 
-            <h5 className="text-header-card-bold " style={{fontSize:"1.7rem"}}>
+            <h5
+              className="text-header-card-bold "
+              style={{ fontSize: "1.7rem" }}
+            >
               {dashboardData?.allIssuers || 0}
             </h5>
           </div>
         </div>
-        <div>
-          <div className="active-wrapper d-flex text-center align-items-center justify-content-center" >
-            Active:
-            {dashboardData?.activeIssuers || 0}
+        <div className="d-flex flex-row justify-content-center align-items-center">
+          <div className="mx-2">
+            
+          <div className="mt-2 active-wrapper d-flex text-center align-items-center justify-content-center">
+            Active: 
+            { dashboardData?.activeIssuers || 0}
           </div>
           <div className="mt-2 inactive-wrapper d-flex text-center align-items-center justify-content-center">
-            Inactive:
+            Inactive: 
             {dashboardData?.inactiveIssuers || 0}
           </div>
+          
+          </div>
+         
+          <div>
           <div className="mt-2 pending-wrapper d-flex text-center align-items-center justify-content-center">
             Pending:
             {dashboardData?.pendingIssuers || 0}
           </div>
+          <div className="mt-2 pending-wrapper d-flex text-center align-items-center justify-content-center">
+            Rejected:
+            {dashboardData?.rejectedIssuers || 0}
+          </div>
+          </div>
         </div>
       </div>
       <div className="admin-header-card d-flex flex-row text-centre bg-white">
@@ -130,10 +151,17 @@ const AdminHeader = ({ dashboardData }) => {
           />{" "}
           {/* Image for badge */}
         </div>
-        <div style={{ height: "100%" }} className="d-flex flex-column ms-3 justify-content-center">
-          <p className="text-header-card"style={{fontSize:"1rem"}}>Total Issuance</p>
+        <div
+          style={{ height: "100%" }}
+          className="d-flex flex-column ms-3 justify-content-center"
+        >
+          <p className="text-header-card" style={{ fontSize: "1rem" }}>
+            Total Issuance
+          </p>
 
-          <h5 className="text-header-card-bold "style={{fontSize:"1.7rem"}}>{totalBalance || 0}</h5>
+          <h5 className="text-header-card-bold " style={{ fontSize: "1.7rem" }}>
+            {totalBalance || 0}
+          </h5>
         </div>
       </div>
       <div className="admin-header-card d-flex flex-row text-centre bg-white">
@@ -147,10 +175,15 @@ const AdminHeader = ({ dashboardData }) => {
           />{" "}
           {/* Image for badge */}
         </div>
-        <div style={{ height: "100%" }} className="d-flex flex-column ms-3 justify-content-center">
-          <p className="text-header-card" style={{fontSize:"1rem"}}>Total Avl.Bal./Matics Spent So Far</p>
+        <div
+          style={{ height: "100%" }}
+          className="d-flex flex-column ms-3 justify-content-center"
+        >
+          <p className="text-header-card" style={{ fontSize: "1rem" }}>
+            Total Avl.Bal./Matics Spent So Far
+          </p>
 
-          <h5 className="text-header-card-bold "style={{fontSize:"1.7rem"}}>
+          <h5 className="text-header-card-bold " style={{ fontSize: "1.7rem" }}>
             {balance ? balance : "0.000"} /{" "}
             {dashboardData?.maticSpent
               ? dashboardData.maticSpent.toFixed(3)

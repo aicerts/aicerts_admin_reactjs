@@ -51,6 +51,7 @@ const AddServerModal: React.FC<AddServerModalProps> = ({ show, onHide, isEditMod
         setIsLoading(false);
         if (response.data.code == 200) {
           setMessage(isEditMode ? 'Server updated successfully' : 'Server added successfully');
+          window.location.reload()
         } else {
           setError(response.data.message || "Please Try Again Later");
         }
@@ -64,6 +65,7 @@ const AddServerModal: React.FC<AddServerModalProps> = ({ show, onHide, isEditMod
         dashboardServices.AddServer(apiData, callback);
       }
     }
+  
   };
 
   const handleBack = () => {
