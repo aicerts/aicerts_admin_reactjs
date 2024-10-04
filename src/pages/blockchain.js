@@ -62,7 +62,6 @@ const Blockchain = () => {
             LmsTotal: createDetail(response, "Annual", 1),
           };
           setDetails(details);
-          console.log(details);
         } else {
           console.error("Failed to fetch details", response);
         }
@@ -217,7 +216,7 @@ const Blockchain = () => {
             </div>
           </div>
 
-          <Row className="mt-2">
+          <Row className="mt-2 gap-2 gap-md-0">
             <Col xs md="4">
               <DashboardCard
                 item={tab === 1 ? details.NetComTotal : details.LmsTotal}

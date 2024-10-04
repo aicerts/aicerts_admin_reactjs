@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import IssuerDetailsDrawer from "../components/issuer-details-drawer";
 import SearchAdmin from "../components/searchAdmin";
 import BarChart from "../components/barChart";
+import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL_USER;
 
@@ -84,14 +85,15 @@ const Dashboard = () => {
         );
 
   return (
-    <div className="page-bg">
-      <div
-        style={{ padding: "0px 150px", marginTop: "125px", height:"fit-content" }}
-        className="position-relative d-flex flex-column gap-3"
+    <div className="page-bg d-flex justify-content-center">
+     <div style={{width:"80%"}}>
+     <div
+        className=" position-relative d-flex flex-column gap-3 header-wrap p-[0px 150px]"
+        style={{ marginTop: "125px",height:"fit-content", }}
       >
         <p
-          style={{ position: "absolute", left: "150px", top: "0px", }}
-          className="font-weight-bold title-blockchain"
+          style={{ position: "absolute", top: "0px", }}
+          className=" font-weight-bold title-blockchain"
         >
           Dashboard
         </p>
@@ -106,16 +108,18 @@ const Dashboard = () => {
           
         />
    
+         
           <AdminHeader dashboardData={dashboardData} />
+         
        
         <BarChart />
         {/* <PieChart/> */}
         <br />
         <div style={{border: "1px solid #BFC0C2", backgroundColor:"white"}} className=" d-flex flex-column gap-3 p-3">
-        <div className=" d-flex flex-row justify-content-between">
+        <div className=" d-flex flex-column flex-md-row justify-content-between gap-3">
           <SearchAdmin issuers={issuers} setIssuers={setIssuers} />
 
-          <div className=" d-flex gap-2">
+          <div className=" d-flex gap-2 ">
             <Button
             
               label="Issuer Request"
@@ -135,7 +139,7 @@ const Dashboard = () => {
             />
           </div>
         </div>
-        <div >
+        <div className=" overflow-auto" >
           <AdminTable
             selectedTab={selectedTab}
             issuers={filteredIssuers}
@@ -147,6 +151,7 @@ const Dashboard = () => {
         </div>
         
       </div>
+     </div>
     </div>
   );
 };

@@ -81,6 +81,7 @@ const Login = () => {
           });
 
           const responseData = await response.json();
+          console.log(responseData)
     
           if (response.status === 200) {
             // Successful login, handle accordingly (redirect or show a success message)

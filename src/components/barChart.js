@@ -25,12 +25,31 @@ const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
   CustomInput.displayName = "CustomInput";
 
 function BarChart() {
+   
     const [responseData, setResponseData] = useState(null);
     const [email, setEmail] = useState(''); // Placeholder email
     const [token, setToken] = useState(null);
     const [year, setYear] = useState(new Date());
     const [loading, setLoading] = useState(false); // State to track loading status
     const [selectedFilter, setSelectedFilter] = useState("All");
+
+    const [barThickness, setBarThickness] = useState(20); // Default bar thickness
+
+    // Determine screen size and adjust bar thickness
+    useEffect(() => {
+        const updateBarThickness = () => {
+            if (window.innerWidth < 768) { // If mobile screen
+                setBarThickness(10); // Thinner bars for mobile
+            } else {
+                setBarThickness(20); // Default bar thickness for larger screens
+            }
+        };
+
+        window.addEventListener("resize", updateBarThickness);
+        updateBarThickness(); // Set the initial bar thickness based on screen size
+
+        return () => window.removeEventListener("resize", updateBarThickness);
+    }, []);
     
     Chart.register(CategoryScale, LinearScale, BarElement, Title);
     const router = useRouter();
@@ -48,6 +67,7 @@ function BarChart() {
 
     const fetchData = async (selectedYear) => {
         try {
+            
             setLoading(true); // Set loading to true before making the API call
             const response = await fetch(`${apiUrl}/api/get-admin-graph-details/${selectedYear}`, {
                 method: 'GET',
@@ -55,12 +75,14 @@ function BarChart() {
                     'Content-Type': 'application/json',
                 }
             });
+            
 
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
 
             const data = await response.json();
+            console.log(data)
             setResponseData(data.data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -100,7 +122,7 @@ function BarChart() {
                 backgroundColor: "#CFA935",
                 borderColor: "#CFA935",
                 data: responseData.map(item => item.count[0]),
-                barThickness: 20,
+                barThickness: barThickness,
                 borderRadius:12
             },
             {
@@ -108,7 +130,7 @@ function BarChart() {
                 backgroundColor: "#3D915E",
                 borderColor: "#3D915E",
                 data: responseData.map(item => item.count[1]),
-                barThickness: 20,
+                barThickness: barThickness,
                 borderRadius:12
             },
         ],
@@ -140,72 +162,74 @@ function BarChart() {
             selectedFilter === "All" || dataset.label === selectedFilter
         ),
     };
-
     const getPadding = () => {
         if (typeof window !== 'undefined') {
-            if (window.innerWidth < 600) {
-                return { left: 10, right: 10, top: 20, bottom: 20 };
-            } else if (window.innerWidth < 900) {
-                return { left: 50, right: 50, top: 50, bottom: 50 };
-            } else {
+            if (window.innerWidth < 600) { // For small screens
+                return { left: 10, right: 10, top: 20, bottom: 50 };
+            } else if (window.innerWidth < 900) { // For tablet screens
+                return { left: 30, right: 30, top: 40, bottom: 40 };
+            } else { // For larger screens
                 return { left: 50, right: 50, top: 50, bottom: 50 };
             }
         }
         return { left: 50, right: 50, top: 50, bottom: 50 }; // Default padding
     };
+    
+    
 
     const [chartOptions, setChartOptions] = useState({});
 
     useEffect(() => {
         setChartOptions({
             maintainAspectRatio: false,
+            responsive: true,  // Enable responsiveness
             plugins: {
                 legend: {
-                    display: false,
-                    position: "top",
-                },
+                    display: false, 
+                  
+                }
             },
             scales: {
                 x: {
                     grid: {
                         display: false,
-                        dash: [5],
-                        color: "rgba(0,0,0,0.2)",
-
-
                     },
                     ticks: {
                         display: true,
+                        font: {
+                            size: window.innerWidth < 600 ? 8 : 12 // Adjust label size for small screens
+                        }
                     },
-                    barPercentage: 0.6, 
-                    categoryPercentage: 0.5, 
+                    barPercentage: window.innerWidth < 600 ? 0.2 : 0.6, // Adjust bar width for mobile
+                    categoryPercentage: 0.5,
                 },
                 y: {
                     grid: {
-                        display:true,
+                        display: true,
                         color: "rgba(0,0,0,0.2)",
-                        dash: [10,5],
-                        
+                        dash: [10, 5],
                     },
                     ticks: {
                         stepSize: 5,
-                        maxTicksLimit: 10, 
-                        callback: function (value) {
-                            return value;
-                        },
-                    },
-                },
+                        maxTicksLimit: 10,
+                        font: {
+                            size: window.innerWidth < 600 ? 8 : 12 // Adjust label size for small screens
+                        }
+                    }
+                }
             },
             layout: {
                 padding: getPadding(),
-            },
+            }
         });
     }, []);
-
+    
     return (
         <div className=" outer-container">
-              <div className="date-picker-container">
+        <div className=" d-flex flex-row flex-md-column">
+                  <div className="date-picker-container">
       <DatePicker
+      
       
         selected={year}
         onChange={handleYearChange}
@@ -217,13 +241,14 @@ function BarChart() {
         
       />
     </div>
-            <div className="filter-options d-none d-md-flex">
-                <label>
+            <div className="filter-options  d-md-flex p-1">
+                <label >
                     <input
                         type="radio"
                         value="All"
                         checked={selectedFilter === "All"}
                         onChange={handleFilterChange}
+                        className=" d-none d-md-flex"
                     />
                     All
                 </label>
@@ -233,6 +258,7 @@ function BarChart() {
                         value="Issuer"
                         checked={selectedFilter === "Issuer"}
                         onChange={handleFilterChange}
+                       className=" d-none d-md-flex"
                     />
                     Issuer
                 </label>
@@ -242,10 +268,12 @@ function BarChart() {
                         value="Issuance"
                         checked={selectedFilter === "Issuance"}
                         onChange={handleFilterChange}
+                        className=" d-none d-md-flex"
                     />
                     Issuance
                 </label>
             </div>
+        </div>
             {loading ? (
                 <div className="loader">
                     <div className="spinner-border text-danger" role="status"></div>
@@ -253,7 +281,8 @@ function BarChart() {
             ) : (
                 <Bar
                     width={"100%"}
-                    height={"90%"}
+                    // height={"90%"}
+                    
                     data={filteredChartData}
                     options={chartOptions}
                 />

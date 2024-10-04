@@ -139,7 +139,8 @@ const ServerTable = ({ onView }) => {
   return (
     <div className="issuer-data">
       <p className="font-weight-bold title-blockchain">Live Servers</p>
-      <Table bordered>
+     <div style={{width:"100%", overflow:"auto"}}>
+     <Table bordered>
         <thead className="table-secondary">
           {" "}
           {/* Set header background color to gray */}
@@ -240,6 +241,7 @@ const ServerTable = ({ onView }) => {
           ))}
         </tbody>
       </Table>
+     </div>
 
       {/* Alert Modal for showing error/success messages */}
       <AlertModal

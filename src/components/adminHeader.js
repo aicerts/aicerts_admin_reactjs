@@ -84,7 +84,7 @@ const AdminHeader = ({ dashboardData }) => {
   return (
     <div
       style={{ background: "../../assets/img/bg-adminheader.svg" }}
-      className=" admin-header-wrapper d-flex flex-column flex-md-row justify-content-center gap-5 "
+      className=" admin-header-wrapper d-flex flex-column flex-md-row justify-content-center "
     >
       <div className="admin-header-card d-flex flex-row text-centre justify-content-between">
         <div className="d-flex flex-row text-centre justify-content-center bg-white">
@@ -99,7 +99,7 @@ const AdminHeader = ({ dashboardData }) => {
             {/* Image for badge */}
           </div>
           <div
-            style={{ height: "100%" }}
+            style={{ height: "100%", width:"100%" }}
             className="d-flex flex-column ms-3 justify-content-center"
           >
             <p className="text-header-card" style={{ fontSize: "1rem" }}>
