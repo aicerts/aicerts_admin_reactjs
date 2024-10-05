@@ -150,6 +150,7 @@ const Navigation = () => {
                 width:"20%",
                 
               }}
+              className=" flex-column flex-md-row"
             >
               {router.pathname == "/live-server" && (
                 <button

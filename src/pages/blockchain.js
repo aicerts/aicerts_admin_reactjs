@@ -187,7 +187,7 @@ const Blockchain = () => {
   };
 
   return (
-    <div className="blockchain-wrapper d-flex justify-content-center mt-2 dashboard">
+    <div className="blockchain-wrapper d-flex justify-content-center mt-2 dashboard p-2" >
       <Col xs md="10">
         <AddTrustedOwnerModal show={showAdd} handleClose={handleCloseAdd} />
         <RemoveTrustedOwnerModal
@@ -217,17 +217,17 @@ const Blockchain = () => {
           </div>
 
           <Row className="mt-2 gap-2 gap-md-0">
-            <Col xs md="4">
+            <Col xl md="4">
               <DashboardCard
                 item={tab === 1 ? details.NetComTotal : details.LmsTotal}
               />
             </Col>
-            <Col xs md="4">
+            <Col xl md="4">
               <DashboardCard
                 item={tab === 1 ? details.NetComMonth : details.LmsMonth}
               />
             </Col>
-            <Col xs md="4">
+            <Col xl md="4">
               <DashboardCard
                 item={tab === 1 ? details.NetComWeek : details.LmsWeek}
               />
@@ -293,8 +293,8 @@ const Blockchain = () => {
             >
               <Card.Header>Trusted Owner</Card.Header>
               <Card.Body>
-                <div className="trusted-owner-wrapper d-block d-md-flex align-items-center justify-content-center">
-                  <div className="trusted-owner add" style={{width:"50%"}} onClick={addTrustedOwner}>
+                <div className="trusted-owner-wrapper d-flex justify-content-center align-items-center   flex-row py-2" >
+                  <div className="trusted-owner add" onClick={addTrustedOwner}>
                     <Image
                       src="https://images.netcomlearning.com/ai-certs/icons/add-trusted-owner.svg"
                       width={57}
@@ -304,8 +304,8 @@ const Blockchain = () => {
                     <span className="hero-name">Add Owner</span>
                   </div>
                   <div
-                  style={{width:"50%"}}
-                    className="trusted-owner remove mt-4 mt-md-0"
+                 
+                    className="trusted-owner remove mt-md-0"
                     onClick={removeTrustedOwner}
                   >
                     <Image
