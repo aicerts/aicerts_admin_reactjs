@@ -206,12 +206,12 @@ const Login = () => {
                     </Card>
                     <div className='golden-border-right'></div>
                 </Col>
-                <Col md={{ span: 12 }}>
+                {/* <Col md={{ span: 12 }}>
                     <Button label="Register" className='golden mt-5 ps-0 pe-0 w-100 d-block d-lg-none' onClick={handleClick} />
                     <div className='copy-right text-center'>
                         <CopyrightNotice />
                     </div>
-                </Col>
+                </Col> */}
             </Row>
 
             {/* Loading Modal for API call */}
