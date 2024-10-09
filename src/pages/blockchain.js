@@ -188,7 +188,15 @@ const Blockchain = () => {
 
   return (
     <div className="blockchain-wrapper d-flex justify-content-center mt-2 dashboard p-2" >
-      <Col xs md="10">
+      <Col xs md="10" >
+      <div>
+      <p
+          // style={{ position: "absolute", top: "0px", }}
+          className=" font-weight-bold title-blockchain"
+        >
+          Blockchain
+        </p>
+      </div>
         <AddTrustedOwnerModal show={showAdd} handleClose={handleCloseAdd} />
         <RemoveTrustedOwnerModal
           show={showRemove}
@@ -197,7 +205,7 @@ const Blockchain = () => {
 
         <Card style={{ borderRadius: "0" }} className="p-3 mb-2 card-body">
           <div className="d-flex flex-row justify-content-between text-center align-items-center">
-            <p className="font-weight-bold title-blockchain">Blockchain</p>
+            <p className="font-weight-bold title-blockchain">Issuance</p>
 
             <div className="admin-button-container mb-2">
               <span
