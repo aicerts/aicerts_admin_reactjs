@@ -936,4 +936,23 @@ line-height: 26.82px;
 
   }
 
+ 
+}
+.back-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    background-color: #F3F3F3;
+    cursor: pointer;
+    margin-right: 20px;
+   
+    span{
+        padding-left: 10px;
+        color: #5B5A5F;
+        font-family: "Montserrat";
+        font-size: 16px;
+        font-weight: 500;
+    }
 }

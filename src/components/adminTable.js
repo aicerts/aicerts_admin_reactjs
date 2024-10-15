@@ -11,6 +11,8 @@ const AdminTable = ({
   onView,
   setIssuers,
   fetchData,
+  isLoading,
+  setIsLoading
 }) => {
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -209,15 +211,16 @@ const AdminTable = ({
         </Table>
       ) : (
         <div
-          style={{
-            textAlign: "center",
-            marginTop: "20px",
-            color: "#FF885B",
-            marginBottom: "70px",
-          }}
-        >
-          No Data Found
-        </div>
+        style={{
+          textAlign: "center",
+          marginTop: "20px",
+          color: "#FF885B",
+          marginBottom: "70px",
+        }}
+      >
+        {isLoading ? "Loading Data..." : "No Data Found"}
+      </div>
+      
       )}
     </div>
   );
