@@ -300,7 +300,7 @@ const IssuerDetailsDrawer = ({ modalShow,setModalShow, handleCloseDrawer,  onHid
                                 {issuerDetails.designation && 
                                     <div className='designation'>{issuerDetails.designation}</div>
                                 }
-                                <div className='contact d-flex align-items-center'>
+                                <div className='contact d-flex align-items-md-center'>
                                     {issuerDetails.phoneNumber &&
                                         <Link href="tel:7836280835">
                                             <div className='item d-flex align-items-center'>
@@ -334,7 +334,7 @@ const IssuerDetailsDrawer = ({ modalShow,setModalShow, handleCloseDrawer,  onHid
                             <h2 className='title'>Organization Details</h2>
                             <Row>
                                 {issuerDetails.organization &&
-                                    <Col xs={12} md={4}>
+                                    <Col xs={10} md={4}>
                                         <div className='label'>Organization Name</div>
                                         <div className='info'>{issuerDetails.organization}</div>
                                     </Col>

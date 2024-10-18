@@ -273,7 +273,7 @@ align-items: center;
 .btn{
 // width: 200px;
 height: 90%;
-width: 100%;
+width: 50%;
 font-family: $font-family;
 font-size: 17px;
 font-weight: 700;
@@ -363,7 +363,7 @@ margin: 0 2px;
     }
 
     .profile-info {
-        
+       
         margin-top: 10px;
         column-gap: 30px;
         align-items: center;
@@ -922,17 +922,27 @@ line-height: 26.82px;
             
         }
 
-    
     }
    
    .admin-button-container{
-    
    
     width: 50%;
     gap: 5px;
     justify-self: center;
     align-items: center;
+   
+
+    .btn{
+      font-size: 14px;
+      
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+     
+    }
    }
+
 
   }
 
@@ -955,4 +965,122 @@ line-height: 26.82px;
         font-size: 16px;
         font-weight: 500;
     }
+  .drawer-wrapper{
+    display: flex;
+    padding: 0;
+   
+    .profile-info{
+        
+        display: flex;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+
+        .pic {
+           
+           width: 0;
+           height: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+
+            color: #5A677E;
+            font-size: 35px;
+            font-style: normal;
+            font-weight: 700;
+            text-transform: uppercase;
+           
+            // line-height: 150px;
+            text-align: center;
+            background-color: #F3F3F3;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+        }
+        .details {
+            font-family: Montserrat;
+            
+            .name {
+                color: #000;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: normal;
+                margin-bottom: 10px;
+            }
+
+            .designation {
+                color: #5A677E;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                margin: 10px 0 15px;
+            }
+
+            .contact {
+                column-gap: 0px;
+                
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+               
+                a {
+                    text-decoration: none;
+                }
+
+                .item {
+                   
+                    color: #000;
+                    font-size: 11px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                    letter-spacing: 0.8px;
+                    width: 100%;
+                   
+
+                    &:hover {
+                        color: #CFA935;
+                    }
+                }
+            }
+            
+        }
+        
+    }
+    .org-details{
+       
+        .row {
+            .col-md-4 {
+                &:nth-child(n+4) {
+                    margin-top: 10px;
+                   
+                }
+            }
+        }
+        
+        .label {
+            color: #5A677E;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            margin-bottom: 4px;
+        }
+
+        .info {
+            color: #000;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            word-wrap: break-word; /* Or use overflow-wrap: break-word; */
+        }
+    }
+  }
 }
