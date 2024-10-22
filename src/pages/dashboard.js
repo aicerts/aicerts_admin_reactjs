@@ -7,7 +7,8 @@ import IssuerDetailsDrawer from "../components/issuer-details-drawer";
 import SearchAdmin from "../components/searchAdmin";
 import BarChart from "../components/barChart";
 import { width } from "@fortawesome/free-solid-svg-icons/fa0";
-
+import BackIcon from "../../public/icons/backIcon.svg"
+import Image from "next/image";
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL_USER;
 
 const Dashboard = () => {
@@ -16,6 +17,7 @@ const Dashboard = () => {
   const [issuers, setIssuers] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [issuerDetails, setIssuerDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [dashboardData, setDashboardData] = useState({
     allIssuers: 0,
     activeIssuers: 0,
@@ -24,6 +26,7 @@ const Dashboard = () => {
     rejectedIssuers:0,
     maticSpent: 0,
   });
+  const [isSearch, setIsSearch] = useState(false)
   const router = useRouter();
 
   const handleTabChange = (tab) => {
@@ -32,7 +35,7 @@ const Dashboard = () => {
 
   const fetchData =useCallback( async () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
-
+setLoading(true)
     try {
       if (storedUser && storedUser.JWTToken) {
         setToken(storedUser.JWTToken);
@@ -57,6 +60,8 @@ const Dashboard = () => {
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally{
+      setLoading(false)
     }
   },[router]);
 
@@ -64,6 +69,11 @@ const Dashboard = () => {
     fetchData();
   }, [router, fetchData]);
 
+
+  const handleCloseSearch=(()=>{
+    setIsSearch(false);
+    fetchData()
+  })
   // Handle view button click
   const handleView = (data) => {
     setIssuerDetails(data);
@@ -76,13 +86,14 @@ const Dashboard = () => {
   };
 
   // Filtering issuers based on the selected tab
-  const filteredIssuers =
-    selectedTab === "issueList"
-      ? issuers.filter((issuer) => issuer.status === 1)
-      : issuers.filter(
-          (issuer) =>
-            issuer.status === 0 || issuer.status === 3 || issuer.status === 2
-        );
+  const filteredIssuers = isSearch
+  ? issuers
+  : selectedTab === "issueList"
+  ? issuers.filter((issuer) => issuer.status === 1)
+  : issuers.filter(
+      (issuer) => issuer.status === 0 || issuer.status === 2 || issuer.status === 3
+    );
+
 
   return (
     <div className="page-bg d-flex justify-content-center">
@@ -109,7 +120,7 @@ const Dashboard = () => {
         />
    
          
-          <AdminHeader dashboardData={dashboardData} />
+          <AdminHeader handleCloseSearch={handleCloseSearch} isSearch={isSearch} setIsSearch={setIsSearch} dashboardData={dashboardData} />
          
        
         <BarChart />
@@ -117,8 +128,16 @@ const Dashboard = () => {
         <br />
         <div style={{border: "1px solid #BFC0C2", backgroundColor:"white"}} className=" d-flex flex-column gap-3 p-3">
         <div className=" d-flex flex-column flex-md-row justify-content-between gap-3">
-          <SearchAdmin issuers={issuers} setIssuers={setIssuers} />
+       <div className="d-flex flex-row align-items-center">
+        {isSearch &&
 
+       <span onClick={() => { handleCloseSearch()}} className='back-button me-3'>
+              <Image width={10} height={10} src={BackIcon} alt='back' /><span className=''>Back</span>
+            </span>
+      }
+          <SearchAdmin issuers={issuers} setIssuers={setIssuers} setIsSearch={setIsSearch} />
+       </div>
+{!isSearch &&
           <div className=" d-flex gap-2 ">
             <Button
             
@@ -138,13 +157,17 @@ const Dashboard = () => {
               onClick={() => handleTabChange("issueList")}
             />
           </div>
+}
         </div>
+
         <div className=" overflow-auto" >
           <AdminTable
             selectedTab={selectedTab}
             issuers={filteredIssuers}
             onView={handleView}
             fetchData={fetchData}
+            isLoading={loading}
+            setIsLoading={setLoading}
           />
         </div>
 

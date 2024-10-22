@@ -4,7 +4,7 @@ import Image from 'next/image';
 import axios from 'axios';
 const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-const SearchAdmin = ({issuers, setIssuers, handleStatus}) => {
+const SearchAdmin = ({issuers, setIssuers, handleStatus,setIsSearch}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchBy, setSearchBy] = useState('email'); // Default search parameter
     const [suggestions, setSuggestions] = useState([]);
@@ -84,7 +84,7 @@ const SearchAdmin = ({issuers, setIssuers, handleStatus}) => {
                 
             );
         setIssuers(response.data.details)
-
+        setIsSearch(true)
         } catch (error) {
             console.error('Error during search:', error);
         }

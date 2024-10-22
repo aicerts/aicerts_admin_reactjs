@@ -295,9 +295,21 @@ height: 18px;
 
 @media (max-width: 768px) {
     .global-button {
-        min-width: 130px; 
-        padding: 8px 0px; /* Decrease padding for smaller screens */
-        font-size: 14px; /* Decrease font size if needed */
+        min-width: 58px; 
+      /* Decrease padding for smaller screens */
+        font-size: 12px; /* Decrease font size if needed */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+
+        &.golden-matic{
+            padding: 5px 3px;
+           
+        }
+       
+
+        
     }
 
   
